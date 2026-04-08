@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Tema mínimo para la Activity nativa.
+        En una app de Jetpack Compose con Single Activity, este tema solo controla
+        la ventana del sistema (barra de estado, fondo antes de que cargue Compose).
+        Todo el theming real ocurre en IBichosTheme (ui/theme/Theme.kt).
+    -->
+    <style name="Theme.IBichos" parent="android:Theme.Material.Light.NoActionBar">
+        <!-- Fondo de la ventana igual al fondo oscuro de nuestra app -->
+        <item name="android:windowBackground">@android:color/black</item>
+        <!-- Sin ActionBar — Compose maneja toda la UI -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

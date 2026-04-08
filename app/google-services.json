@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "996905357020",
+    "project_id": "ibichos",
+    "storage_bucket": "ibichos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996905357020:android:17dea888949239e603ee19",
+        "android_client_info": {
+          "package_name": "com.cetecom.ibichos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOi6DSrCEJGaDtSKZSAT8P-Y_wvmQhQf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
