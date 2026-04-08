@@ -15,4 +15,7 @@ interface UserRepository {
 
     /** Incrementa el XP y actualiza el nivel si corresponde */
     suspend fun incrementXp(uid: String, xpGain: Long)
+
+    /** Obtiene el top de usuarios ordenados por mayor XP */
+    suspend fun getTopUsersByXp(limit: Int = 50): List<UserProfile>
 }

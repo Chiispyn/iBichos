@@ -38,6 +38,30 @@ class CaptureRepositoryImpl(
             .sortedByDescending { it.capturedAt }
     }
 
+    override suspend fun getGlobalCaptures(limit: Int): List<CaptureItem> {
+        val result = db.collection("captures")
+            .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .limit(limit.toLong())
+            .get()
+            .await()
+
+        return result.documents
+            .mapNotNull { doc ->
+                CaptureItem(
+                    id            = doc.id,
+                    imageUrl      = doc.getString("imageUrl") ?: "",
+                    insectName    = doc.getString("insectName") ?: "",
+                    scientificName = doc.getString("scientificName") ?: "",
+                    probability   = doc.getDouble("probability") ?: 0.0,
+                    dangerLevel   = doc.getString("dangerLevel") ?: "Inofensivo",
+                    latitude      = doc.getDouble("latitude"),
+                    longitude     = doc.getDouble("longitude"),
+                    capturedAt    = doc.getTimestamp("timestamp")?.toDate()?.time ?: 0L,
+                    xpAwarded     = doc.getLong("xpAwarded") ?: 50L
+                )
+            }
+    }
+
     override suspend fun saveCapture(
         userId: String,
         imageUrl: String,

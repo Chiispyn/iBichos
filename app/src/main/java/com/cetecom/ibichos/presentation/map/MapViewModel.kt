@@ -21,7 +21,16 @@ class MapViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
+    private val _isGlobalMap = MutableStateFlow(false)
+    val isGlobalMap: StateFlow<Boolean> = _isGlobalMap.asStateFlow()
+
     init {
+        loadCaptures()
+    }
+
+    fun setGlobalMode(isGlobal: Boolean) {
+        if (_isGlobalMap.value == isGlobal) return
+        _isGlobalMap.value = isGlobal
         loadCaptures()
     }
 
@@ -31,7 +40,11 @@ class MapViewModel : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                _captures.value = repository.getCaptures(uid)
+                if (_isGlobalMap.value) {
+                    _captures.value = repository.getGlobalCaptures(200)
+                } else {
+                    _captures.value = repository.getCaptures(uid)
+                }
             } catch (e: Exception) {
                 // Silencioso — el mapa simplemente no muestra pines
             } finally {

@@ -119,349 +119,350 @@
 64-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:19:9-54
 65        android:supportsRtl="true"
 65-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:20:9-35
-66        android:theme="@style/Theme.IBichos" >
-66-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:21:9-45
-67
-68        <!--
-69            Single Activity Architecture con Jetpack Compose.
-70            Solo existe MainActivity — toda la navegación ocurre en Compose NavHost.
-71        -->
-72        <activity
-72-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:27:9-35:20
-73            android:name="com.cetecom.ibichos.presentation.MainActivity"
-73-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:28:13-54
-74            android:exported="true"
-74-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:29:13-36
-75            android:theme="@style/Theme.IBichos" >
-75-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:30:13-49
-76            <intent-filter>
-76-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:31:13-34:29
-77                <action android:name="android.intent.action.MAIN" />
-77-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:32:17-69
-77-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:32:25-66
-78
-79                <category android:name="android.intent.category.LAUNCHER" />
-79-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:33:17-77
-79-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:33:27-74
-80            </intent-filter>
-81        </activity>
-82
-83        <service
-83-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:24:9-33:19
-84            android:name="androidx.camera.core.impl.MetadataHolderService"
-84-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:25:13-75
-85            android:enabled="false"
-85-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:26:13-36
-86            android:exported="false" >
-86-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:27:13-37
-87            <meta-data
-87-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:30:13-32:89
-88                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
-88-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:31:17-103
-89                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
-89-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:32:17-86
-90        </service>
-91        <service
-91-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:14:9-23:19
-92            android:name="com.google.firebase.components.ComponentDiscoveryService"
-92-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:15:13-84
-93            android:directBootAware="true"
-93-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:32:13-43
-94            android:exported="false" >
-94-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:16:13-37
-95            <meta-data
-95-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:17:13-19:85
-96                android:name="com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar"
-96-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:18:17-122
-97                android:value="com.google.firebase.components.ComponentRegistrar" />
-97-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:19:17-82
-98            <meta-data
-98-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:20:13-22:85
-99                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
-99-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:21:17-111
-100                android:value="com.google.firebase.components.ComponentRegistrar" />
-100-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:22:17-82
-101            <meta-data
-101-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:30:13-32:85
-102                android:name="com.google.firebase.components:com.google.firebase.storage.FirebaseStorageKtxRegistrar"
-102-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:31:17-118
-103                android:value="com.google.firebase.components.ComponentRegistrar" />
-103-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:32:17-82
-104            <meta-data
-104-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:33:13-35:85
-105                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
-105-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:34:17-107
-106                android:value="com.google.firebase.components.ComponentRegistrar" />
-106-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:35:17-82
-107            <meta-data
-107-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:69:13-71:85
-108                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
-108-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:70:17-109
-109                android:value="com.google.firebase.components.ComponentRegistrar" />
-109-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:71:17-82
-110            <meta-data
-110-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:25:13-27:85
-111                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckKtxRegistrar"
-111-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:26:17-120
-112                android:value="com.google.firebase.components.ComponentRegistrar" />
-112-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:27:17-82
-113            <meta-data
-113-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:28:13-30:85
-114                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckRegistrar"
-114-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:29:17-117
-115                android:value="com.google.firebase.components.ComponentRegistrar" />
-115-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:30:17-82
-116            <meta-data
-116-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:37:13-39:85
-117                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
-117-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:38:17-139
-118                android:value="com.google.firebase.components.ComponentRegistrar" />
-118-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:39:17-82
-119            <meta-data
-119-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:15:13-17:85
-120                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar"
-120-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:16:17-130
-121                android:value="com.google.firebase.components.ComponentRegistrar" />
-121-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:17:17-82
-122            <meta-data
-122-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:18:13-20:85
-123                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
-123-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:19:17-127
-124                android:value="com.google.firebase.components.ComponentRegistrar" />
-124-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:20:17-82
-125            <meta-data
-125-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:12:13-14:85
-126                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar"
-126-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:13:17-116
-127                android:value="com.google.firebase.components.ComponentRegistrar" />
-127-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:14:17-82
-128            <meta-data
-128-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:35:13-37:85
-129                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
-129-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:36:17-109
-130                android:value="com.google.firebase.components.ComponentRegistrar" />
-130-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:37:17-82
-131        </service>
-132
-133        <activity
-133-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:29:9-46:20
-134            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
-134-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:30:13-80
-135            android:excludeFromRecents="true"
-135-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:31:13-46
-136            android:exported="true"
-136-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:32:13-36
-137            android:launchMode="singleTask"
-137-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:33:13-44
-138            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-138-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:34:13-72
-139            <intent-filter>
-139-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:35:13-45:29
-140                <action android:name="android.intent.action.VIEW" />
-140-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:17-69
-140-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:25-66
-141
-142                <category android:name="android.intent.category.DEFAULT" />
-142-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:17-76
-142-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:27-73
-143                <category android:name="android.intent.category.BROWSABLE" />
-143-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:17-78
-143-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:27-75
-144
-145                <data
-145-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:41:17-44:51
-146                    android:host="firebase.auth"
-146-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:42:21-49
-147                    android:path="/"
-147-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:43:21-37
-148                    android:scheme="genericidp" />
-148-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:44:21-48
-149            </intent-filter>
-150        </activity>
-151        <activity
-151-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:47:9-64:20
-152            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
-152-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:48:13-79
-153            android:excludeFromRecents="true"
-153-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:49:13-46
-154            android:exported="true"
-154-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:50:13-36
-155            android:launchMode="singleTask"
-155-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:51:13-44
-156            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-156-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:52:13-72
-157            <intent-filter>
-157-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:53:13-63:29
-158                <action android:name="android.intent.action.VIEW" />
-158-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:17-69
-158-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:25-66
-159
-160                <category android:name="android.intent.category.DEFAULT" />
-160-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:17-76
-160-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:27-73
-161                <category android:name="android.intent.category.BROWSABLE" />
-161-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:17-78
-161-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:27-75
-162
-163                <data
-163-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:41:17-44:51
-164                    android:host="firebase.auth"
-164-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:42:21-49
-165                    android:path="/"
-165-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:43:21-37
-166                    android:scheme="recaptcha" />
-166-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:44:21-48
-167            </intent-filter>
-168        </activity>
-169        <activity
-169-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
-170            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-170-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:19-85
-171            android:exported="false"
-171-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:22:19-43
-172            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-172-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:21:19-78
-173        <activity
-173-->[androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\767bd47bbc5b261d1605e394a74ff9e2\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
-174            android:name="androidx.compose.ui.tooling.PreviewActivity"
-174-->[androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\767bd47bbc5b261d1605e394a74ff9e2\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
-175            android:exported="true" />
-175-->[androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\767bd47bbc5b261d1605e394a74ff9e2\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
-176        <activity
-176-->[androidx.compose.ui:ui-test-manifest:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c903ce8360b1333a9a1e3f85e189f21\transformed\ui-test-manifest-1.6.8\AndroidManifest.xml:23:9-25:39
-177            android:name="androidx.activity.ComponentActivity"
-177-->[androidx.compose.ui:ui-test-manifest:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c903ce8360b1333a9a1e3f85e189f21\transformed\ui-test-manifest-1.6.8\AndroidManifest.xml:24:13-63
-178            android:exported="true" />
-178-->[androidx.compose.ui:ui-test-manifest:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c903ce8360b1333a9a1e3f85e189f21\transformed\ui-test-manifest-1.6.8\AndroidManifest.xml:25:13-36
-179
-180        <provider
-180-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-181            android:name="androidx.startup.InitializationProvider"
-181-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-182            android:authorities="com.cetecom.ibichos.androidx-startup"
-182-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-183            android:exported="false" >
-183-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-184            <meta-data
-184-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-185                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-185-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-186                android:value="androidx.startup" />
-186-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-187            <meta-data
-187-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
-188                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-188-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
-189                android:value="androidx.startup" />
-189-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
-190            <meta-data
-190-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
-191                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-191-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
-192                android:value="androidx.startup" />
-192-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
-193        </provider>
-194
-195        <receiver
-195-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:29:9-33:20
-196            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
-196-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:30:13-85
-197            android:enabled="true"
-197-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:31:13-35
-198            android:exported="false" >
-198-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:32:13-37
-199        </receiver>
-200
-201        <service
-201-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:35:9-38:40
-202            android:name="com.google.android.gms.measurement.AppMeasurementService"
-202-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:36:13-84
-203            android:enabled="true"
-203-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:37:13-35
-204            android:exported="false" />
-204-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:38:13-37
-205        <service
-205-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:39:9-43:72
-206            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
-206-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:40:13-87
-207            android:enabled="true"
-207-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:41:13-35
-208            android:exported="false"
-208-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:42:13-37
-209            android:permission="android.permission.BIND_JOB_SERVICE" />
-209-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:43:13-69
-210
-211        <uses-library
-211-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:23:9-25:40
-212            android:name="android.ext.adservices"
-212-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:24:13-50
-213            android:required="false" />
-213-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:25:13-37
-214
-215        <property
-215-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:30:9-32:61
-216            android:name="android.adservices.AD_SERVICES_CONFIG"
-216-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:31:13-65
-217            android:resource="@xml/ga_ad_services_config" />
-217-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:32:13-58
-218
-219        <provider
-219-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:23:9-28:39
-220            android:name="com.google.firebase.provider.FirebaseInitProvider"
-220-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:24:13-77
-221            android:authorities="com.cetecom.ibichos.firebaseinitprovider"
-221-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:25:13-72
-222            android:directBootAware="true"
-222-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:26:13-43
-223            android:exported="false"
-223-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:27:13-37
-224            android:initOrder="100" />
-224-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:28:13-36
-225
-226        <meta-data
-226-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
-227            android:name="com.google.android.gms.version"
-227-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
-228            android:value="@integer/google_play_services_version" />
-228-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
-229
-230        <receiver
-230-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
-231            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-231-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
-232            android:directBootAware="false"
-232-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
-233            android:enabled="true"
-233-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
-234            android:exported="true"
-234-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
-235            android:permission="android.permission.DUMP" >
-235-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
-236            <intent-filter>
-236-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
-237                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-237-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
-237-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
-238            </intent-filter>
-239            <intent-filter>
-239-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
-240                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-240-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
-240-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
-241            </intent-filter>
-242            <intent-filter>
-242-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
-243                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-243-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
-243-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
-244            </intent-filter>
-245            <intent-filter>
-245-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
-246                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-246-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
-246-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
-247            </intent-filter>
-248        </receiver>
-249    </application>
-250
-251</manifest>
+66        android:testOnly="true"
+67        android:theme="@style/Theme.IBichos" >
+67-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:21:9-45
+68
+69        <!--
+70            Single Activity Architecture con Jetpack Compose.
+71            Solo existe MainActivity — toda la navegación ocurre en Compose NavHost.
+72        -->
+73        <activity
+73-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:27:9-35:20
+74            android:name="com.cetecom.ibichos.presentation.MainActivity"
+74-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:28:13-54
+75            android:exported="true"
+75-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:29:13-36
+76            android:theme="@style/Theme.IBichos" >
+76-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:30:13-49
+77            <intent-filter>
+77-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:31:13-34:29
+78                <action android:name="android.intent.action.MAIN" />
+78-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:32:17-69
+78-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:32:25-66
+79
+80                <category android:name="android.intent.category.LAUNCHER" />
+80-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:33:17-77
+80-->C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:33:27-74
+81            </intent-filter>
+82        </activity>
+83
+84        <service
+84-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:24:9-33:19
+85            android:name="androidx.camera.core.impl.MetadataHolderService"
+85-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:25:13-75
+86            android:enabled="false"
+86-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:26:13-36
+87            android:exported="false" >
+87-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:27:13-37
+88            <meta-data
+88-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:30:13-32:89
+89                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+89-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:31:17-103
+90                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+90-->[androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:32:17-86
+91        </service>
+92        <service
+92-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:14:9-23:19
+93            android:name="com.google.firebase.components.ComponentDiscoveryService"
+93-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:15:13-84
+94            android:directBootAware="true"
+94-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:32:13-43
+95            android:exported="false" >
+95-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:16:13-37
+96            <meta-data
+96-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:17:13-19:85
+97                android:name="com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar"
+97-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:18:17-122
+98                android:value="com.google.firebase.components.ComponentRegistrar" />
+98-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:19:17-82
+99            <meta-data
+99-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:20:13-22:85
+100                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+100-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:21:17-111
+101                android:value="com.google.firebase.components.ComponentRegistrar" />
+101-->[com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:22:17-82
+102            <meta-data
+102-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:30:13-32:85
+103                android:name="com.google.firebase.components:com.google.firebase.storage.FirebaseStorageKtxRegistrar"
+103-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:31:17-118
+104                android:value="com.google.firebase.components.ComponentRegistrar" />
+104-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:32:17-82
+105            <meta-data
+105-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:33:13-35:85
+106                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
+106-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:34:17-107
+107                android:value="com.google.firebase.components.ComponentRegistrar" />
+107-->[com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:35:17-82
+108            <meta-data
+108-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:69:13-71:85
+109                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+109-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:70:17-109
+110                android:value="com.google.firebase.components.ComponentRegistrar" />
+110-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:71:17-82
+111            <meta-data
+111-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:25:13-27:85
+112                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckKtxRegistrar"
+112-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:26:17-120
+113                android:value="com.google.firebase.components.ComponentRegistrar" />
+113-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:27:17-82
+114            <meta-data
+114-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:28:13-30:85
+115                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckRegistrar"
+115-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:29:17-117
+116                android:value="com.google.firebase.components.ComponentRegistrar" />
+116-->[com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:30:17-82
+117            <meta-data
+117-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:37:13-39:85
+118                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+118-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:38:17-139
+119                android:value="com.google.firebase.components.ComponentRegistrar" />
+119-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:39:17-82
+120            <meta-data
+120-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:15:13-17:85
+121                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar"
+121-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:16:17-130
+122                android:value="com.google.firebase.components.ComponentRegistrar" />
+122-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:17:17-82
+123            <meta-data
+123-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:18:13-20:85
+124                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+124-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:19:17-127
+125                android:value="com.google.firebase.components.ComponentRegistrar" />
+125-->[com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:20:17-82
+126            <meta-data
+126-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:12:13-14:85
+127                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar"
+127-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:13:17-116
+128                android:value="com.google.firebase.components.ComponentRegistrar" />
+128-->[com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:14:17-82
+129            <meta-data
+129-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:35:13-37:85
+130                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+130-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:36:17-109
+131                android:value="com.google.firebase.components.ComponentRegistrar" />
+131-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:37:17-82
+132        </service>
+133
+134        <activity
+134-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:29:9-46:20
+135            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+135-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:30:13-80
+136            android:excludeFromRecents="true"
+136-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:31:13-46
+137            android:exported="true"
+137-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:32:13-36
+138            android:launchMode="singleTask"
+138-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:33:13-44
+139            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+139-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:34:13-72
+140            <intent-filter>
+140-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:35:13-45:29
+141                <action android:name="android.intent.action.VIEW" />
+141-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:17-69
+141-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:25-66
+142
+143                <category android:name="android.intent.category.DEFAULT" />
+143-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:17-76
+143-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:27-73
+144                <category android:name="android.intent.category.BROWSABLE" />
+144-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:17-78
+144-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:27-75
+145
+146                <data
+146-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:41:17-44:51
+147                    android:host="firebase.auth"
+147-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:42:21-49
+148                    android:path="/"
+148-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:43:21-37
+149                    android:scheme="genericidp" />
+149-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:44:21-48
+150            </intent-filter>
+151        </activity>
+152        <activity
+152-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:47:9-64:20
+153            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+153-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:48:13-79
+154            android:excludeFromRecents="true"
+154-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:49:13-46
+155            android:exported="true"
+155-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:50:13-36
+156            android:launchMode="singleTask"
+156-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:51:13-44
+157            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+157-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:52:13-72
+158            <intent-filter>
+158-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:53:13-63:29
+159                <action android:name="android.intent.action.VIEW" />
+159-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:17-69
+159-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:25-66
+160
+161                <category android:name="android.intent.category.DEFAULT" />
+161-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:17-76
+161-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:27-73
+162                <category android:name="android.intent.category.BROWSABLE" />
+162-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:17-78
+162-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:27-75
+163
+164                <data
+164-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:41:17-44:51
+165                    android:host="firebase.auth"
+165-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:42:21-49
+166                    android:path="/"
+166-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:43:21-37
+167                    android:scheme="recaptcha" />
+167-->[com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:44:21-48
+168            </intent-filter>
+169        </activity>
+170        <activity
+170-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+171            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+171-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+172            android:exported="false"
+172-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:22:19-43
+173            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+173-->[com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+174        <activity
+174-->[androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\767bd47bbc5b261d1605e394a74ff9e2\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+175            android:name="androidx.compose.ui.tooling.PreviewActivity"
+175-->[androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\767bd47bbc5b261d1605e394a74ff9e2\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+176            android:exported="true" />
+176-->[androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\767bd47bbc5b261d1605e394a74ff9e2\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+177        <activity
+177-->[androidx.compose.ui:ui-test-manifest:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c903ce8360b1333a9a1e3f85e189f21\transformed\ui-test-manifest-1.6.8\AndroidManifest.xml:23:9-25:39
+178            android:name="androidx.activity.ComponentActivity"
+178-->[androidx.compose.ui:ui-test-manifest:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c903ce8360b1333a9a1e3f85e189f21\transformed\ui-test-manifest-1.6.8\AndroidManifest.xml:24:13-63
+179            android:exported="true" />
+179-->[androidx.compose.ui:ui-test-manifest:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c903ce8360b1333a9a1e3f85e189f21\transformed\ui-test-manifest-1.6.8\AndroidManifest.xml:25:13-36
+180
+181        <provider
+181-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+182            android:name="androidx.startup.InitializationProvider"
+182-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+183            android:authorities="com.cetecom.ibichos.androidx-startup"
+183-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+184            android:exported="false" >
+184-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+185            <meta-data
+185-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+186                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+186-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+187                android:value="androidx.startup" />
+187-->[androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+188            <meta-data
+188-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
+189                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+189-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
+190                android:value="androidx.startup" />
+190-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+191            <meta-data
+191-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+192                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+192-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+193                android:value="androidx.startup" />
+193-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+194        </provider>
+195
+196        <receiver
+196-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:29:9-33:20
+197            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+197-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:30:13-85
+198            android:enabled="true"
+198-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:31:13-35
+199            android:exported="false" >
+199-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:32:13-37
+200        </receiver>
+201
+202        <service
+202-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:35:9-38:40
+203            android:name="com.google.android.gms.measurement.AppMeasurementService"
+203-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:36:13-84
+204            android:enabled="true"
+204-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:37:13-35
+205            android:exported="false" />
+205-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:38:13-37
+206        <service
+206-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:39:9-43:72
+207            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+207-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:40:13-87
+208            android:enabled="true"
+208-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:41:13-35
+209            android:exported="false"
+209-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:42:13-37
+210            android:permission="android.permission.BIND_JOB_SERVICE" />
+210-->[com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:43:13-69
+211
+212        <uses-library
+212-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:23:9-25:40
+213            android:name="android.ext.adservices"
+213-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:24:13-50
+214            android:required="false" />
+214-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:25:13-37
+215
+216        <property
+216-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:30:9-32:61
+217            android:name="android.adservices.AD_SERVICES_CONFIG"
+217-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:31:13-65
+218            android:resource="@xml/ga_ad_services_config" />
+218-->[com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:32:13-58
+219
+220        <provider
+220-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:23:9-28:39
+221            android:name="com.google.firebase.provider.FirebaseInitProvider"
+221-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:24:13-77
+222            android:authorities="com.cetecom.ibichos.firebaseinitprovider"
+222-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:25:13-72
+223            android:directBootAware="true"
+223-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:26:13-43
+224            android:exported="false"
+224-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:27:13-37
+225            android:initOrder="100" />
+225-->[com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:28:13-36
+226
+227        <meta-data
+227-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+228            android:name="com.google.android.gms.version"
+228-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+229            android:value="@integer/google_play_services_version" />
+229-->[com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+230
+231        <receiver
+231-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+232            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+232-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+233            android:directBootAware="false"
+233-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+234            android:enabled="true"
+234-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+235            android:exported="true"
+235-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+236            android:permission="android.permission.DUMP" >
+236-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+237            <intent-filter>
+237-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+238                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+238-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+238-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+239            </intent-filter>
+240            <intent-filter>
+240-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+241                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+241-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+241-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+242            </intent-filter>
+243            <intent-filter>
+243-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+244                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+244-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+244-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+245            </intent-filter>
+246            <intent-filter>
+246-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+247                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+247-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+247-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+248            </intent-filter>
+249        </receiver>
+250    </application>
+251
+252</manifest>

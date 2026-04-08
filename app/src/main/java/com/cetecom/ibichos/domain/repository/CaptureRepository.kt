@@ -10,6 +10,9 @@ interface CaptureRepository {
     /** Obtiene todas las capturas del usuario ordenadas por fecha desc */
     suspend fun getCaptures(userId: String): List<CaptureItem>
 
+    /** Obtiene capturas globales de la comunidad ordenadas por fecha desc */
+    suspend fun getGlobalCaptures(limit: Int = 200): List<CaptureItem>
+
     /** Guarda una nueva captura y devuelve su ID de documento */
     suspend fun saveCapture(
         userId: String,

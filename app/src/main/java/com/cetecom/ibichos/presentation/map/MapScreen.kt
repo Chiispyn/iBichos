@@ -29,11 +29,12 @@ fun MapScreen(
     val context  = LocalContext.current
     val captures by viewModel.captures.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val isGlobalMap by viewModel.isGlobalMap.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Mapa de Capturas", color = OnDark) },
+                title = { Text("Mapa de Avistamientos", color = OnDark) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, null, tint = IBichosGreen)
@@ -96,6 +97,39 @@ fun MapScreen(
                     modifier = Modifier.align(Alignment.Center),
                     color    = IBichosGreen
                 )
+            }
+
+            // Tabs Switch
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 16.dp),
+                shape = MaterialTheme.shapes.extraLarge,
+                color = DarkSurface.copy(alpha = 0.95f),
+                tonalElevation = 6.dp
+            ) {
+                Row(modifier = Modifier.padding(4.dp)) {
+                    TextButton(
+                        onClick = { viewModel.setGlobalMode(false) },
+                        colors = ButtonDefaults.textButtonColors(
+                            containerColor = if (!isGlobalMap) IBichosGreen else androidx.compose.ui.graphics.Color.Transparent,
+                            contentColor = if (!isGlobalMap) DarkBackground else androidx.compose.ui.graphics.Color.Gray
+                        ),
+                        shape = MaterialTheme.shapes.extraLarge
+                    ) {
+                        Text("Mis Insectos")
+                    }
+                    TextButton(
+                        onClick = { viewModel.setGlobalMode(true) },
+                        colors = ButtonDefaults.textButtonColors(
+                            containerColor = if (isGlobalMap) IBichosGreen else androidx.compose.ui.graphics.Color.Transparent,
+                            contentColor = if (isGlobalMap) DarkBackground else androidx.compose.ui.graphics.Color.Gray
+                        ),
+                        shape = MaterialTheme.shapes.extraLarge
+                    ) {
+                        Text("Comunidad")
+                    }
+                }
             }
 
             // Contador de pines

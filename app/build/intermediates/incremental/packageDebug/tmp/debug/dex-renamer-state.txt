@@ -1,4 +1,4 @@
-#Sun Mar 29 00:57:01 CLST 2026
+#Wed Apr 08 13:02:02 CLT 2026
 base.0=C\:\\Users\\chisp\\pruebainsectid\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\chisp\\pruebainsectid\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.10=C\:\\Users\\chisp\\pruebainsectid\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes2.dex

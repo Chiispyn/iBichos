@@ -9,9 +9,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material.icons.filled.CollectionsBookmark
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -30,6 +32,7 @@ import com.cetecom.ibichos.presentation.catalog.CatalogScreen
 import com.cetecom.ibichos.presentation.catalog.CatalogViewModel
 import com.cetecom.ibichos.presentation.map.MapScreen
 import com.cetecom.ibichos.presentation.profile.ProfileScreen
+import com.cetecom.ibichos.presentation.ranking.RankingScreen
 import com.cetecom.ibichos.ui.theme.*
 
 // ── Ítems del BottomNav ───────────────────────────────────────────────────────
@@ -43,6 +46,7 @@ private data class BottomNavItem(
 private val bottomNavItems = listOf(
     BottomNavItem("Cámara",   "camera",  Icons.Filled.Camera,               Icons.Outlined.Camera),
     BottomNavItem("Álbum",    "catalog", Icons.Filled.CollectionsBookmark,   Icons.Outlined.CollectionsBookmark),
+    BottomNavItem("Ranking", "ranking", Icons.Filled.EmojiEvents, Icons.Outlined.EmojiEvents),
     BottomNavItem("Perfil",   "profile", Icons.Filled.Person,               Icons.Outlined.Person)
 )
 
@@ -212,6 +216,9 @@ fun MainScreenWithBottomNav(
             }
             composable("profile") {
                 ProfileScreen(onLogout = onLogout)
+            }
+            composable("ranking") {
+                RankingScreen()
             }
         }
     }

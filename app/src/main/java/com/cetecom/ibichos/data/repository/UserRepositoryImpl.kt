@@ -65,4 +65,30 @@ class UserRepositoryImpl(
             SetOptions.merge()
         ).await()
     }
+
+    override suspend fun getTopUsersByXp(limit: Int): List<UserProfile> {
+        val snapshot = db.collection("users")
+            .orderBy("xp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .limit(limit.toLong())
+            .get()
+            .await()
+
+        return snapshot.documents.map { doc ->
+            val uid = doc.id
+            // En una app real, idealmente guardaríamos totalCaptures directamente en el doc de usuario
+            // para evitar consultar la recolección de capturas por cada usuario.
+            // Por simplicidad para el ranking, consultaremos las capturas si es necesario, 
+            // aunque puede ser mas lento. Para evitar miles de reads, solo mostramos el XP y limitamos.
+            
+            UserProfile(
+                uid          = uid,
+                displayName  = doc.getString("displayName") ?: "Usuario",
+                email        = doc.getString("email") ?: "",
+                xp           = doc.getLong("xp") ?: 0L,
+                level        = doc.getString("level") ?: "Casual",
+                avatarUrl    = doc.getString("avatarUrl"),
+                totalCaptures = 0 // Optimización: no consultaremos capturas individuales aquí por temas de reads, el ranking principal será por XP
+            )
+        }
+    }
 }
