@@ -37,7 +37,7 @@ class CameraViewModel : ViewModel() {
 
     // ── MODO EMULADOR ─────────────────────────────────────────────────────────
     // Cambiar a false cuando se use en un dispositivo físico con API key real
-    private val isEmulatorMode = true
+    private val isEmulatorMode = false
     // ─────────────────────────────────────────────────────────────────────────
 
     private val _uiState = MutableStateFlow<CameraUiState>(CameraUiState.Idle)

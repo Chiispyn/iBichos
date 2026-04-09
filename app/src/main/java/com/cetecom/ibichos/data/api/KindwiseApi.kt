@@ -12,7 +12,7 @@ import retrofit2.http.POST
  */
 interface KindwiseApi {
 
-    @POST("v1/identification?details=common_names,url")
+    @POST("v1/identification?details=common_names,url&language=es")
     suspend fun identifyInsect(
         @Header("Api-Key") apiKey: String,
         @Body request: KindwiseRequest

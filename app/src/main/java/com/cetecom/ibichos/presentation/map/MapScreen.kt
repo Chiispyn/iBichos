@@ -1,4 +1,4 @@
-﻿package com.cetecom.ibichos.presentation.map
+package com.cetecom.ibichos.presentation.map
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -60,7 +60,7 @@ fun MapScreen(
                     MapView(ctx).apply {
                         setTileSource(TileSourceFactory.MAPNIK)
                         setMultiTouchControls(true)
-                        setBuiltInZoomControls(false)
+                        setBuiltInZoomControls(true)
                         controller.setZoom(10.0)
                         controller.setCenter(GeoPoint(-33.4489, -70.6693)) // Santiago default
                     }
