@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.auth
+﻿package com.cetecom.ibichos.presentation.auth
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
@@ -45,7 +45,7 @@ fun RegisterScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                Brush.verticalGradient(listOf(DarkBackground, DarkSurface, DarkBackground))
+                Brush.verticalGradient(listOf(MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.surface, MaterialTheme.colorScheme.background))
             ),
         contentAlignment = Alignment.Center
     ) {
@@ -66,9 +66,9 @@ fun RegisterScreen(
                     color      = IBichosGreen
                 )
                 Text(
-                    text  = "Unite a la comunidad de cazadores",
+                    text  = "Únete a la comunidad de cazadores",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = OnDarkSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
@@ -76,7 +76,7 @@ fun RegisterScreen(
             Card(
                 modifier  = Modifier.fillMaxWidth(),
                 shape     = RoundedCornerShape(20.dp),
-                colors    = CardDefaults.cardColors(containerColor = DarkSurface),
+                colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
             ) {
                 Column(
@@ -167,7 +167,7 @@ fun RegisterScreen(
 
             TextButton(onClick = onNavigateBack) {
                 Text(
-                    text  = "¿Ya tenés cuenta? Iniciar sesión",
+                    text  = "¿Ya tienes cuenta? Inicia sesión",
                     color = IBichosTeal
                 )
             }
@@ -178,13 +178,14 @@ fun RegisterScreen(
 @Composable
 private fun outlinedTextFieldColors() = OutlinedTextFieldDefaults.colors(
     focusedBorderColor   = IBichosGreen,
-    unfocusedBorderColor = DarkOutline,
+    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
     focusedLabelColor    = IBichosGreen,
     cursorColor          = IBichosGreen,
-    focusedTextColor     = OnDark,
-    unfocusedTextColor   = OnDark,
+    focusedTextColor     = MaterialTheme.colorScheme.onBackground,
+    unfocusedTextColor   = MaterialTheme.colorScheme.onBackground,
     focusedLeadingIconColor    = IBichosGreen,
-    unfocusedLeadingIconColor  = OnDarkSecondary,
+    unfocusedLeadingIconColor  = MaterialTheme.colorScheme.onSurfaceVariant,
     focusedTrailingIconColor   = IBichosGreen,
-    unfocusedTrailingIconColor = OnDarkSecondary
+    unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
 )
+

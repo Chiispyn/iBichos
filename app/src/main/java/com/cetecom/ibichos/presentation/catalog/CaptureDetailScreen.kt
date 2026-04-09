@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.catalog
+﻿package com.cetecom.ibichos.presentation.catalog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -42,24 +42,24 @@ fun CaptureDetailScreen(
         "Precaución", "Precaución: Aguijón" -> Pair(IBichosAmber, "⚠️")
         "Venenoso" -> Pair(IBichosOrange, "☠️")
         "Plaga"    -> Pair(IBichosRed, "🚫")
-        else       -> Pair(OnDarkSecondary, "❓")
+        else       -> Pair(MaterialTheme.colorScheme.onSurfaceVariant, "❓")
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Detalle del Insecto", color = OnDark) },
+                title = { Text("Detalle del Insecto", color = MaterialTheme.colorScheme.onBackground) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, null, tint = IBichosGreen)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = DarkSurface
+                    containerColor = MaterialTheme.colorScheme.surface
                 )
             )
         },
-        containerColor = DarkBackground
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -93,12 +93,12 @@ fun CaptureDetailScreen(
                             text       = capture.insectName,
                             style      = MaterialTheme.typography.headlineLarge,
                             fontWeight = FontWeight.Bold,
-                            color      = OnDark
+                            color      = MaterialTheme.colorScheme.onBackground
                         )
                         Text(
                             text  = capture.scientificName,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = OnDarkSecondary,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
                         )
                     }
@@ -121,7 +121,7 @@ fun CaptureDetailScreen(
                     }
                 }
 
-                HorizontalDivider(color = DarkOutline)
+                HorizontalDivider(color = MaterialTheme.colorScheme.outline)
 
                 // Estadísticas
                 Row(
@@ -162,7 +162,7 @@ private fun StatItem(label: String, value: String, color: Color) {
         Text(
             text  = label,
             style = MaterialTheme.typography.labelMedium,
-            color = OnDarkSecondary
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -172,20 +172,21 @@ private fun InfoCard(label: String, content: String) {
     Card(
         modifier  = Modifier.fillMaxWidth(),
         shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(containerColor = DarkSurface)
+        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text  = label,
                 style = MaterialTheme.typography.labelLarge,
-                color = OnDarkSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Spacer(Modifier.height(4.dp))
             Text(
                 text  = content,
                 style = MaterialTheme.typography.bodyMedium,
-                color = OnDark
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }
 }
+

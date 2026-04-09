@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.catalog
+﻿package com.cetecom.ibichos.presentation.catalog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -40,7 +40,7 @@ fun CatalogScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         // ── Header ────────────────────────────────────────────────────────
         Row(
@@ -55,12 +55,12 @@ fun CatalogScreen(
                     text       = "Mi Álbum",
                     style      = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
-                    color      = OnDark
+                    color      = MaterialTheme.colorScheme.onBackground
                 )
                 Text(
                     text  = "${uiState.captures.size} insectos capturados",
                     style = MaterialTheme.typography.bodySmall,
-                    color = OnDarkSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -70,7 +70,7 @@ fun CatalogScreen(
                 FilledTonalButton(
                     onClick = onNavigateToMap,
                     colors  = ButtonDefaults.filledTonalButtonColors(
-                        containerColor = DarkSurfaceVariant
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant
                     )
                 ) {
                     Icon(Icons.Default.Map, null, tint = IBichosTeal, modifier = Modifier.size(18.dp))
@@ -80,7 +80,7 @@ fun CatalogScreen(
             }
         }
 
-        HorizontalDivider(color = DarkOutline, thickness = 0.5.dp)
+        HorizontalDivider(color = MaterialTheme.colorScheme.outline, thickness = 0.5.dp)
 
         // ── Contenido ─────────────────────────────────────────────────────
         Box(modifier = Modifier.fillMaxSize()) {
@@ -100,12 +100,12 @@ fun CatalogScreen(
                         Text("🦗", style = MaterialTheme.typography.displayLarge)
                         Text(
                             text      = "Aún no capturaste ningún insecto",
-                            color     = OnDarkSecondary,
+                            color     = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.Center
                         )
                         Text(
-                            text      = "¡Usá la cámara para atrapar tu primero!",
-                            color     = OnDarkSecondary,
+                            text      = "¡Usa la cámara para atrapar al primero!",
+                            color     = MaterialTheme.colorScheme.onSurfaceVariant,
                             style     = MaterialTheme.typography.bodySmall,
                             textAlign = TextAlign.Center
                         )
@@ -152,7 +152,7 @@ private fun CaptureCard(capture: CaptureItem, onClick: () -> Unit) {
         "Inofensivo", "Mascota Amigable" -> Color(0xFF4CAF50)
         "Precaución", "Precaución: Aguijón" -> IBichosAmber
         "Venenoso", "Plaga" -> IBichosOrange
-        else -> OnDarkSecondary
+        else -> MaterialTheme.colorScheme.onSurfaceVariant
     }
 
     Card(
@@ -160,7 +160,7 @@ private fun CaptureCard(capture: CaptureItem, onClick: () -> Unit) {
             .fillMaxWidth()
             .clickable(onClick = onClick),
         shape     = RoundedCornerShape(16.dp),
-        colors    = CardDefaults.cardColors(containerColor = DarkSurface),
+        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
@@ -189,13 +189,13 @@ private fun CaptureCard(capture: CaptureItem, onClick: () -> Unit) {
                 Text(
                     text       = capture.insectName,
                     fontWeight = FontWeight.Bold,
-                    color      = OnDark,
+                    color      = MaterialTheme.colorScheme.onBackground,
                     style      = MaterialTheme.typography.titleLarge,
                     maxLines   = 1
                 )
                 Text(
                     text  = capture.scientificName,
-                    color = OnDarkSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.bodySmall,
                     maxLines = 1
                 )
@@ -225,10 +225,11 @@ private fun CaptureCard(capture: CaptureItem, onClick: () -> Unit) {
                 }
                 Text(
                     text  = dateStr,
-                    color = OnDarkSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.labelSmall
                 )
             }
         }
     }
 }
+

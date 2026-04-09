@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.camera
+﻿package com.cetecom.ibichos.presentation.camera
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -143,3 +143,4 @@ class CameraViewModel : ViewModel() {
 
     fun resetState() { _uiState.value = CameraUiState.Idle }
 }
+

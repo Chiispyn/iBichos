@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.ranking
+﻿package com.cetecom.ibichos.presentation.ranking
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,12 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.UserProfile
-import com.cetecom.ibichos.ui.theme.DarkBackground
-import com.cetecom.ibichos.ui.theme.DarkSurface
 import com.cetecom.ibichos.ui.theme.IBichosAmber
 import com.cetecom.ibichos.ui.theme.IBichosGreen
-import com.cetecom.ibichos.ui.theme.OnDark
-import com.cetecom.ibichos.ui.theme.OnDarkSecondary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,12 +40,12 @@ fun RankingScreen(
             TopAppBar(
                 title = { Text("Ranking Global (XP)") },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = DarkBackground,
-                    titleContentColor = OnDark
+                    containerColor = MaterialTheme.colorScheme.background,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground
                 )
             )
         },
-        containerColor = DarkBackground
+        containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         Box(modifier = Modifier.fillMaxSize().padding(padding)) {
             if (uiState.isLoading) {
@@ -67,13 +63,13 @@ fun RankingScreen(
                     Text(text = uiState.error!!, color = MaterialTheme.colorScheme.error)
                     Spacer(modifier = Modifier.height(16.dp))
                     Button(onClick = { viewModel.loadRanking() }, colors = ButtonDefaults.buttonColors(containerColor = IBichosGreen)) {
-                        Text("Reintentar", color = OnDark)
+                        Text("Reintentar", color = MaterialTheme.colorScheme.onBackground)
                     }
                 }
             } else if (uiState.users.isEmpty()) {
                 Text(
                     text = "Aún no hay exploradores en el ranking.",
-                    color = OnDarkSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.align(Alignment.Center)
                 )
             } else {
@@ -96,14 +92,14 @@ fun RankingItem(rank: Int, user: UserProfile) {
         1 -> Color(0xFF3A3115) // Deep Gold background
         2 -> Color(0xFF2C3236) // Deep Silver background
         3 -> Color(0xFF382313) // Deep Bronze background
-        else -> DarkSurface
+        else -> MaterialTheme.colorScheme.surface
     }
 
     val rankIconColor = when (rank) {
         1 -> Color(0xFFFFD700)
         2 -> Color(0xFFC0C0C0)
         3 -> Color(0xFFCD7F32)
-        else -> OnDarkSecondary
+        else -> MaterialTheme.colorScheme.onSurfaceVariant
     }
 
     Card(
@@ -120,7 +116,7 @@ fun RankingItem(rank: Int, user: UserProfile) {
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(color = DarkBackground, shape = CircleShape),
+                    .background(color = MaterialTheme.colorScheme.background, shape = CircleShape),
                 contentAlignment = Alignment.Center
             ) {
                 if (rank <= 3) {
@@ -133,7 +129,7 @@ fun RankingItem(rank: Int, user: UserProfile) {
                 } else {
                     Text(
                         text = "#$rank",
-                        color = OnDarkSecondary,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold
                     )
@@ -146,7 +142,7 @@ fun RankingItem(rank: Int, user: UserProfile) {
             val avatarModifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape)
-                .background(DarkBackground)
+                .background(MaterialTheme.colorScheme.background)
 
             if (user.avatarUrl.isNullOrEmpty()) {
                 Box(
@@ -156,7 +152,7 @@ fun RankingItem(rank: Int, user: UserProfile) {
                     Icon(
                         imageVector = Icons.Default.Person,
                         contentDescription = "Avatar",
-                        tint = OnDarkSecondary,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(24.dp)
                     )
                 }
@@ -176,7 +172,7 @@ fun RankingItem(rank: Int, user: UserProfile) {
                 Text(
                     text = user.displayName,
                     style = MaterialTheme.typography.titleMedium,
-                    color = OnDark,
+                    color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -206,9 +202,10 @@ fun RankingItem(rank: Int, user: UserProfile) {
                 Text(
                     text = "XP",
                     style = MaterialTheme.typography.bodySmall,
-                    color = OnDarkSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
     }
 }
+

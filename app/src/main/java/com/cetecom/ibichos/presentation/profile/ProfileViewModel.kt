@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.profile
+﻿package com.cetecom.ibichos.presentation.profile
 
 import android.net.Uri
 import androidx.lifecycle.ViewModel
@@ -78,3 +78,4 @@ class ProfileViewModel : ViewModel() {
         _uiState.update { it.copy(error = null, successMessage = null) }
     }
 }
+

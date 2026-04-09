@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.auth
+﻿package com.cetecom.ibichos.presentation.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -79,3 +79,4 @@ class AuthViewModel : ViewModel() {
     fun clearError() = _uiState.update { it.copy(error = null) }
     fun resetSuccess() = _uiState.update { it.copy(isSuccess = false) }
 }
+

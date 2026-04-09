@@ -27,7 +27,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.cetecom.ibichos.presentation.LocalThemePreferences
 import com.cetecom.ibichos.ui.theme.*
+import com.cetecom.ibichos.utils.ThemeMode
 
 @Composable
 fun ProfileScreen(
@@ -53,7 +55,7 @@ fun ProfileScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(DarkBackground)
+            .background(MaterialTheme.colorScheme.background)
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -63,7 +65,7 @@ fun ProfileScreen(
                 .fillMaxWidth()
                 .height(200.dp)
                 .background(
-                    Brush.verticalGradient(listOf(IBichosGreenDim, DarkBackground))
+                    Brush.verticalGradient(listOf(IBichosGreenDim, MaterialTheme.colorScheme.background))
                 ),
             contentAlignment = Alignment.Center
         ) {
@@ -73,7 +75,7 @@ fun ProfileScreen(
                     modifier        = Modifier
                         .size(100.dp)
                         .clip(CircleShape)
-                        .background(DarkSurfaceVariant)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
                         .clickable { pickImageLauncher.launch("image/*") },
                     contentAlignment = Alignment.Center
                 ) {
@@ -90,7 +92,7 @@ fun ProfileScreen(
                         Icon(
                             Icons.Default.Person,
                             contentDescription = "Avatar por defecto",
-                            tint               = OnDarkSecondary,
+                            tint               = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier           = Modifier.size(48.dp)
                         )
                     }
@@ -98,7 +100,7 @@ fun ProfileScreen(
                 Spacer(Modifier.height(8.dp))
                 Text(
                     text  = "Toca para cambiar avatar",
-                    color = OnDarkSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.labelSmall
                 )
             }
@@ -116,12 +118,12 @@ fun ProfileScreen(
                 text       = profile?.displayName ?: "Cazador",
                 style      = MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.Bold,
-                color      = OnDark
+                color      = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text  = profile?.email ?: "",
                 style = MaterialTheme.typography.bodyMedium,
-                color = OnDarkSecondary
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             Spacer(Modifier.height(24.dp))
@@ -139,7 +141,7 @@ fun ProfileScreen(
             }
 
             Spacer(Modifier.height(24.dp))
-            HorizontalDivider(color = DarkOutline, modifier = Modifier.padding(horizontal = 24.dp))
+            HorizontalDivider(color = MaterialTheme.colorScheme.outline, modifier = Modifier.padding(horizontal = 24.dp))
             Spacer(Modifier.height(16.dp))
 
             // ── Nivel / XP Progress ───────────────────────────────────────
@@ -159,20 +161,20 @@ fun ProfileScreen(
                 Text(
                     text  = "Progreso de nivel",
                     style = MaterialTheme.typography.labelLarge,
-                    color = OnDarkSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(Modifier.height(8.dp))
                 LinearProgressIndicator(
                     progress         = { progress },
                     modifier         = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp)),
                     color            = IBichosGreen,
-                    trackColor       = DarkSurfaceVariant
+                    trackColor       = MaterialTheme.colorScheme.surfaceVariant
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
                     text  = "$xp / $nextLevelXp XP → ${profile?.level ?: "Casual"}",
                     style = MaterialTheme.typography.labelSmall,
-                    color = OnDarkSecondary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.End,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -196,6 +198,41 @@ fun ProfileScreen(
                     style = MaterialTheme.typography.bodySmall
                 )
             }
+
+            // ── Opciones de Tema ──────────────────────────────────────────
+            val themePrefs = LocalThemePreferences.current
+            val currentTheme by themePrefs.themeMode.collectAsState()
+
+            Column(
+                modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth()
+            ) {
+                Text(
+                    text = "Apariencia",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    ThemeOptionButton(
+                        text = "Oscuro",
+                        isSelected = currentTheme == ThemeMode.DARK,
+                        onClick = { themePrefs.setTheme(ThemeMode.DARK) },
+                        modifier = Modifier.weight(1f)
+                    )
+                    ThemeOptionButton(
+                        text = "Claro",
+                        isSelected = currentTheme == ThemeMode.LIGHT,
+                        onClick = { themePrefs.setTheme(ThemeMode.LIGHT) },
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(32.dp))
 
             // ── Botón Cerrar Sesión ───────────────────────────────────────
             OutlinedButton(
@@ -228,12 +265,34 @@ private fun ProfileStat(emoji: String, value: String, label: String) {
             text       = value,
             style      = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            color      = OnDark
+            color      = MaterialTheme.colorScheme.onBackground
         )
         Text(
             text  = label,
             style = MaterialTheme.typography.labelSmall,
-            color = OnDarkSecondary
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
+
+@Composable
+private fun ThemeOptionButton(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.height(40.dp),
+        contentPadding = PaddingValues(0.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isSelected) IBichosGreen else MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = if (isSelected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurfaceVariant
+        ),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Text(text = text, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+    }
+}
+

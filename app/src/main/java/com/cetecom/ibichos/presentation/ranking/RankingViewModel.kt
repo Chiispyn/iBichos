@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.ranking
+﻿package com.cetecom.ibichos.presentation.ranking
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -43,3 +43,4 @@ class RankingViewModel(
         }
     }
 }
+

@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.navigation
+﻿package com.cetecom.ibichos.presentation.navigation
 
 /**
  * Define todas las rutas de navegación de la app.
@@ -16,3 +16,4 @@ sealed class Screen(val route: String) {
         fun createRoute(index: Int) = "captureDetail/$index"
     }
 }
+

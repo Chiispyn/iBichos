@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.auth
+﻿package com.cetecom.ibichos.presentation.auth
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -55,7 +55,7 @@ fun LoginScreen(
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(DarkBackground, DarkSurface, DarkBackground)
+                    colors = listOf(MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.surface, MaterialTheme.colorScheme.background)
                 )
             ),
         contentAlignment = Alignment.Center
@@ -81,9 +81,9 @@ fun LoginScreen(
                     color      = IBichosGreen
                 )
                 Text(
-                    text  = "Cazá, coleccioná y explorá",
+                    text  = "Caza, colecciona y explora",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = OnDarkSecondary
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
@@ -93,7 +93,7 @@ fun LoginScreen(
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape    = RoundedCornerShape(20.dp),
-                colors   = CardDefaults.cardColors(containerColor = DarkSurface),
+                colors   = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
             ) {
                 Column(
@@ -179,7 +179,7 @@ fun LoginScreen(
             // ── Link a Registro ───────────────────────────────────────────
             TextButton(onClick = onNavigateToRegister) {
                 Text(
-                    text  = "¿No tenés cuenta? Registrate",
+                    text  = "¿No tienes cuenta? Regístrate",
                     color = IBichosTeal,
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -191,13 +191,14 @@ fun LoginScreen(
 @Composable
 private fun outlinedTextFieldColors() = OutlinedTextFieldDefaults.colors(
     focusedBorderColor   = IBichosGreen,
-    unfocusedBorderColor = DarkOutline,
+    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
     focusedLabelColor    = IBichosGreen,
     cursorColor          = IBichosGreen,
-    focusedTextColor     = OnDark,
-    unfocusedTextColor   = OnDark,
+    focusedTextColor     = MaterialTheme.colorScheme.onBackground,
+    unfocusedTextColor   = MaterialTheme.colorScheme.onBackground,
     focusedLeadingIconColor   = IBichosGreen,
-    unfocusedLeadingIconColor = OnDarkSecondary,
+    unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
     focusedTrailingIconColor  = IBichosGreen,
-    unfocusedTrailingIconColor = OnDarkSecondary
+    unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
 )
+

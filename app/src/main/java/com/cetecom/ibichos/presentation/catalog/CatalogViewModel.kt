@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.catalog
+﻿package com.cetecom.ibichos.presentation.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -45,3 +45,4 @@ class CatalogViewModel : ViewModel() {
         }
     }
 }
+

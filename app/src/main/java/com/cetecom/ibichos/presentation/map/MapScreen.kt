@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.map
+﻿package com.cetecom.ibichos.presentation.map
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -34,16 +34,16 @@ fun MapScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Mapa de Avistamientos", color = OnDark) },
+                title = { Text("Mapa de Avistamientos", color = MaterialTheme.colorScheme.onBackground) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, null, tint = IBichosGreen)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = DarkSurface)
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface)
             )
         },
-        containerColor = DarkBackground
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -105,7 +105,7 @@ fun MapScreen(
                     .align(Alignment.TopCenter)
                     .padding(top = 16.dp),
                 shape = MaterialTheme.shapes.extraLarge,
-                color = DarkSurface.copy(alpha = 0.95f),
+                color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
                 tonalElevation = 6.dp
             ) {
                 Row(modifier = Modifier.padding(4.dp)) {
@@ -113,7 +113,7 @@ fun MapScreen(
                         onClick = { viewModel.setGlobalMode(false) },
                         colors = ButtonDefaults.textButtonColors(
                             containerColor = if (!isGlobalMap) IBichosGreen else androidx.compose.ui.graphics.Color.Transparent,
-                            contentColor = if (!isGlobalMap) DarkBackground else androidx.compose.ui.graphics.Color.Gray
+                            contentColor = if (!isGlobalMap) MaterialTheme.colorScheme.background else androidx.compose.ui.graphics.Color.Gray
                         ),
                         shape = MaterialTheme.shapes.extraLarge
                     ) {
@@ -123,7 +123,7 @@ fun MapScreen(
                         onClick = { viewModel.setGlobalMode(true) },
                         colors = ButtonDefaults.textButtonColors(
                             containerColor = if (isGlobalMap) IBichosGreen else androidx.compose.ui.graphics.Color.Transparent,
-                            contentColor = if (isGlobalMap) DarkBackground else androidx.compose.ui.graphics.Color.Gray
+                            contentColor = if (isGlobalMap) MaterialTheme.colorScheme.background else androidx.compose.ui.graphics.Color.Gray
                         ),
                         shape = MaterialTheme.shapes.extraLarge
                     ) {
@@ -139,17 +139,18 @@ fun MapScreen(
                         .align(Alignment.BottomStart)
                         .padding(16.dp),
                     shape         = MaterialTheme.shapes.medium,
-                    color         = DarkSurface.copy(alpha = 0.9f),
+                    color         = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
                     tonalElevation = 4.dp
                 ) {
                     Text(
                         text     = "🗺️ ${captures.count { it.latitude != null }} pines en el mapa",
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
                         style    = MaterialTheme.typography.labelLarge,
-                        color    = OnDark
+                        color    = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
         }
     }
 }
+

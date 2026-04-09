@@ -4,8 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.*
 import com.cetecom.ibichos.presentation.navigation.AppNavigation
 import com.cetecom.ibichos.ui.theme.IBichosTheme
+import com.cetecom.ibichos.utils.ThemeMode
+import com.cetecom.ibichos.utils.ThemePreferences
+
+val LocalThemePreferences = staticCompositionLocalOf<ThemePreferences> {
+    error("No ThemePreferences provided")
+}
 
 /**
  * Single Activity — punto de entrada de la app.
@@ -14,11 +22,22 @@ import com.cetecom.ibichos.ui.theme.IBichosTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val themePrefs = ThemePreferences(this)
+
         enableEdgeToEdge()
         setContent {
-            IBichosTheme {
-                AppNavigation()
+            val themeMode by themePrefs.themeMode.collectAsState()
+            val darkTheme = when (themeMode) {
+                ThemeMode.LIGHT -> false
+                ThemeMode.DARK -> true
+            }
+
+            CompositionLocalProvider(LocalThemePreferences provides themePrefs) {
+                IBichosTheme(darkTheme = darkTheme) {
+                    AppNavigation()
+                }
             }
         }
     }
 }
+

@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.camera
+﻿package com.cetecom.ibichos.presentation.camera
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -73,7 +73,7 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize().background(DarkBackground)) {
+    Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         if (hasPermissions) {
             // ── Preview de CameraX via AndroidView ────────────────────────
             AndroidView(
@@ -114,7 +114,7 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
                 Text("📷", fontSize = 48.sp)
                 Text(
                     text  = "Se necesita permiso de cámara",
-                    color = OnDark,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyLarge
                 )
                 Button(
@@ -150,7 +150,7 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
                     modifier  = Modifier.fillMaxWidth(),
                     shape     = RoundedCornerShape(16.dp),
                     colors    = CardDefaults.cardColors(
-                        containerColor = DarkSurface.copy(alpha = 0.95f)
+                        containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)
                     )
                 ) {
                     Box(
@@ -170,7 +170,7 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
                                     )
                                     Text(
                                         text  = "Identificando insecto...",
-                                        color = OnDark,
+                                        color = MaterialTheme.colorScheme.onBackground,
                                         style = MaterialTheme.typography.bodyLarge
                                     )
                                 }
@@ -270,3 +270,4 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
         }
     }
 }
+

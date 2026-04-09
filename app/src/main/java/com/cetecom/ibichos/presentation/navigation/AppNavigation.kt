@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.navigation
+﻿package com.cetecom.ibichos.presentation.navigation
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -152,10 +152,10 @@ fun MainScreenWithBottomNav(
     val currentRoute        = navBackStackEntry?.destination?.route
 
     Scaffold(
-        containerColor = DarkBackground,
+        containerColor = MaterialTheme.colorScheme.background,
         bottomBar = {
             NavigationBar(
-                containerColor = DarkSurface,
+                containerColor = MaterialTheme.colorScheme.surface,
                 tonalElevation = 0.dp
             ) {
                 bottomNavItems.forEach { item ->
@@ -184,8 +184,8 @@ fun MainScreenWithBottomNav(
                             selectedIconColor   = IBichosGreen,
                             selectedTextColor   = IBichosGreen,
                             indicatorColor      = IBichosGreenDim,
-                            unselectedIconColor = OnDarkSecondary,
-                            unselectedTextColor = OnDarkSecondary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     )
                 }
@@ -223,3 +223,4 @@ fun MainScreenWithBottomNav(
         }
     }
 }
+

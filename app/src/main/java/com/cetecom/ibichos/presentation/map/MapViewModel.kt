@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.presentation.map
+﻿package com.cetecom.ibichos.presentation.map
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -53,3 +53,4 @@ class MapViewModel : ViewModel() {
         }
     }
 }
+

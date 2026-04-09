@@ -18,7 +18,15 @@ val DarkSurface       = Color(0xFF161B22)  // Superficie de cards
 val DarkSurfaceVariant = Color(0xFF21262D) // Superficie variante (inputs, etc.)
 val DarkOutline       = Color(0xFF30363D)  // Bordes sutiles
 
+// ── Fondo claro ──────────────────────────────────────────────────────────────
+val LightBackground    = Color(0xFFF9F9F9)  // Fondo principal claro
+val LightSurface       = Color(0xFFFFFFFF)  // Superficie de cards clara
+val LightSurfaceVariant = Color(0xFFEFEFEF) // Superficie variante (inputs, etc.)
+val LightOutline       = Color(0xFFE0E0E0)  // Bordes sutiles
+
 // ── Textos ─────────────────────────────────────────────────────────────────
 val OnDark            = Color(0xFFE6EDF3)  // Texto principal sobre fondo oscuro
 val OnDarkSecondary   = Color(0xFF8B949E)  // Texto secundario / subtítulos
+val OnLight           = Color(0xFF1E1E1E)  // Texto principal sobre fondo claro
+val OnLightSecondary  = Color(0xFF757575)  // Texto secundario sobre fondo claro
 val OnGreen           = Color(0xFF0D1117)  // Texto sobre verde (botones primarios)
