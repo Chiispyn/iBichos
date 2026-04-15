@@ -55,7 +55,11 @@ fun ProfileScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(IBichosGreen.copy(alpha = 0.3f), MaterialTheme.colorScheme.background)
+                )
+            )
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -63,10 +67,7 @@ fun ProfileScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
-                .background(
-                    Brush.verticalGradient(listOf(IBichosGreenDim, MaterialTheme.colorScheme.background))
-                ),
+                .padding(vertical = 32.dp),
             contentAlignment = Alignment.Center
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -180,6 +181,53 @@ fun ProfileScreen(
                 )
             }
 
+            if (profile?.medals?.isNotEmpty() == true) {
+                Spacer(Modifier.height(24.dp))
+                Column(
+                    modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth()
+                ) {
+                    Text(
+                        text = "🏆 Logros Desbloqueados",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(Modifier.height(8.dp))
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        profile.medals.forEach { medal ->
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                shape = RoundedCornerShape(8.dp),
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(12.dp).fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    val medalIcon = when {
+                                        medal.contains("Avistamiento") || medal.contains("Novato") -> "🔰"
+                                        medal.contains("Valiente") || medal.contains("Plagas") -> "⚔️"
+                                        medal.contains("Polinizadores") -> "🐝"
+                                        medal.contains("Lepidopterólogo") -> "🦋"
+                                        medal.contains("Aracnólogo") -> "🕸️"
+                                        medal.contains("Coleopterólogo") -> "🐞"
+                                        else -> "🏅"
+                                    }
+                                    Text(text = medalIcon, fontSize = 24.sp)
+                                    Spacer(Modifier.width(12.dp))
+                                    Text(
+                                        text = medal,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             Spacer(Modifier.height(32.dp))
 
             // Mensajes de estado
@@ -197,39 +245,6 @@ fun ProfileScreen(
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodySmall
                 )
-            }
-
-            // ── Opciones de Tema ──────────────────────────────────────────
-            val themePrefs = LocalThemePreferences.current
-            val currentTheme by themePrefs.themeMode.collectAsState()
-
-            Column(
-                modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth()
-            ) {
-                Text(
-                    text = "Apariencia",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontWeight = FontWeight.Bold
-                )
-                Spacer(Modifier.height(8.dp))
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    ThemeOptionButton(
-                        text = "Oscuro",
-                        isSelected = currentTheme == ThemeMode.DARK,
-                        onClick = { themePrefs.setTheme(ThemeMode.DARK) },
-                        modifier = Modifier.weight(1f)
-                    )
-                    ThemeOptionButton(
-                        text = "Claro",
-                        isSelected = currentTheme == ThemeMode.LIGHT,
-                        onClick = { themePrefs.setTheme(ThemeMode.LIGHT) },
-                        modifier = Modifier.weight(1f)
-                    )
-                }
             }
 
             Spacer(Modifier.height(32.dp))
@@ -272,27 +287,6 @@ private fun ProfileStat(emoji: String, value: String, label: String) {
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-    }
-}
-
-@Composable
-private fun ThemeOptionButton(
-    text: String,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Button(
-        onClick = onClick,
-        modifier = modifier.height(40.dp),
-        contentPadding = PaddingValues(0.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) IBichosGreen else MaterialTheme.colorScheme.surfaceVariant,
-            contentColor = if (isSelected) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.onSurfaceVariant
-        ),
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Text(text = text, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
     }
 }
 

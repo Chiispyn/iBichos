@@ -1,4 +1,4 @@
-﻿package com.cetecom.ibichos.presentation.auth
+package com.cetecom.ibichos.presentation.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -46,8 +46,17 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    fun register(email: String, password: String, displayName: String) {
-        if (email.isBlank() || password.isBlank() || displayName.isBlank()) {
+    fun register(
+        email: String, 
+        password: String, 
+        displayName: String,
+        region: String,
+        comuna: String,
+        birthDate: String,
+        gender: String
+    ) {
+        if (email.isBlank() || password.isBlank() || displayName.isBlank() ||
+            region.isBlank() || comuna.isBlank() || birthDate.isBlank() || gender.isBlank()) {
             _uiState.update { it.copy(error = "Completá todos los campos") }
             return
         }
@@ -63,9 +72,16 @@ class AuthViewModel : ViewModel() {
                     hashMapOf(
                         "displayName" to displayName,
                         "email"       to email,
+                        "region"      to region,
+                        "comuna"      to comuna,
+                        "birthDate"   to birthDate,
+                        "gender"      to gender,
                         "level"       to "Casual",
                         "xp"          to 0L,
-                        "createdAt"   to Timestamp.now()
+                        "createdAt"   to Timestamp.now(),
+                        "uniqueInsectsCount" to 0,
+                        "medals"      to emptyList<String>(),
+                        "categoryCounts" to emptyMap<String, Int>()
                     )
                 ).await()
 

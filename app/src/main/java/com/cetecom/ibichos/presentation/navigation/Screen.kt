@@ -1,10 +1,11 @@
-﻿package com.cetecom.ibichos.presentation.navigation
+package com.cetecom.ibichos.presentation.navigation
 
 /**
  * Define todas las rutas de navegación de la app.
  * Usar objetos sellados permite que el compilador detecte si falta manejar alguna ruta.
  */
 sealed class Screen(val route: String) {
+    object Splash   : Screen("splash")
     object Login    : Screen("login")
     object Register : Screen("register")
     object Main     : Screen("main")

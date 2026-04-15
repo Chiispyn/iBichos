@@ -1,4 +1,4 @@
-﻿package com.cetecom.ibichos.presentation.catalog
+package com.cetecom.ibichos.presentation.catalog
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,6 +12,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -63,8 +65,13 @@ fun CaptureDetailScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(IBichosGreen.copy(alpha = 0.3f), MaterialTheme.colorScheme.background)
+                    )
+                )
+                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
             // ── Imagen grande ─────────────────────────────────────────────
@@ -143,6 +150,14 @@ fun CaptureDetailScreen(
                     InfoCard(
                         label   = "📍 Ubicación GPS",
                         content = "Lat: %.4f, Lon: %.4f".format(capture.latitude, capture.longitude)
+                    )
+                }
+
+                // Descripción
+                if (capture.description.isNotEmpty()) {
+                    InfoCard(
+                        label   = "📖 Información Biológica",
+                        content = capture.description
                     )
                 }
             }

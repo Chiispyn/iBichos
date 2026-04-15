@@ -18,4 +18,13 @@ interface UserRepository {
 
     /** Obtiene el top de usuarios ordenados por mayor XP */
     suspend fun getTopUsersByXp(limit: Int = 50): List<UserProfile>
+
+    /** Obtiene el top de usuarios ordenados por mayor cantidad de especies únicas */
+    suspend fun getTopUsersByUniqueInsects(limit: Int = 50): List<UserProfile>
+
+    /** Obtiene el top de usuarios ordenados por cantidad de medallas desbloqueadas */
+    suspend fun getTopUsersByMedals(limit: Int = 50): List<UserProfile>
+
+    /** Desbloquea medallas e incrementa el contador de especies únicas descubiertas */
+    suspend fun unlockMedalsAndIncrementUnique(uid: String, medalsToUnlock: List<String>, isNewInsect: Boolean, incrementCategory: String?)
 }

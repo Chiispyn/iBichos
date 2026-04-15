@@ -1,4 +1,4 @@
-﻿package com.cetecom.ibichos.presentation.auth
+package com.cetecom.ibichos.presentation.auth
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.cetecom.ibichos.R
 import com.cetecom.ibichos.ui.theme.*
 
 @Composable
@@ -55,7 +57,7 @@ fun LoginScreen(
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.surface, MaterialTheme.colorScheme.background)
+                    colors = listOf(IBichosGreen.copy(alpha = 0.3f), MaterialTheme.colorScheme.background)
                 )
             ),
         contentAlignment = Alignment.Center
@@ -68,10 +70,10 @@ fun LoginScreen(
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             // ── Logo / Header ──────────────────────────────────────────────
-            Text(
-                text       = "🦟",
-                fontSize   = 64.sp,
-                textAlign  = TextAlign.Center
+            androidx.compose.foundation.Image(
+                painter = painterResource(id = R.drawable.logo_oficial),
+                contentDescription = "Logo iBichos",
+                modifier = Modifier.size(180.dp)
             )
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(

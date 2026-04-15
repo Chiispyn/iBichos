@@ -12,7 +12,7 @@ import retrofit2.http.POST
  */
 interface KindwiseApi {
 
-    @POST("v1/identification?details=common_names,url&language=es")
+    @POST("v1/identification?details=common_names,url,description&language=es")
     suspend fun identifyInsect(
         @Header("Api-Key") apiKey: String,
         @Body request: KindwiseRequest
@@ -59,5 +59,10 @@ data class Suggestion(
 
 data class Details(
     val common_names: List<String>?,
-    val url: String?
+    val url: String?,
+    val description: DescriptionWrapper?
+)
+
+data class DescriptionWrapper(
+    val value: String?
 )

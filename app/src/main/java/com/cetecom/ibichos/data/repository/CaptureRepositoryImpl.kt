@@ -32,7 +32,8 @@ class CaptureRepositoryImpl(
                     latitude      = doc.getDouble("latitude"),
                     longitude     = doc.getDouble("longitude"),
                     capturedAt    = doc.getTimestamp("timestamp")?.toDate()?.time ?: 0L,
-                    xpAwarded     = doc.getLong("xpAwarded") ?: 50L
+                    xpAwarded     = doc.getLong("xpAwarded") ?: 50L,
+                    description   = doc.getString("description") ?: "Sin descripción adicional."
                 )
             }
             .sortedByDescending { it.capturedAt }
@@ -57,7 +58,8 @@ class CaptureRepositoryImpl(
                     latitude      = doc.getDouble("latitude"),
                     longitude     = doc.getDouble("longitude"),
                     capturedAt    = doc.getTimestamp("timestamp")?.toDate()?.time ?: 0L,
-                    xpAwarded     = doc.getLong("xpAwarded") ?: 50L
+                    xpAwarded     = doc.getLong("xpAwarded") ?: 50L,
+                    description   = doc.getString("description") ?: "Sin descripción adicional."
                 )
             }
     }
@@ -71,7 +73,8 @@ class CaptureRepositoryImpl(
         probability: Double,
         latitude: Double?,
         longitude: Double?,
-        xpAwarded: Long
+        xpAwarded: Long,
+        description: String
     ): String {
         val captureData = hashMapOf(
             "userId"        to userId,
@@ -83,10 +86,21 @@ class CaptureRepositoryImpl(
             "latitude"      to latitude,
             "longitude"     to longitude,
             "timestamp"     to Timestamp.now(),
-            "xpAwarded"     to xpAwarded
+            "xpAwarded"     to xpAwarded,
+            "description"   to description
         )
 
         val docRef = db.collection("captures").add(captureData).await()
         return docRef.id
+    }
+
+    override suspend fun hasCaughtInsect(userId: String, scientificName: String): Boolean {
+        val result = db.collection("captures")
+            .whereEqualTo("userId", userId)
+            .whereEqualTo("scientificName", scientificName)
+            .limit(1)
+            .get()
+            .await()
+        return !result.isEmpty
     }
 }

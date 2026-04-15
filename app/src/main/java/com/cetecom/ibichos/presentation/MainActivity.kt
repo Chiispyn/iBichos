@@ -27,10 +27,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val themeMode by themePrefs.themeMode.collectAsState()
-            val darkTheme = when (themeMode) {
-                ThemeMode.LIGHT -> false
-                ThemeMode.DARK -> true
-            }
+            val darkTheme = false // Obligado a false por petición de diseño para presentación
 
             CompositionLocalProvider(LocalThemePreferences provides themePrefs) {
                 IBichosTheme(darkTheme = darkTheme) {

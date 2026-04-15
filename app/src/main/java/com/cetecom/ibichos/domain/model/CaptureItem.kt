@@ -15,5 +15,6 @@ data class CaptureItem(
     val longitude: Double? = null,
     /** Milisegundos epoch — convertido desde Firebase Timestamp en el repositorio */
     val capturedAt: Long = 0L,
-    val xpAwarded: Long = 50L
+    val xpAwarded: Long = 50L,
+    val description: String = ""
 )

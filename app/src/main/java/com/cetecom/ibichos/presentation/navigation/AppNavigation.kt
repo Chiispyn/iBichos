@@ -1,4 +1,4 @@
-﻿package com.cetecom.ibichos.presentation.navigation
+package com.cetecom.ibichos.presentation.navigation
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -33,6 +33,7 @@ import com.cetecom.ibichos.presentation.catalog.CatalogViewModel
 import com.cetecom.ibichos.presentation.map.MapScreen
 import com.cetecom.ibichos.presentation.profile.ProfileScreen
 import com.cetecom.ibichos.presentation.ranking.RankingScreen
+import com.cetecom.ibichos.presentation.splash.SplashScreen
 import com.cetecom.ibichos.ui.theme.*
 
 // ── Ítems del BottomNav ───────────────────────────────────────────────────────
@@ -58,7 +59,7 @@ private val bottomNavItems = listOf(
 fun AppNavigation() {
     val navController     = rememberNavController()
     val authViewModel: AuthViewModel = viewModel()
-    val startDestination  = if (authViewModel.isLoggedIn()) Screen.Main.route else Screen.Login.route
+    val startDestination  = Screen.Splash.route
 
     NavHost(
         navController    = navController,
@@ -66,6 +67,18 @@ fun AppNavigation() {
         enterTransition  = { fadeIn() },
         exitTransition   = { fadeOut() }
     ) {
+        // ── Splash ────────────────────────────────────────────────────────
+        composable(Screen.Splash.route) {
+            SplashScreen(
+                onSplashFinished = {
+                    val nextRoute = if (authViewModel.isLoggedIn()) Screen.Main.route else Screen.Login.route
+                    navController.navigate(nextRoute) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         // ── Auth ──────────────────────────────────────────────────────────
         composable(Screen.Login.route) {
             LoginScreen(

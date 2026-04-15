@@ -1,4 +1,4 @@
-﻿package com.cetecom.ibichos.presentation.camera
+package com.cetecom.ibichos.presentation.camera
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -37,7 +37,7 @@ class CameraViewModel : ViewModel() {
 
     // ── MODO EMULADOR ─────────────────────────────────────────────────────────
     // Cambiar a false cuando se use en un dispositivo físico con API key real
-    private val isEmulatorMode = false
+    private val isEmulatorMode = true
     // ─────────────────────────────────────────────────────────────────────────
 
     private val _uiState = MutableStateFlow<CameraUiState>(CameraUiState.Idle)
@@ -76,7 +76,8 @@ class CameraViewModel : ViewModel() {
                         dangerLevel   = "Precaución: Aguijón",
                         probability   = 0.99,
                         lat           = lat,
-                        lon           = lon
+                        lon           = lon,
+                        description   = "La abeja europea (Apis mellifera) es una especie de himenóptero apócrito de la familia Apidae. Es la especie de abeja con mayor distribución en el mundo. Son insectos polinizadores cruciales para la supervivencia de ecosistemas y para la polinización cruzada de la agricultura mundial."
                     )
                 } else {
                     // 2. Convertir a Base64 para la API
@@ -109,8 +110,9 @@ class CameraViewModel : ViewModel() {
                     val prob           = suggestion.probability ?: 0.0
                     val dangerLevels   = listOf("Inofensivo", "Precaución", "Venenoso", "Plaga")
                     val dangerLevel    = dangerLevels.random()
+                    val description    = suggestion.details?.description?.value ?: "Insecto registrado taxonómicamente por la IA Kindwise. Se recomienda realizar un cruce de datos con enciclopedias especializadas para confirmar hábitos alimenticios y zona biológica nativa. Mantener respeto por el ecosistema local."
 
-                    saveCaptureData(uid, localImageUrl, displayName, scientificName, dangerLevel, prob, lat, lon)
+                    saveCaptureData(uid, localImageUrl, displayName, scientificName, dangerLevel, prob, lat, lon, description)
                 }
             } catch (e: Exception) {
                 _uiState.value = CameraUiState.Error("Error: ${e.message}")
@@ -120,9 +122,11 @@ class CameraViewModel : ViewModel() {
 
     private suspend fun saveCaptureData(
         uid: String, imageUrl: String, insectName: String, scientificName: String,
-        dangerLevel: String, probability: Double, lat: Double?, lon: Double?
+        dangerLevel: String, probability: Double, lat: Double?, lon: Double?, description: String
     ) {
-        val xpGain = 50L
+        val isNewInsect = !captureRepository.hasCaughtInsect(uid, scientificName)
+        val xpGain = if (isNewInsect) 150L else 20L
+        
         captureRepository.saveCapture(
             userId        = uid,
             imageUrl      = imageUrl,
@@ -132,12 +136,68 @@ class CameraViewModel : ViewModel() {
             probability   = probability,
             latitude      = lat,
             longitude     = lon,
-            xpAwarded     = xpGain
+            xpAwarded     = xpGain,
+            description   = description
         )
+        
         userRepository.incrementXp(uid, xpGain)
 
+        // Evaluar Medallas y Logros con umbrales rigurosos
+        val currentUser = userRepository.getUserProfile(uid)
+        val currentMedals = currentUser.medals
+        val newUniqueCount = currentUser.uniqueInsectsCount + if (isNewInsect) 1 else 0
+        
+        val medalsToUnlock = mutableListOf<String>()
+        var incrementCategory: String? = null
+        val nameLower = insectName.lowercase()
+
+        // Determinar qué cuota subir
+        if (nameLower.contains("araña")) incrementCategory = "aranas"
+        else if (nameLower.contains("mariposa") || nameLower.contains("polilla")) incrementCategory = "lepidopteros"
+        else if (nameLower.contains("abeja") || nameLower.contains("avispa")) incrementCategory = "polinizadores"
+        else if (nameLower.contains("escarabajo")) incrementCategory = "coleopteros"
+        else if (dangerLevel.contains("Plaga", ignoreCase = true)) incrementCategory = "plagas"
+
+        // Calcular nuevo valor de la sub-cuenta
+        val newCategoryCount = if (incrementCategory != null) {
+            (currentUser.categoryCounts[incrementCategory] ?: 0) + 1
+        } else 0
+
+        if (isNewInsect && newUniqueCount == 1 && !currentMedals.contains("Primer Avistamiento")) {
+            medalsToUnlock.add("Primer Avistamiento")
+        }
+        if (isNewInsect && newUniqueCount == 5 && !currentMedals.contains("Investigador Novato")) {
+            medalsToUnlock.add("Investigador Novato")
+        }
+        if ((dangerLevel.contains("Venenoso", ignoreCase = true) || dangerLevel.contains("Peligroso", ignoreCase = true)) 
+            && !currentMedals.contains("Cazador Valiente")) {
+            medalsToUnlock.add("Cazador Valiente")
+        }
+        
+        // Logros de Dificultad por especies repetitivas
+        if (incrementCategory == "aranas" && newCategoryCount >= 5 && !currentMedals.contains("Aracnólogo")) {
+            medalsToUnlock.add("Aracnólogo")
+        }
+        if (incrementCategory == "lepidopteros" && newCategoryCount >= 5 && !currentMedals.contains("Lepidopterólogo")) {
+            medalsToUnlock.add("Lepidopterólogo")
+        }
+        if (incrementCategory == "polinizadores" && newCategoryCount >= 10 && !currentMedals.contains("Amigo de Polinizadores")) {
+            medalsToUnlock.add("Amigo de Polinizadores")
+        }
+        if (incrementCategory == "coleopteros" && newCategoryCount >= 15 && !currentMedals.contains("Coleopterólogo")) {
+            medalsToUnlock.add("Coleopterólogo")
+        }
+        if (incrementCategory == "plagas" && newCategoryCount >= 10 && !currentMedals.contains("Control de Plagas")) {
+            medalsToUnlock.add("Control de Plagas")
+        }
+
+        userRepository.unlockMedalsAndIncrementUnique(uid, medalsToUnlock, isNewInsect, incrementCategory)
+
+        val noveltyMsg = if (isNewInsect) "✨ ¡NUEVA ESPECIE DESCUBIERTA! ✨\n" else ""
+        val medalsMsg = if (medalsToUnlock.isNotEmpty()) "\n🏅 Logros: ${medalsToUnlock.joinToString()}" else ""
+
         _uiState.value = CameraUiState.Success(
-            "🦟 ¡Insecto Atrapado!\n$insectName\nConfianza: ${(probability * 100).toInt()}%\n🎁 +$xpGain XP"
+            "${noveltyMsg}🦟 ¡Insecto Atrapado!\n$insectName\nConfianza: ${(probability * 100).toInt()}%\n🎁 +$xpGain XP$medalsMsg"
         )
     }
 

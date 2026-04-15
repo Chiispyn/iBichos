@@ -23,6 +23,10 @@ interface CaptureRepository {
         probability: Double,
         latitude: Double?,
         longitude: Double?,
-        xpAwarded: Long
+        xpAwarded: Long,
+        description: String
     ): String
+
+    /** Verifica si el usuario ya ha capturado esta especie antes */
+    suspend fun hasCaughtInsect(userId: String, scientificName: String): Boolean
 }
