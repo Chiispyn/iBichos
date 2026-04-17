@@ -3,7 +3,6 @@ export interface Usuario {
 
  // Tus campos personalizados
  rut: string;
- name: string;
  username: string;
  genre: string;
  email: string;
@@ -13,7 +12,6 @@ export interface Usuario {
  // Ubicación
  region: string;
  comuna: string;
- address: string;
 
  level: string;
  xp: number;

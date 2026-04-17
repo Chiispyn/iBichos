@@ -1,82 +1,89 @@
 import type { Usuario } from "../types/usuario";
 
-// 1. Definimos la interface para las props del componente
 interface TablaUsuariosProps {
   usuariosFiltrados: Usuario[];
 }
 
-// 2. Pasamos las props al componente (desestructuradas)
 const TablaUsuarios = ({ usuariosFiltrados }: TablaUsuariosProps) => {
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="min-w-full">
-          <thead className="bg-gray-800 text-white">
-            <tr>
-              <th className="py-3 px-4 text-left">RUT</th>
-              <th className="py-3 px-4 text-left">Nombre</th>
-              <th className="py-3 px-4 text-left">Nombre de usuario</th>
-              <th className="py-3 px-4 text-left">Email</th>
-              <th className="py-3 px-4 text-left">Ubicación</th>
-              <th className="py-3 px-4 text-center">F. Nacimiento</th>
-              <th className="py-3 px-4 text-center">Acciones</th>
-            </tr>
-          </thead>
-          
-          <tbody className="divide-y divide-gray-200">
-            {/* 3. Agregamos validación opcional por si la lista viene undefined */}
-            {usuariosFiltrados && usuariosFiltrados.length > 0 ? (
-              usuariosFiltrados.map((usuario) => (
-                <tr key={usuario.rut} className="hover:bg-gray-50 transition-colors">
-                  <td className="py-3 px-4 font-mono text-sm text-gray-600">
-                    {usuario.rut}
-                  </td>
+    <div className="card shadow-sm border-0 mt-3">
+      <div className="card-body p-0">
+        <div className="table-responsive">
+          <table className="table table-hover align-middle mb-0">
+            <thead className="table-dark">
+              <tr>
+                <th className="ps-4">RUT</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Ubicación</th>
+                <th className="text-center">Progreso</th>
+                <th>F. Nacimiento</th>
+                <th className="text-center pe-4">Acciones</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+              {usuariosFiltrados && usuariosFiltrados.length > 0 ? (
+                usuariosFiltrados.map((usuario) => (
+                  <tr key={usuario.rut}>
+                    <td className="ps-4">
+                      <span className="fw-bold text-secondary">{usuario.rut}</span>
+                    </td>
+                    
+                    <td>
+                      <div className="d-flex flex-column">
+                        <span className="fw-bold">{usuario.username}</span>
+                        <small className="text-muted text-uppercase" style={{ fontSize: '0.7rem' }}>
+                          Género: {usuario.genre}
+                        </small>
+                      </div>
+                    </td>
 
-                  <td className="py-3 px-4">
-                    <p className="font-bold text-gray-800">{usuario.name}</p>
-                  </td>
+                    <td>{usuario.email}</td>
 
-                  <td className="py-3 px-4 text-gray-600 text-sm">
-                    {usuario.email}
-                  </td>
+                    <td>
+                      <div className="d-flex flex-column text-truncate" style={{ maxWidth: '200px' }}>
+                        <span className="badge bg-info text-dark align-self-start mb-1" style={{ fontSize: '0.65rem' }}>
+                          {usuario.region}
+                        </span>
+                        <small className="text-muted">{usuario.comuna}</small>
+                      </div>
+                    </td>
 
-                  <td className="py-3 px-4">
-                    <div className="flex flex-col">
-                      <span className="text-xs font-bold text-blue-700 uppercase">
-                        {usuario.region}
-                      </span>
-                      <span className="text-sm text-gray-500">
-                        {usuario.comuna}
-                      </span>
-                    </div>
-                  </td>
+                    <td className="text-center">
+                      <span className="badge bg-success me-1">Nvl {usuario.level}</span>
+                      <small className="text-muted d-block">{usuario.xp} XP</small>
+                    </td>
 
-                  <td className="py-3 px-4 text-center text-sm text-gray-600">
-                    {usuario.birthdate}
-                  </td>
+                    <td>
+                      <small>{usuario.birthdate}</small>
+                    </td>
 
-                  <td className="py-3 px-4 text-center space-x-2">
-                    <button className="text-blue-600 hover:text-blue-900 font-medium text-sm hover:underline">
-                      Editar
-                    </button>
-                    <button className="text-red-600 hover:text-red-900 font-medium text-sm hover:underline">
-                      Eliminar
-                    </button>
+                    <td className="text-center pe-4">
+                      <div className="btn-group btn-group-sm">
+                        <button className="btn btn-outline-primary" title="Editar">
+                          <i className="bi bi-pencil"></i> Editar
+                        </button>
+                        <button className="btn btn-outline-danger" title="Eliminar">
+                          <i className="bi bi-trash"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={7} className="text-center py-5 text-muted">
+                    <p className="mb-0">No se encontraron usuarios registrados.</p>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={7} className="py-8 text-center text-gray-500">
-                  No se encontraron usuarios que coincidan con tu búsqueda.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
 };
 
-export default TablaUsuarios; // 4. No olvides exportar el componente
+export default TablaUsuarios;
