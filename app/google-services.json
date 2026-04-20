@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "996905357020",
+    "project_id": "ibichos",
+    "storage_bucket": "ibichos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996905357020:android:17dea888949239e603ee19",
+        "android_client_info": {
+          "package_name": "com.cetecom.ibichos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996905357020-phoql7lakt27u0et28hbr0no61basuja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cetecom.ibichos",
+            "certificate_hash": "000006718e600a887ea8493292324882410199c3"
+          }
+        },
+        {
+          "client_id": "996905357020-0vekhfrin7f4k8mm19euss39crisducm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOi6DSrCEJGaDtSKZSAT8P-Y_wvmQhQf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996905357020-0vekhfrin7f4k8mm19euss39crisducm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
