@@ -17,5 +17,7 @@ data class UserProfile(
     val totalCaptures: Int = 0,
     val medals: List<String> = emptyList(),
     val uniqueInsectsCount: Int = 0,
-    val categoryCounts: Map<String, Int> = emptyMap()
+    val categoryCounts: Map<String, Int> = emptyMap(),
+    val medalsEarnedAt: Map<String, Long> = emptyMap(),
+    val levelUpAt: Map<String, Long> = emptyMap()
 )

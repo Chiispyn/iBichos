@@ -10,14 +10,35 @@ MERGED from [androidx.camera:camera-lifecycle:1.3.1] C:\Users\chisp\.gradle\cach
 MERGED from [androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:17:1-36:12
 MERGED from [androidx.camera:camera-core:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bef01e5c3ce40646d111fca04c4682c2\transformed\camera-core-1.3.1\AndroidManifest.xml:17:1-36:12
 MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9fa7c21ea36a45d09522e026793649bd\transformed\play-services-location-21.1.0\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:2:1-26:12
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:15:1-39:12
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:17:1-75:12
-MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\d2059e22d19e496b1071a40bc9c6b2f3\transformed\play-services-auth-api-phone-17.4.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:2:1-17:12
+MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:17:1-75:12
+MERGED from [androidx.credentials:credentials:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\392154d94c3c46cf619c0e1e27050907\transformed\credentials-1.2.0-rc01\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:17:1-44:12
+MERGED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:17:1-40:12
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:2:1-26:12
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:15:1-39:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bf2f789636be6bdc03564433dc4ca878\transformed\play-services-auth-api-phone-18.0.2\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.10] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9b459c63264ef2e6c299c4e5fc707e82\transformed\play-services-auth-base-18.0.10\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\cd265f530beba9eadbb82210b3f6aff8\transformed\firebase-database-collection-18.0.1\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:15:1-34:12
+MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:15:1-34:12
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5789badd4a4e27192a34fadef6da604a\transformed\firebase-appcheck-interop-17.1.0\AndroidManifest.xml:15:1-23:12
-MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f1dffd16e4005649ceef6c165df25c14\transformed\play-services-fido-20.1.0\AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.android.gms:play-services-base:18.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e7e058c796c8fab993d1a52b3cdc6d4a\transformed\play-services-base-18.3.0\AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.firebase:firebase-analytics:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\07246af9a3af1b40d89be6aa155731cb\transformed\firebase-analytics-22.0.2\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:17:1-46:12
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:17:1-43:12
+MERGED from [com.google.android.gms:play-services-measurement-sdk:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c3f0a7e27b39e87f44b97aa0a026b1cb\transformed\play-services-measurement-sdk-22.0.2\AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:2:1-11:12
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:2:1-24:12
+MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:2:1-18:12
+MERGED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:15:1-41:12
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:17:1-32:12
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:17:1-27:12
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:17:1-30:12
+MERGED from [com.google.android.gms:play-services-measurement-base:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8fab532a78471c4d202eb6dec810495d\transformed\play-services-measurement-base-22.0.2\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:2:1-9:12
 MERGED from [androidx.navigation:navigation-common:2.7.7] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0ef548c988a3b8ca548504f04c9fbb9\transformed\navigation-common-2.7.7\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-runtime:2.7.7] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\eb37e54cba6347fd0ef742b2d99aa46c\transformed\navigation-runtime-2.7.7\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-ktx:2.7.7] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f227639f743ddf2f5d063243ffc87e9a\transformed\navigation-common-ktx-2.7.7\AndroidManifest.xml:2:1-7:12
@@ -49,7 +70,6 @@ MERGED from [io.coil-kt:coil:2.6.0] C:\Users\chisp\.gradle\caches\9.0-milestone-
 MERGED from [io.coil-kt:coil-base:2.6.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ae9e51392c898ff399b45bc3f177bc05\transformed\coil-base-2.6.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2697a02f877864f6c31c4515a4c6feb3\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3f9356b1475fb90971a722274e98880d\transformed\appcompat-1.6.1\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fed914914165992afbbe5638c0077a3b\transformed\fragment-1.3.6\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.activity:activity:1.8.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0a0a59a386237090219bc7ea9c8a231b\transformed\activity-1.8.2\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.activity:activity-ktx:1.8.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\371ffa48c226b2069c2296d03faf978f\transformed\activity-ktx-1.8.2\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.activity:activity-compose:1.8.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e3ce9f8ae0bbdbb6f78321cc051cf2c2\transformed\activity-compose-1.8.2\AndroidManifest.xml:2:1-7:12
@@ -58,13 +78,6 @@ MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-mil
 MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:17:1-35:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\addb854f9e12dcbd69265ba5514f1b59\transformed\lifecycle-livedata-core-ktx-2.7.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fadb41baa2684dc6ade2fa48db530d1c\transformed\lifecycle-livedata-core-2.7.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.google.firebase:firebase-analytics:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8f3050ee85e2302a5ff50b588606e08b\transformed\firebase-analytics-21.5.0\AndroidManifest.xml:2:1-9:12
-MERGED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:17:1-46:12
-MERGED from [com.google.android.gms:play-services-measurement-sdk:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\de4da567d35735f075fac20a0c8121df\transformed\play-services-measurement-sdk-21.5.0\AndroidManifest.xml:17:1-25:12
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:17:1-32:12
-MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:2:1-9:12
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\81a91f04e969eba4f43a8713343743cf\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.loader:loader:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c584dace908ca873d723da40fe78303d\transformed\loader-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0ee5585aa1021020c90089e096079217\transformed\lifecycle-livedata-2.7.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8ccb541a3cd494384c9c91742bbd3424\transformed\savedstate-ktx-1.2.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ef41cd92a5dd24986a450f50262aeec4\transformed\savedstate-1.2.1\AndroidManifest.xml:17:1-22:12
@@ -75,38 +88,32 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.7.0] C:\Users\chisp\.gradl
 MERGED from [androidx.lifecycle:lifecycle-runtime-compose:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\95aed736ecb74c5f8e2cd5a40fbee910\transformed\lifecycle-runtime-compose-2.7.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\1ad6780843ec4f147a7c6b66a2d554bb\transformed\lifecycle-viewmodel-compose-2.7.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fc5e72ebad5f2c0c429888a40ec19a92\transformed\lifecycle-runtime-ktx-2.7.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\35a17f7e21d400320f2ec94a3554ed33\transformed\runtime-saveable-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.runtime:runtime-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\084dfb1faacd27400dd8fc4573f94239\transformed\runtime-release\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.privacysandbox.ads:ads-adservices-java:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ffcc89a13943127fe227c395bc36579c\transformed\ads-adservices-java-1.0.0-beta05\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:17:1-28:12
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:17:1-43:12
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:2:1-10:12
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:2:1-24:12
-MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:2:1-18:12
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:15:1-41:12
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.firebase:firebase-installations-interop:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\424688ca0158029c5624d4c9872e0287\transformed\firebase-installations-interop-17.1.1\AndroidManifest.xml:15:1-19:12
-MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0fed0b760cd7c5054ac0fd8effdc1d48\transformed\play-services-tasks-18.0.2\AndroidManifest.xml:2:1-6:12
-MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:17:1-27:12
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:17:1-30:12
-MERGED from [com.google.android.gms:play-services-measurement-base:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\10706be1f48b0b1d236da485ad3e033d\transformed\play-services-measurement-base-21.5.0\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\7ef997594ae5c2ef3b3b0416df6bb045\transformed\play-services-tasks-18.2.0\AndroidManifest.xml:2:1-5:12
 MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\461406f0641deff508b1dcd795232cd0\transformed\firebase-measurement-connector-19.0.0\AndroidManifest.xml:17:1-25:12
-MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9f98790c2c85324dcb66ff4c4526e3b3\transformed\play-services-basement-18.4.0\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.fragment:fragment:1.5.7] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\507ccf88ce85d095f045ab43d46347eb\transformed\fragment-1.5.7\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\81a91f04e969eba4f43a8713343743cf\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4dd49e43188bc3adddcf0f5b048d138e\transformed\loader-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\837dabfad1b9aab19959679c925e22e6\transformed\browser-1.4.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e18c154d0ec9d33df25d41059efca1c2\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5af968418c8191db09754050d8f1653e\transformed\autofill-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\99aec88eb6f48308db481b3befeb1665\transformed\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e62e1fb4fd56ec17ae727214bce60009\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c71b166fa53e4184cc8bd7947eabf27\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\827c45d38522d9638bfa981983c2edc5\transformed\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\99aec88eb6f48308db481b3befeb1665\transformed\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e18c154d0ec9d33df25d41059efca1c2\transformed\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [androidx.customview:customview:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e62e1fb4fd56ec17ae727214bce60009\transformed\customview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core:1.12.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9783d1e97e3fb7308ae79b9f3bbde2e8\transformed\core-1.12.0\AndroidManifest.xml:17:1-30:12
 MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\190ee54da482e2e251d097317a946c41\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.core:core-ktx:1.12.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bb1337a7a2188a4c86e4b6dddf7f678a\transformed\core-ktx-1.12.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3f3da9660ecabb6767a10a275bab18c6\transformed\annotation-experimental-1.4.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0191287b91f06d3fd11dd57c2e033b04\transformed\googleid-1.1.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b98bead9b34d9ec2019569ab7e52e943\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6f0ee3fb0a82fc6a8ead9d4e5ab3c370\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.google.firebase:firebase-components:17.1.5] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a149a37c8f009e67a6bbeb26fae0aca4\transformed\firebase-components-17.1.5\AndroidManifest.xml:15:1-20:12
+MERGED from [com.google.firebase:firebase-components:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9e7bea84a3bdb0c1fd3116932de0e8bc\transformed\firebase-components-18.0.0\AndroidManifest.xml:15:1-20:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0fb88a65e94f38228b477508ef183c9e\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f684c571bbd2cfa148ee9da154bdb4c8\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5b39ed795f5de693882c066b998c6bb3\transformed\profileinstaller-1.3.1\AndroidManifest.xml:17:1-55:12
@@ -130,24 +137,24 @@ MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\chi
 		ADDED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
 ADDED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:6:5-67
-MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:11:5-67
-MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:11:5-67
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:24:5-67
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:24:5-67
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:25:5-67
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:25:5-67
-MERGED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:23:5-67
-MERGED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:23:5-67
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:23:5-67
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:25:5-67
+MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:25:5-67
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:11:5-67
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:11:5-67
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:24:5-67
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:24:5-67
+MERGED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:22:5-67
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:22:5-67
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:7:5-67
 MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:7:5-67
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:22:5-67
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:22:5-67
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:8:5-67
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:8:5-67
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:23:5-67
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:8:5-67
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:8:5-67
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:23:5-67
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:23:5-67
 	android:name
 		ADDED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:6:22-64
 uses-permission#android.permission.CAMERA
@@ -191,18 +198,52 @@ MERGED from [androidx.camera:camera-core:1.3.1] C:\Users\chisp\.gradle\caches\9.
 MERGED from [androidx.camera:camera-core:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bef01e5c3ce40646d111fca04c4682c2\transformed\camera-core-1.3.1\AndroidManifest.xml:23:5-34:19
 MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9fa7c21ea36a45d09522e026793649bd\transformed\play-services-location-21.1.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9fa7c21ea36a45d09522e026793649bd\transformed\play-services-location-21.1.0\AndroidManifest.xml:7:5-20
-MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:13:5-24:19
-MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:13:5-24:19
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:26:5-37:19
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:26:5-37:19
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:28:5-73:19
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:28:5-73:19
-MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:21:5-32:19
-MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:21:5-32:19
+MERGED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:7:5-15:19
+MERGED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:7:5-15:19
+MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:28:5-73:19
+MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:28:5-73:19
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:23:5-42:19
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:23:5-42:19
+MERGED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:22:5-38:19
+MERGED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:22:5-38:19
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:13:5-24:19
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:13:5-24:19
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:26:5-37:19
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:26:5-37:19
+MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:21:5-32:19
+MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:21:5-32:19
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5789badd4a4e27192a34fadef6da604a\transformed\firebase-appcheck-interop-17.1.0\AndroidManifest.xml:21:5-20
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5789badd4a4e27192a34fadef6da604a\transformed\firebase-appcheck-interop-17.1.0\AndroidManifest.xml:21:5-20
-MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
-MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f1dffd16e4005649ceef6c165df25c14\transformed\play-services-fido-20.1.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f1dffd16e4005649ceef6c165df25c14\transformed\play-services-fido-20.1.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-base:18.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e7e058c796c8fab993d1a52b3cdc6d4a\transformed\play-services-base-18.3.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e7e058c796c8fab993d1a52b3cdc6d4a\transformed\play-services-base-18.3.0\AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.firebase:firebase-analytics:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\07246af9a3af1b40d89be6aa155731cb\transformed\firebase-analytics-22.0.2\AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-analytics:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\07246af9a3af1b40d89be6aa155731cb\transformed\firebase-analytics-22.0.2\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:28:5-44:19
+MERGED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:28:5-44:19
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:29:5-41:19
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:29:5-41:19
+MERGED from [com.google.android.gms:play-services-measurement-sdk:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c3f0a7e27b39e87f44b97aa0a026b1cb\transformed\play-services-measurement-sdk-22.0.2\AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-measurement-sdk:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c3f0a7e27b39e87f44b97aa0a026b1cb\transformed\play-services-measurement-sdk-22.0.2\AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:5:5-6:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:11:5-22:19
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:11:5-22:19
+MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:8:5-16:19
+MERGED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:22:5-39:19
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:29:5-30:19
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:29:5-30:19
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8fab532a78471c4d202eb6dec810495d\transformed\play-services-measurement-base-22.0.2\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-measurement-base:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8fab532a78471c4d202eb6dec810495d\transformed\play-services-measurement-base-22.0.2\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:7:5-20
 MERGED from [androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\767bd47bbc5b261d1605e394a74ff9e2\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\767bd47bbc5b261d1605e394a74ff9e2\transformed\ui-tooling-release\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-test-manifest:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c903ce8360b1333a9a1e3f85e189f21\transformed\ui-test-manifest-1.6.8\AndroidManifest.xml:22:5-26:19
@@ -211,40 +252,14 @@ MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-mil
 MERGED from [androidx.emoji2:emoji2:1.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c071ace77fcb452b9e3104353af8e4dd\transformed\emoji2-1.3.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:23:5-33:19
-MERGED from [com.google.firebase:firebase-analytics:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8f3050ee85e2302a5ff50b588606e08b\transformed\firebase-analytics-21.5.0\AndroidManifest.xml:7:5-20
-MERGED from [com.google.firebase:firebase-analytics:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8f3050ee85e2302a5ff50b588606e08b\transformed\firebase-analytics-21.5.0\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:28:5-44:19
-MERGED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:28:5-44:19
-MERGED from [com.google.android.gms:play-services-measurement-sdk:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\de4da567d35735f075fac20a0c8121df\transformed\play-services-measurement-sdk-21.5.0\AndroidManifest.xml:22:5-23:19
-MERGED from [com.google.android.gms:play-services-measurement-sdk:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\de4da567d35735f075fac20a0c8121df\transformed\play-services-measurement-sdk-21.5.0\AndroidManifest.xml:22:5-23:19
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:29:5-30:19
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:29:5-30:19
-MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:7:5-20
 MERGED from [androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:22:5-26:19
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:29:5-41:19
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:29:5-41:19
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:7:5-8:19
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:11:5-22:19
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:11:5-22:19
-MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:8:5-16:19
-MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:8:5-16:19
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:22:5-39:19
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:22:5-39:19
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:5:5-6:19
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:5:5-6:19
-MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0fed0b760cd7c5054ac0fd8effdc1d48\transformed\play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
-MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0fed0b760cd7c5054ac0fd8effdc1d48\transformed\play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
-MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:25:5-20
-MERGED from [com.google.android.gms:play-services-measurement-base:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\10706be1f48b0b1d236da485ad3e033d\transformed\play-services-measurement-base-21.5.0\AndroidManifest.xml:7:5-20
-MERGED from [com.google.android.gms:play-services-measurement-base:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\10706be1f48b0b1d236da485ad3e033d\transformed\play-services-measurement-base-21.5.0\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\7ef997594ae5c2ef3b3b0416df6bb045\transformed\play-services-tasks-18.2.0\AndroidManifest.xml:4:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\7ef997594ae5c2ef3b3b0416df6bb045\transformed\play-services-tasks-18.2.0\AndroidManifest.xml:4:5-20
 MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\461406f0641deff508b1dcd795232cd0\transformed\firebase-measurement-connector-19.0.0\AndroidManifest.xml:22:5-23:19
 MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\461406f0641deff508b1dcd795232cd0\transformed\firebase-measurement-connector-19.0.0\AndroidManifest.xml:22:5-23:19
-MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
-MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9f98790c2c85324dcb66ff4c4526e3b3\transformed\play-services-basement-18.4.0\AndroidManifest.xml:5:5-7:19
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9f98790c2c85324dcb66ff4c4526e3b3\transformed\play-services-basement-18.4.0\AndroidManifest.xml:5:5-7:19
 MERGED from [androidx.core:core:1.12.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9783d1e97e3fb7308ae79b9f3bbde2e8\transformed\core-1.12.0\AndroidManifest.xml:28:5-89
 MERGED from [androidx.core:core:1.12.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9783d1e97e3fb7308ae79b9f3bbde2e8\transformed\core-1.12.0\AndroidManifest.xml:28:5-89
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b98bead9b34d9ec2019569ab7e52e943\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
@@ -262,9 +277,9 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\chisp\.gradle\cach
 	android:label
 		ADDED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:18:9-41
 	android:roundIcon
-		ADDED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:19:9-54
+		ADDED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:19:9-51
 	android:icon
-		ADDED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:17:9-43
+		ADDED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:17:9-46
 	android:allowBackup
 		ADDED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml:16:9-35
 	android:theme
@@ -303,22 +318,64 @@ MERGED from [androidx.camera:camera-core:1.3.1] C:\Users\chisp\.gradle\caches\9.
 MERGED from [androidx.camera:camera-core:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bef01e5c3ce40646d111fca04c4682c2\transformed\camera-core-1.3.1\AndroidManifest.xml:21:5-44
 MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9fa7c21ea36a45d09522e026793649bd\transformed\play-services-location-21.1.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-location:21.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9fa7c21ea36a45d09522e026793649bd\transformed\play-services-location-21.1.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:6:5-44
-MERGED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:6:5-44
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:19:5-44
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:19:5-44
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:21:5-23:64
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:21:5-23:64
-MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\d2059e22d19e496b1071a40bc9c6b2f3\transformed\play-services-auth-api-phone-17.4.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\d2059e22d19e496b1071a40bc9c6b2f3\transformed\play-services-auth-api-phone-17.4.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:21:5-23:151
+MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:21:5-23:151
+MERGED from [androidx.credentials:credentials:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\392154d94c3c46cf619c0e1e27050907\transformed\credentials-1.2.0-rc01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.credentials:credentials:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\392154d94c3c46cf619c0e1e27050907\transformed\credentials-1.2.0-rc01\AndroidManifest.xml:5:5-44
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:21:5-44
+MERGED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:21:5-44
+MERGED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:6:5-44
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:19:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bf2f789636be6bdc03564433dc4ca878\transformed\play-services-auth-api-phone-18.0.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bf2f789636be6bdc03564433dc4ca878\transformed\play-services-auth-api-phone-18.0.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.10] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9b459c63264ef2e6c299c4e5fc707e82\transformed\play-services-auth-base-18.0.10\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.10] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9b459c63264ef2e6c299c4e5fc707e82\transformed\play-services-auth-base-18.0.10\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\cd265f530beba9eadbb82210b3f6aff8\transformed\firebase-database-collection-18.0.1\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.firebase:firebase-database-collection:18.0.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\cd265f530beba9eadbb82210b3f6aff8\transformed\firebase-database-collection-18.0.1\AndroidManifest.xml:5:5-7:41
-MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:18:5-44
-MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:18:5-44
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5789badd4a4e27192a34fadef6da604a\transformed\firebase-appcheck-interop-17.1.0\AndroidManifest.xml:18:5-44
 MERGED from [com.google.firebase:firebase-appcheck-interop:17.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5789badd4a4e27192a34fadef6da604a\transformed\firebase-appcheck-interop-17.1.0\AndroidManifest.xml:18:5-44
-MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:18:5-43
-MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f1dffd16e4005649ceef6c165df25c14\transformed\play-services-fido-20.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-fido:20.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f1dffd16e4005649ceef6c165df25c14\transformed\play-services-fido-20.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:18.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e7e058c796c8fab993d1a52b3cdc6d4a\transformed\play-services-base-18.3.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e7e058c796c8fab993d1a52b3cdc6d4a\transformed\play-services-base-18.3.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.firebase:firebase-analytics:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\07246af9a3af1b40d89be6aa155731cb\transformed\firebase-analytics-22.0.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-analytics:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\07246af9a3af1b40d89be6aa155731cb\transformed\firebase-analytics-22.0.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c3f0a7e27b39e87f44b97aa0a026b1cb\transformed\play-services-measurement-sdk-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c3f0a7e27b39e87f44b97aa0a026b1cb\transformed\play-services-measurement-sdk-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:4:5-44
+MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:4:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:19:5-44
+MERGED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:19:5-44
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8fab532a78471c4d202eb6dec810495d\transformed\play-services-measurement-base-22.0.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-measurement-base:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8fab532a78471c4d202eb6dec810495d\transformed\play-services-measurement-base-22.0.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:5:5-44
 MERGED from [androidx.navigation:navigation-common:2.7.7] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0ef548c988a3b8ca548504f04c9fbb9\transformed\navigation-common-2.7.7\AndroidManifest.xml:20:5-44
 MERGED from [androidx.navigation:navigation-common:2.7.7] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0ef548c988a3b8ca548504f04c9fbb9\transformed\navigation-common-2.7.7\AndroidManifest.xml:20:5-44
 MERGED from [androidx.navigation:navigation-runtime:2.7.7] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\eb37e54cba6347fd0ef742b2d99aa46c\transformed\navigation-runtime-2.7.7\AndroidManifest.xml:20:5-44
@@ -381,8 +438,6 @@ MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\chisp\.gradl
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2697a02f877864f6c31c4515a4c6feb3\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3f9356b1475fb90971a722274e98880d\transformed\appcompat-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3f9356b1475fb90971a722274e98880d\transformed\appcompat-1.6.1\AndroidManifest.xml:20:5-44
-MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fed914914165992afbbe5638c0077a3b\transformed\fragment-1.3.6\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.fragment:fragment:1.3.6] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fed914914165992afbbe5638c0077a3b\transformed\fragment-1.3.6\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.activity:activity:1.8.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0a0a59a386237090219bc7ea9c8a231b\transformed\activity-1.8.2\AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity:1.8.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0a0a59a386237090219bc7ea9c8a231b\transformed\activity-1.8.2\AndroidManifest.xml:20:5-44
 MERGED from [androidx.activity:activity-ktx:1.8.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\371ffa48c226b2069c2296d03faf978f\transformed\activity-ktx-1.8.2\AndroidManifest.xml:5:5-44
@@ -399,20 +454,6 @@ MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] C:\Users\chis
 MERGED from [androidx.lifecycle:lifecycle-livedata-core-ktx:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\addb854f9e12dcbd69265ba5514f1b59\transformed\lifecycle-livedata-core-ktx-2.7.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fadb41baa2684dc6ade2fa48db530d1c\transformed\lifecycle-livedata-core-2.7.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fadb41baa2684dc6ade2fa48db530d1c\transformed\lifecycle-livedata-core-2.7.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-analytics:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8f3050ee85e2302a5ff50b588606e08b\transformed\firebase-analytics-21.5.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-analytics:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8f3050ee85e2302a5ff50b588606e08b\transformed\firebase-analytics-21.5.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement-sdk:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\de4da567d35735f075fac20a0c8121df\transformed\play-services-measurement-sdk-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement-sdk:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\de4da567d35735f075fac20a0c8121df\transformed\play-services-measurement-sdk-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-stats:17.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5e9aba64e621ac29b39c26167692f107\transformed\play-services-stats-17.0.2\AndroidManifest.xml:5:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\81a91f04e969eba4f43a8713343743cf\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\81a91f04e969eba4f43a8713343743cf\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.loader:loader:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c584dace908ca873d723da40fe78303d\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.loader:loader:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c584dace908ca873d723da40fe78303d\transformed\loader-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0ee5585aa1021020c90089e096079217\transformed\lifecycle-livedata-2.7.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0ee5585aa1021020c90089e096079217\transformed\lifecycle-livedata-2.7.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\8ccb541a3cd494384c9c91742bbd3424\transformed\savedstate-ktx-1.2.1\AndroidManifest.xml:20:5-44
@@ -433,8 +474,6 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0] C:\Users\chis
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\1ad6780843ec4f147a7c6b66a2d554bb\transformed\lifecycle-viewmodel-compose-2.7.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fc5e72ebad5f2c0c429888a40ec19a92\transformed\lifecycle-runtime-ktx-2.7.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-runtime-ktx:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fc5e72ebad5f2c0c429888a40ec19a92\transformed\lifecycle-runtime-ktx-2.7.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\35a17f7e21d400320f2ec94a3554ed33\transformed\runtime-saveable-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\35a17f7e21d400320f2ec94a3554ed33\transformed\runtime-saveable-release\AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.runtime:runtime-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\084dfb1faacd27400dd8fc4573f94239\transformed\runtime-release\AndroidManifest.xml:5:5-44
@@ -443,46 +482,34 @@ MERGED from [androidx.privacysandbox.ads:ads-adservices-java:1.0.0-beta05] C:\Us
 MERGED from [androidx.privacysandbox.ads:ads-adservices-java:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ffcc89a13943127fe227c395bc36579c\transformed\ads-adservices-java-1.0.0-beta05\AndroidManifest.xml:5:5-44
 MERGED from [androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:20:5-44
 MERGED from [androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-auth-interop:20.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a92a7d17db2e476ed9112dd598c94aa9\transformed\firebase-auth-interop-20.0.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:5:5-44
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:19:5-44
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:19:5-44
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:4:5-44
-MERGED from [com.google.android.play:integrity:1.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2df01b832ff99d125f4c1ca2ca913299\transformed\integrity-1.2.0\AndroidManifest.xml:4:5-44
 MERGED from [com.google.firebase:firebase-installations-interop:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\424688ca0158029c5624d4c9872e0287\transformed\firebase-installations-interop-17.1.1\AndroidManifest.xml:17:5-44
 MERGED from [com.google.firebase:firebase-installations-interop:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\424688ca0158029c5624d4c9872e0287\transformed\firebase-installations-interop-17.1.1\AndroidManifest.xml:17:5-44
-MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0fed0b760cd7c5054ac0fd8effdc1d48\transformed\play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
-MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0fed0b760cd7c5054ac0fd8effdc1d48\transformed\play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43
-MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-measurement-base:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\10706be1f48b0b1d236da485ad3e033d\transformed\play-services-measurement-base-21.5.0\AndroidManifest.xml:5:5-44
-MERGED from [com.google.android.gms:play-services-measurement-base:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\10706be1f48b0b1d236da485ad3e033d\transformed\play-services-measurement-base-21.5.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\7ef997594ae5c2ef3b3b0416df6bb045\transformed\play-services-tasks-18.2.0\AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-tasks:18.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\7ef997594ae5c2ef3b3b0416df6bb045\transformed\play-services-tasks-18.2.0\AndroidManifest.xml:3:5-44
 MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\461406f0641deff508b1dcd795232cd0\transformed\firebase-measurement-connector-19.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-measurement-connector:19.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\461406f0641deff508b1dcd795232cd0\transformed\firebase-measurement-connector-19.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
-MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9f98790c2c85324dcb66ff4c4526e3b3\transformed\play-services-basement-18.4.0\AndroidManifest.xml:3:5-44
+MERGED from [com.google.android.gms:play-services-basement:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9f98790c2c85324dcb66ff4c4526e3b3\transformed\play-services-basement-18.4.0\AndroidManifest.xml:3:5-44
+MERGED from [androidx.fragment:fragment:1.5.7] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\507ccf88ce85d095f045ab43d46347eb\transformed\fragment-1.5.7\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.5.7] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\507ccf88ce85d095f045ab43d46347eb\transformed\fragment-1.5.7\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\81a91f04e969eba4f43a8713343743cf\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.legacy:legacy-support-core-utils:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\81a91f04e969eba4f43a8713343743cf\transformed\legacy-support-core-utils-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4dd49e43188bc3adddcf0f5b048d138e\transformed\loader-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.loader:loader:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4dd49e43188bc3adddcf0f5b048d138e\transformed\loader-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\837dabfad1b9aab19959679c925e22e6\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.browser:browser:1.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\837dabfad1b9aab19959679c925e22e6\transformed\browser-1.4.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e18c154d0ec9d33df25d41059efca1c2\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e18c154d0ec9d33df25d41059efca1c2\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5af968418c8191db09754050d8f1653e\transformed\autofill-1.0.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.autofill:autofill:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5af968418c8191db09754050d8f1653e\transformed\autofill-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\99aec88eb6f48308db481b3befeb1665\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\99aec88eb6f48308db481b3befeb1665\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e62e1fb4fd56ec17ae727214bce60009\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e62e1fb4fd56ec17ae727214bce60009\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c71b166fa53e4184cc8bd7947eabf27\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9c71b166fa53e4184cc8bd7947eabf27\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\827c45d38522d9638bfa981983c2edc5\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\827c45d38522d9638bfa981983c2edc5\transformed\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\99aec88eb6f48308db481b3befeb1665\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\99aec88eb6f48308db481b3befeb1665\transformed\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e18c154d0ec9d33df25d41059efca1c2\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e18c154d0ec9d33df25d41059efca1c2\transformed\viewpager-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.customview:customview:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e62e1fb4fd56ec17ae727214bce60009\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [androidx.customview:customview:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e62e1fb4fd56ec17ae727214bce60009\transformed\customview-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.12.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9783d1e97e3fb7308ae79b9f3bbde2e8\transformed\core-1.12.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.12.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9783d1e97e3fb7308ae79b9f3bbde2e8\transformed\core-1.12.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\190ee54da482e2e251d097317a946c41\transformed\customview-poolingcontainer-1.0.0\AndroidManifest.xml:20:5-21:38
@@ -491,12 +518,14 @@ MERGED from [androidx.core:core-ktx:1.12.0] C:\Users\chisp\.gradle\caches\9.0-mi
 MERGED from [androidx.core:core-ktx:1.12.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bb1337a7a2188a4c86e4b6dddf7f678a\transformed\core-ktx-1.12.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3f3da9660ecabb6767a10a275bab18c6\transformed\annotation-experimental-1.4.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.annotation:annotation-experimental:1.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3f3da9660ecabb6767a10a275bab18c6\transformed\annotation-experimental-1.4.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0191287b91f06d3fd11dd57c2e033b04\transformed\googleid-1.1.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.libraries.identity.googleid:googleid:1.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0191287b91f06d3fd11dd57c2e033b04\transformed\googleid-1.1.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b98bead9b34d9ec2019569ab7e52e943\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b98bead9b34d9ec2019569ab7e52e943\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6f0ee3fb0a82fc6a8ead9d4e5ab3c370\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6f0ee3fb0a82fc6a8ead9d4e5ab3c370\transformed\localbroadcastmanager-1.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.google.firebase:firebase-components:17.1.5] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a149a37c8f009e67a6bbeb26fae0aca4\transformed\firebase-components-17.1.5\AndroidManifest.xml:18:5-44
-MERGED from [com.google.firebase:firebase-components:17.1.5] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a149a37c8f009e67a6bbeb26fae0aca4\transformed\firebase-components-17.1.5\AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-components:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9e7bea84a3bdb0c1fd3116932de0e8bc\transformed\firebase-components-18.0.0\AndroidManifest.xml:18:5-44
+MERGED from [com.google.firebase:firebase-components:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9e7bea84a3bdb0c1fd3116932de0e8bc\transformed\firebase-components-18.0.0\AndroidManifest.xml:18:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0fb88a65e94f38228b477508ef183c9e\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0fb88a65e94f38228b477508ef183c9e\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f684c571bbd2cfa148ee9da154bdb4c8\transformed\core-runtime-2.2.0\AndroidManifest.xml:20:5-44
@@ -522,7 +551,7 @@ MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\chisp\.gradle\caches\9.0-mile
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\86c677645dd50ceaeae184194ae518bd\transformed\protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.firebase:protolite-well-known-types:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\86c677645dd50ceaeae184194ae518bd\transformed\protolite-well-known-types-18.0.0\AndroidManifest.xml:7:5-9:41
 	tools:overrideLibrary
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:23:9-61
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:23:9-148
 	android:targetSdkVersion
 		INJECTED from C:\Users\chisp\pruebainsectid\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
@@ -547,150 +576,324 @@ ADDED from [androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\
 		ADDED from [androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:32:17-86
 	android:name
 		ADDED from [androidx.camera:camera-camera2:1.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff56e651cf8eddfc92575895628b71da\transformed\camera-camera2-1.3.1\AndroidManifest.xml:31:17-103
-uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:10:5-79
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:23:5-79
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:23:5-79
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:26:5-79
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:26:5-79
-MERGED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:24:5-79
-MERGED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:24:5-79
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:24:5-79
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:24:5-79
-MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:8:5-79
-MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:8:5-79
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:23:5-79
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:23:5-79
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:7:5-79
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:7:5-79
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:24:5-79
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:24:5-79
-MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\47b6a52ea2d1096eca96a83553b3306e\transformed\grpc-android-1.57.2\AndroidManifest.xml:7:5-79
-MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\47b6a52ea2d1096eca96a83553b3306e\transformed\grpc-android-1.57.2\AndroidManifest.xml:7:5-79
-	android:name
-		ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:10:22-76
 service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:14:9-23:19
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:27:9-36:19
-MERGED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:27:9-36:19
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:66:9-72:19
-MERGED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:66:9-72:19
-MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:22:9-31:19
-MERGED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:22:9-31:19
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:34:9-40:19
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:34:9-40:19
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:12:9-21:19
-MERGED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:12:9-21:19
-MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:9:9-15:19
-MERGED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:9:9-15:19
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:30:9-38:19
-MERGED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:30:9-38:19
+ADDED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:8:9-14:19
+MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:66:9-72:19
+MERGED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:66:9-72:19
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:14:9-23:19
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:14:9-23:19
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:27:9-36:19
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:27:9-36:19
+MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:22:9-31:19
+MERGED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:22:9-31:19
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:34:9-40:19
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:34:9-40:19
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:12:9-21:19
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:12:9-21:19
+MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:9:9-15:19
+MERGED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:30:9-38:19
+MERGED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:30:9-38:19
 	android:exported
-		ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:16:13-37
+		ADDED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:10:13-37
 	tools:targetApi
-		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:34:13-32
+		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:34:13-32
 	android:directBootAware
-		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:32:13-43
+		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:32:13-43
 	android:name
-		ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:15:13-84
-meta-data#com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar
-ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:17:13-19:85
+		ADDED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:9:13-84
+meta-data#com.google.firebase.components:com.google.firebase.auth.ktx.FirebaseAuthLegacyRegistrar
+ADDED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:11:13-13:85
 	android:value
-		ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:19:17-82
+		ADDED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:13:17-82
 	android:name
-		ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:18:17-122
-meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
-ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:20:13-22:85
-	android:value
-		ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:22:17-82
+		ADDED from [com.google.firebase:firebase-auth-ktx:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b95c0edc6d4539eb0a35456bd039ec2d\transformed\firebase-auth-ktx-23.0.0\AndroidManifest.xml:12:17-119
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:26:5-79
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:10:5-79
+MERGED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:10:5-79
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:23:5-79
+MERGED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:8:5-79
+MERGED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:8:5-79
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:7:5-79
+MERGED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:7:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:24:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:24:5-79
+MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\47b6a52ea2d1096eca96a83553b3306e\transformed\grpc-android-1.57.2\AndroidManifest.xml:7:5-79
+MERGED from [io.grpc:grpc-android:1.57.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\47b6a52ea2d1096eca96a83553b3306e\transformed\grpc-android-1.57.2\AndroidManifest.xml:7:5-79
 	android:name
-		ADDED from [com.google.firebase:firebase-firestore:24.10.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\bc49cf73293632ae6e9021a702e8d347\transformed\firebase-firestore-24.10.1\AndroidManifest.xml:21:17-111
-meta-data#com.google.firebase.components:com.google.firebase.storage.FirebaseStorageKtxRegistrar
-ADDED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:30:13-32:85
-	android:value
-		ADDED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:32:17-82
-	android:name
-		ADDED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:31:17-118
-meta-data#com.google.firebase.components:com.google.firebase.storage.StorageRegistrar
-ADDED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:33:13-35:85
-	android:value
-		ADDED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:35:17-82
-	android:name
-		ADDED from [com.google.firebase:firebase-storage:20.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e0aae9d0300052dc8309c1d261f431e9\transformed\firebase-storage-20.3.0\AndroidManifest.xml:34:17-107
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:26:22-76
 activity#com.google.firebase.auth.internal.GenericIdpActivity
-ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:29:9-46:20
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:29:9-46:20
 	android:excludeFromRecents
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:31:13-46
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:31:13-46
 	android:launchMode
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:33:13-44
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:33:13-44
 	android:exported
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:32:13-36
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:32:13-36
 	android:theme
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:34:13-72
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:34:13-72
 	android:name
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:30:13-80
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:30:13-80
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:firebase.auth+data:path:/+data:scheme:genericidp
-ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:35:13-45:29
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:35:13-45:29
 action#android.intent.action.VIEW
-ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:17-69
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:36:17-69
 	android:name
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:36:25-66
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:36:25-66
 category#android.intent.category.DEFAULT
-ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:17-76
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:38:17-76
 	android:name
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:38:27-73
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:38:27-73
 category#android.intent.category.BROWSABLE
-ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:17-78
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:39:17-78
 	android:name
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:39:27-75
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:39:27-75
 data
-ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:41:17-44:51
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:41:17-44:51
 	android:path
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:43:21-37
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:43:21-37
 	android:host
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:42:21-49
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:42:21-49
 	android:scheme
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:44:21-48
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:44:21-48
 activity#com.google.firebase.auth.internal.RecaptchaActivity
-ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:47:9-64:20
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:47:9-64:20
 	android:excludeFromRecents
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:49:13-46
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:49:13-46
 	android:launchMode
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:51:13-44
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:51:13-44
 	android:exported
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:50:13-36
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:50:13-36
 	android:theme
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:52:13-72
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:52:13-72
 	android:name
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:48:13-79
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:48:13-79
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:host:firebase.auth+data:path:/+data:scheme:recaptcha
-ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:53:13-63:29
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:53:13-63:29
 meta-data#com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar
-ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:69:13-71:85
+ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:69:13-71:85
 	android:value
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:71:17-82
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:71:17-82
 	android:name
-		ADDED from [com.google.firebase:firebase-auth:22.3.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\dd13ada5bc86b21d3820227b18b295f0\transformed\firebase-auth-22.3.1\AndroidManifest.xml:70:17-109
-meta-data#com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckKtxRegistrar
-ADDED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:25:13-27:85
-	android:value
-		ADDED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:27:17-82
-	android:name
-		ADDED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:26:17-120
-meta-data#com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckRegistrar
-ADDED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:28:13-30:85
-	android:value
-		ADDED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:30:17-82
-	android:name
-		ADDED from [com.google.firebase:firebase-appcheck:17.1.1] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ff96c66180fe1704d49d341dbf51815b\transformed\firebase-appcheck-17.1.1\AndroidManifest.xml:29:17-117
-activity#com.google.android.gms.common.api.GoogleApiActivity
-ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:9-22:45
+		ADDED from [com.google.firebase:firebase-auth:23.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\3ec1a5275c86383e1603b3d60f768948\transformed\firebase-auth-23.0.0\AndroidManifest.xml:70:17-109
+service#androidx.credentials.playservices.CredentialProviderMetadataHolder
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:24:9-32:19
+	android:enabled
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:26:13-35
 	android:exported
-		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:22:19-43
-	android:theme
-		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:21:19-78
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:28:13-60
 	android:name
-		ADDED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\64bae433b599270cebe4e81bbf0013f3\transformed\play-services-base-18.1.0\AndroidManifest.xml:20:19-85
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:25:13-94
+meta-data#androidx.credentials.CREDENTIAL_PROVIDER_KEY
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:29:13-31:104
+	android:value
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:31:17-101
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:30:17-76
+activity#androidx.credentials.playservices.HiddenActivity
+ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:34:9-41:20
+	android:fitsSystemWindows
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:39:13-45
+	android:enabled
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:38:13-37
+	android:configChanges
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:36:13-87
+	android:theme
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:40:13-48
+	android:name
+		ADDED from [androidx.credentials:credentials-play-services-auth:1.2.0-rc01] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4a450835e23f807e67978f2a4beaebe7\transformed\credentials-play-services-auth-1.2.0-rc01\AndroidManifest.xml:35:13-76
+activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
+ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:23:9-27:75
+	android:excludeFromRecents
+		ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:25:13-46
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:26:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:27:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:24:13-93
+service#com.google.android.gms.auth.api.signin.RevocationBoundService
+ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:33:9-37:51
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:35:13-36
+	android:visibleToInstantApps
+		ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:37:13-48
+	android:permission
+		ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:36:13-107
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:21.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4b15261dc80bea5783afaa1706e9bc75\transformed\play-services-auth-21.2.0\AndroidManifest.xml:34:13-89
+meta-data#com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar
+ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:17:13-19:85
+	android:value
+		ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:19:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:18:17-122
+meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
+ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:20:13-22:85
+	android:value
+		ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:22:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-firestore:25.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a70ee86291b3f6af8a80947c7e703280\transformed\firebase-firestore-25.0.0\AndroidManifest.xml:21:17-111
+meta-data#com.google.firebase.components:com.google.firebase.storage.FirebaseStorageKtxRegistrar
+ADDED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:30:13-32:85
+	android:value
+		ADDED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:32:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:31:17-118
+meta-data#com.google.firebase.components:com.google.firebase.storage.StorageRegistrar
+ADDED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:33:13-35:85
+	android:value
+		ADDED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:35:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-storage:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a1d42762442bbee4fd8f6422529dc1fb\transformed\firebase-storage-21.0.0\AndroidManifest.xml:34:17-107
+meta-data#com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckKtxRegistrar
+ADDED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:25:13-27:85
+	android:value
+		ADDED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:27:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:26:17-120
+meta-data#com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckRegistrar
+ADDED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:28:13-30:85
+	android:value
+		ADDED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:30:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-appcheck:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\f24adad208071c428fc6827ca429b3a2\transformed\firebase-appcheck-18.0.0\AndroidManifest.xml:29:17-117
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e7e058c796c8fab993d1a52b3cdc6d4a\transformed\play-services-base-18.3.0\AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e7e058c796c8fab993d1a52b3cdc6d4a\transformed\play-services-base-18.3.0\AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e7e058c796c8fab993d1a52b3cdc6d4a\transformed\play-services-base-18.3.0\AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.3.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e7e058c796c8fab993d1a52b3cdc6d4a\transformed\play-services-base-18.3.0\AndroidManifest.xml:20:19-85
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:24:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:25:5-68
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:25:5-68
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:25:22-65
+uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
+ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:26:5-110
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:26:5-110
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:26:5-110
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:26:22-107
+receiver#com.google.android.gms.measurement.AppMeasurementReceiver
+ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:29:9-33:20
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:31:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:30:13-85
+service#com.google.android.gms.measurement.AppMeasurementService
+ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:35:9-38:40
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:37:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:38:13-37
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:36:13-84
+service#com.google.android.gms.measurement.AppMeasurementJobService
+ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:39:9-43:72
+	android:enabled
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:41:13-35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:42:13-37
+	android:permission
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:43:13-69
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ee2006107b230ef7e989231cf3c58a53\transformed\play-services-measurement-22.0.2\AndroidManifest.xml:40:13-87
+uses-permission#com.google.android.gms.permission.AD_ID
+ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:25:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:27:5-79
+MERGED from [com.google.android.gms:play-services-measurement-impl:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\abec19489e2f205d82ca8a23e6aded29\transformed\play-services-measurement-impl-22.0.2\AndroidManifest.xml:27:5-79
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:23:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:26:5-79
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:26:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:25:22-76
+uses-permission#android.permission.ACCESS_ADSERVICES_ATTRIBUTION
+ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:26:5-88
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:27:5-88
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:27:5-88
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:26:22-85
+uses-permission#android.permission.ACCESS_ADSERVICES_AD_ID
+ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:27:5-82
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:28:5-82
+MERGED from [com.google.android.gms:play-services-measurement-sdk-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\93aa0cd233d822e43601167a6cbb7e79\transformed\play-services-measurement-sdk-api-22.0.2\AndroidManifest.xml:28:5-82
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:27:22-79
+property
+ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:30:9-32:61
+	android:resource
+		ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:32:13-58
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:31:13-65
+meta-data#com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar
+ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:37:13-39:85
+	android:value
+		ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:39:17-82
+	android:name
+		ADDED from [com.google.android.gms:play-services-measurement-api:22.0.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\2ccb2bc6c03e187b76f85aaeee092d08\transformed\play-services-measurement-api-22.0.2\AndroidManifest.xml:38:17-139
+uses-permission#com.google.android.providers.gsf.permission.READ_GSERVICES
+ADDED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:9:5-98
+	android:name
+		ADDED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:9:22-95
+meta-data#com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar
+ADDED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:15:13-17:85
+	android:value
+		ADDED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:17:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:16:17-130
+meta-data#com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar
+ADDED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:18:13-20:85
+	android:value
+		ADDED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:20:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-installations:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b85ba2d3dbf6a65789faae2c290c0149\transformed\firebase-installations-18.0.0\AndroidManifest.xml:19:17-127
+meta-data#com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar
+ADDED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:12:13-14:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:14:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common-ktx:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\6e6a1150633ce043de3b1ae4c6d69306\transformed\firebase-common-ktx-21.0.0\AndroidManifest.xml:13:17-116
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:23:9-28:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:25:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:27:13-37
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:26:13-43
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:28:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:24:13-77
+meta-data#com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar
+ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:35:13-37:85
+	android:value
+		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:37:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-common:21.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\ce42c3b3dcabee02a70589073f75ac82\transformed\firebase-common-21.0.0\AndroidManifest.xml:36:17-109
 activity#androidx.compose.ui.tooling.PreviewActivity
 ADDED from [androidx.compose.ui:ui-tooling-android:1.6.8] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\767bd47bbc5b261d1605e394a74ff9e2\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
 	android:exported
@@ -731,134 +934,18 @@ ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\c
 		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
 	android:name
 		ADDED from [androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5dcad9e32f46f5e5173622c564f7ca7b\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
-uses-permission#android.permission.WAKE_LOCK
-ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:25:5-68
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:25:5-68
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:25:5-68
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:24:5-68
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:24:5-68
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:25:5-68
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:25:5-68
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:25:22-65
-uses-permission#com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE
-ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:26:5-110
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:26:5-110
-MERGED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:26:5-110
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:26:22-107
-receiver#com.google.android.gms.measurement.AppMeasurementReceiver
-ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:29:9-33:20
-	android:enabled
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:31:13-35
-	android:exported
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:32:13-37
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:30:13-85
-service#com.google.android.gms.measurement.AppMeasurementService
-ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:35:9-38:40
-	android:enabled
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:37:13-35
-	android:exported
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:38:13-37
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:36:13-84
-service#com.google.android.gms.measurement.AppMeasurementJobService
-ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:39:9-43:72
-	android:enabled
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:41:13-35
-	android:exported
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:42:13-37
-	android:permission
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:43:13-69
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\4f96fbb388fb59cf943839cfe9f5598a\transformed\play-services-measurement-21.5.0\AndroidManifest.xml:40:13-87
-uses-permission#com.google.android.gms.permission.AD_ID
-ADDED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:27:5-79
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:25:5-79
-MERGED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:25:5-79
-MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:23:5-79
-MERGED from [com.google.android.gms:play-services-ads-identifier:18.0.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\157780430cce4e8dea9d9104aba1105f\transformed\play-services-ads-identifier-18.0.0\AndroidManifest.xml:23:5-79
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:26:5-79
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:26:5-79
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement-impl:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\0148c268bc62ba84e3ea80098461b070\transformed\play-services-measurement-impl-21.5.0\AndroidManifest.xml:27:22-76
-uses-permission#com.google.android.providers.gsf.permission.READ_GSERVICES
-ADDED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:9:5-98
-	android:name
-		ADDED from [com.google.android.recaptcha:recaptcha:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\e466b89272c68ed2311275446822a886\transformed\recaptcha-18.4.0\AndroidManifest.xml:9:22-95
 uses-library#android.ext.adservices
 ADDED from [androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:23:9-25:40
 	android:required
 		ADDED from [androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:25:13-37
 	android:name
 		ADDED from [androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\a3cb75d645812e30d34cd67e5d9a1e7e\transformed\ads-adservices-1.0.0-beta05\AndroidManifest.xml:24:13-50
-uses-permission#android.permission.ACCESS_ADSERVICES_ATTRIBUTION
-ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:26:5-88
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:27:5-88
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:27:5-88
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:26:22-85
-uses-permission#android.permission.ACCESS_ADSERVICES_AD_ID
-ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:27:5-82
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:28:5-82
-MERGED from [com.google.android.gms:play-services-measurement-sdk-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\fb9c91ee573f639864cb0677e9f57550\transformed\play-services-measurement-sdk-api-21.5.0\AndroidManifest.xml:28:5-82
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:27:22-79
-property
-ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:30:9-32:61
-	android:resource
-		ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:32:13-58
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:31:13-65
-meta-data#com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar
-ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:37:13-39:85
-	android:value
-		ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:39:17-82
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement-api:21.5.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c603af980ff8692f40bad28c0283a4eb\transformed\play-services-measurement-api-21.5.0\AndroidManifest.xml:38:17-139
-meta-data#com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar
-ADDED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:15:13-17:85
-	android:value
-		ADDED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:17:17-82
-	android:name
-		ADDED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:16:17-130
-meta-data#com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar
-ADDED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:18:13-20:85
-	android:value
-		ADDED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:20:17-82
-	android:name
-		ADDED from [com.google.firebase:firebase-installations:17.2.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\934273e9b1bad89333bb978ff5fdbed6\transformed\firebase-installations-17.2.0\AndroidManifest.xml:19:17-127
-meta-data#com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar
-ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:12:13-14:85
-	android:value
-		ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:14:17-82
-	android:name
-		ADDED from [com.google.firebase:firebase-common-ktx:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\5565132f1087989d7872e1a886343ebf\transformed\firebase-common-ktx-20.4.2\AndroidManifest.xml:13:17-116
-provider#com.google.firebase.provider.FirebaseInitProvider
-ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:23:9-28:39
-	android:authorities
-		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:25:13-72
-	android:exported
-		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:27:13-37
-	android:directBootAware
-		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:26:13-43
-	android:initOrder
-		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:28:13-36
-	android:name
-		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:24:13-77
-meta-data#com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar
-ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:35:13-37:85
-	android:value
-		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:37:17-82
-	android:name
-		ADDED from [com.google.firebase:firebase-common:20.4.2] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\b585d7b5e63a2ea4784403c15c550e82\transformed\firebase-common-20.4.2\AndroidManifest.xml:36:17-109
 meta-data#com.google.android.gms.version
-ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:21:9-23:69
+ADDED from [com.google.android.gms:play-services-basement:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9f98790c2c85324dcb66ff4c4526e3b3\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
 	android:value
-		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:23:13-66
+		ADDED from [com.google.android.gms:play-services-basement:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9f98790c2c85324dcb66ff4c4526e3b3\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
 	android:name
-		ADDED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\c560d7438d9e4ae516b57260f8613caa\transformed\play-services-basement-18.1.0\AndroidManifest.xml:22:13-58
+		ADDED from [com.google.android.gms:play-services-basement:18.4.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9f98790c2c85324dcb66ff4c4526e3b3\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
 permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.12.0] C:\Users\chisp\.gradle\caches\9.0-milestone-1\transforms\9783d1e97e3fb7308ae79b9f3bbde2e8\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel

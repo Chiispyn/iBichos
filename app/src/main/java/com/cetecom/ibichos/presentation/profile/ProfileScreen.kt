@@ -215,12 +215,26 @@ fun ProfileScreen(
                                     }
                                     Text(text = medalIcon, fontSize = 24.sp)
                                     Spacer(Modifier.width(12.dp))
-                                    Text(
-                                        text = medal,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        fontWeight = FontWeight.Bold,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = medal,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                        val timestamp = profile.medalsEarnedAt[medal]
+                                        val dateStr = if (timestamp != null) {
+                                            val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+                                            sdf.format(java.util.Date(timestamp))
+                                        } else {
+                                            "Fecha desconocida"
+                                        }
+                                        Text(
+                                            text = dateStr,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                                        )
+                                    }
                                 }
                             }
                         }
@@ -289,4 +303,3 @@ private fun ProfileStat(emoji: String, value: String, label: String) {
         )
     }
 }
-

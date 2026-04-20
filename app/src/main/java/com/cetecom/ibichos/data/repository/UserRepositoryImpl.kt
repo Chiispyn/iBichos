@@ -35,7 +35,9 @@ class UserRepositoryImpl(
             totalCaptures = capturesResult.size(),
             medals        = (doc.get("medals") as? List<String>) ?: emptyList(),
             uniqueInsectsCount = doc.getLong("uniqueInsectsCount")?.toInt() ?: 0,
-            categoryCounts = (doc.get("categoryCounts") as? Map<String, Long>)?.mapValues { it.value.toInt() } ?: emptyMap()
+            categoryCounts = (doc.get("categoryCounts") as? Map<String, Long>)?.mapValues { it.value.toInt() } ?: emptyMap(),
+            medalsEarnedAt = (doc.get("medalsEarnedAt") as? Map<String, Long>) ?: emptyMap(),
+            levelUpAt      = (doc.get("levelUpAt") as? Map<String, Long>) ?: emptyMap()
         )
     }
 
@@ -63,8 +65,16 @@ class UserRepositoryImpl(
             else              -> "Casual"
         }
 
+        val updates = mutableMapOf<String, Any>("xp" to currentXp, "level" to newLevel)
+        
+        // Si el nivel cambió, registrar la fecha
+        val currentLevel = doc.getString("level") ?: "Casual"
+        if (newLevel != currentLevel || doc.get("levelUpAt") == null) {
+            updates["levelUpAt.$newLevel"] = System.currentTimeMillis()
+        }
+
         userRef.set(
-            mapOf("xp" to currentXp, "level" to newLevel),
+            updates,
             SetOptions.merge()
         ).await()
     }
@@ -115,7 +125,9 @@ class UserRepositoryImpl(
             totalCaptures = 0,
             medals        = (doc.get("medals") as? List<String>) ?: emptyList(),
             uniqueInsectsCount = doc.getLong("uniqueInsectsCount")?.toInt() ?: 0,
-            categoryCounts = (doc.get("categoryCounts") as? Map<String, Long>)?.mapValues { it.value.toInt() } ?: emptyMap()
+            categoryCounts = (doc.get("categoryCounts") as? Map<String, Long>)?.mapValues { it.value.toInt() } ?: emptyMap(),
+            medalsEarnedAt = (doc.get("medalsEarnedAt") as? Map<String, Long>) ?: emptyMap(),
+            levelUpAt      = (doc.get("levelUpAt") as? Map<String, Long>) ?: emptyMap()
         )
     }
 
@@ -127,6 +139,10 @@ class UserRepositoryImpl(
 
         if (medalsToUnlock.isNotEmpty()) {
             updates["medals"] = com.google.firebase.firestore.FieldValue.arrayUnion(*medalsToUnlock.toTypedArray())
+            val now = System.currentTimeMillis()
+            medalsToUnlock.forEach { medal ->
+                updates["medalsEarnedAt.$medal"] = now
+            }
         }
         if (isNewInsect) {
             updates["uniqueInsectsCount"] = com.google.firebase.firestore.FieldValue.increment(1)
