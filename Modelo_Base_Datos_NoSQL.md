@@ -26,6 +26,12 @@ Guarda el progreso de los jugadores. Cada documento representa a una persona y s
   * `xp` *(Número)*: El total de puntos que ha ganado. Es la clave para calcular su rango y en qué posición del ranking aparece.
   * `level` *(Texto)*: El nombre de su rango actual (Ej: "Casual", "Aprendiz", "Maestro").
   * `avatarUrl` *(Texto)*: El link donde está guardada su foto de perfil.
+  * `totalCaptures` *(Número)*: Contador bruto general temporal.
+  * `uniqueInsectsCount` *(Número)*: Taxones descubiertos diferentes.
+  * `medals` *(Array de Strings)*: **DATO EMBEBIDO.** Lista atómica de preseas desbloqueadas evitando un `JOIN` a otra tabla externa.
+  * `medalsEarnedAt` *(Objeto JSON/Map)*: Registro histórico de cuándo se ganó cada medalla `{"Aracnólogo": 1713636551000}`.
+  * `levelUpAt` *(Objeto JSON/Map)*: Historial de fechas en las que el usuario subió de rango `{"Explorador": 1713636551000}`.
+  * `categoryCounts` *(Objeto JSON/Map)*: **DATO EMBEBIDO.** Archiva conteos directos `{"Arácnidos": 4}` para estadísticas directas sin iterar miles de documentos extras.
 
 ### Colección: `captures`
 Guarda todas las atrapadas de la comunidad. Cada vez que alguien atrapa un insecto, se crea un documento nuevo y único aquí.
