@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.cetecom.ibichos.app-mergeDebugResources-71:/values-watch-v21/values-watch-v21.xml",
+            "outputFile": "com.cetecom.ibichos.app-mergeDebugResources-74:/values-watch-v21/values-watch-v21.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\chisp\\.gradle\\caches\\9.0-milestone-1\\transforms\\3f9356b1475fb90971a722274e98880d\\transformed\\appcompat-1.6.1\\res\\values-watch-v21\\values-watch-v21.xml",
+                    "source": "C:\\Users\\vales\\.gradle\\caches\\9.0-milestone-1\\transforms\\3f9356b1475fb90971a722274e98880d\\transformed\\appcompat-1.6.1\\res\\values-watch-v21\\values-watch-v21.xml",
                     "from": {
                         "startLines": "2,6,10",
                         "startColumns": "4,4,4",
