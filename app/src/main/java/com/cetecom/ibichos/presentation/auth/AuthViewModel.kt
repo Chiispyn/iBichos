@@ -11,12 +11,19 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import android.app.Activity
+import androidx.activity.result.ActivityResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 
 data class AuthUiState(
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
-    val error: String? = null
-)
+    val error: String? = null,
+    val user: FirebaseUser? = null
+    )
 
 class AuthViewModel : ViewModel() {
 
@@ -25,6 +32,13 @@ class AuthViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(AuthUiState())
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
+
+    init {
+        auth.addAuthStateListener { firebaseAuth ->
+            val user = firebaseAuth.currentUser
+            _uiState.update { it.copy(user = user) }
+        }
+    }
 
     /** ¿Hay sesión activa? Se evalúa al arrancar la pantalla de Login */
     fun isLoggedIn(): Boolean = auth.currentUser != null
@@ -94,5 +108,59 @@ class AuthViewModel : ViewModel() {
 
     fun clearError() = _uiState.update { it.copy(error = null) }
     fun resetSuccess() = _uiState.update { it.copy(isSuccess = false) }
+
+
+    fun handleGoogleResult(result: ActivityResult) {
+        if (result.resultCode != Activity.RESULT_OK) {
+            setError("Inicio de sesión cancelado")
+            return
+        }
+
+        try {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            val account = task.getResult(ApiException::class.java)
+            val idToken = account.idToken
+
+            if (idToken != null) {
+                signInWithGoogle(idToken)
+            } else {
+                setError("No se pudo obtener el idToken")
+            }
+        } catch (e: Exception) {
+            setError(e.message ?: "Error Google Sign-In")
+        }
+    }
+
+    private fun signInWithGoogle(idToken: String) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true, error = null)
+
+            try {
+                val credential = GoogleAuthProvider.getCredential(idToken, null)
+                val result = auth.signInWithCredential(credential).await()
+
+                _uiState.value = AuthUiState(
+                    isLoading = false,
+                    user = result.user,
+                    error = null
+                )
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "Error Firebase"
+                )
+            }
+        }
+    }
+
+    fun signOut() {
+        auth.signOut()
+        _uiState.value = AuthUiState()
+    }
+
+    fun setError(message: String) {
+        _uiState.value = _uiState.value.copy(error = message)
+    }
 }
+
 

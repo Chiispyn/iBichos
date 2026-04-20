@@ -2,7 +2,6 @@ package com.cetecom.ibichos.presentation.navigation
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -31,6 +30,8 @@ import com.cetecom.ibichos.presentation.catalog.CaptureDetailScreen
 import com.cetecom.ibichos.presentation.catalog.CatalogScreen
 import com.cetecom.ibichos.presentation.catalog.CatalogViewModel
 import com.cetecom.ibichos.presentation.map.MapScreen
+import com.cetecom.ibichos.presentation.onboarding.IBichosWelcomeScreen
+import com.cetecom.ibichos.presentation.onboarding.IBichosWelcomeTwoScreen
 import com.cetecom.ibichos.presentation.profile.ProfileScreen
 import com.cetecom.ibichos.presentation.ranking.RankingScreen
 import com.cetecom.ibichos.presentation.splash.SplashScreen
@@ -84,7 +85,7 @@ fun AppNavigation() {
             LoginScreen(
                 viewModel        = authViewModel,
                 onLoginSuccess   = {
-                    navController.navigate(Screen.Main.route) {
+                    navController.navigate(Screen.OnboardingOne.route) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
                 },
@@ -148,9 +149,24 @@ fun AppNavigation() {
         composable(Screen.Map.route) {
             MapScreen(onNavigateBack = { navController.popBackStack() })
         }
+
+        composable(route = Screen.OnboardingOne.route){
+            IBichosWelcomeScreen(
+                onStartClick = {
+                 navController.navigate(Screen.OnboardingTwo.route)
+                }
+            )
+
+        }
+        composable(route = Screen.OnboardingTwo.route){
+            IBichosWelcomeTwoScreen(
+                onStartClick = {
+                    navController.navigate(Screen.Main.route)
+                }
+            )
+        }
     }
 }
-
 /**
  * Pantalla principal con NavigationBar inferior y sub-NavHost para las 3 tabs.
  */
@@ -231,7 +247,8 @@ fun MainScreenWithBottomNav(
                 ProfileScreen(onLogout = onLogout)
             }
             composable("ranking") {
-                RankingScreen()
+                RankingScreen(
+                )
             }
         }
     }
