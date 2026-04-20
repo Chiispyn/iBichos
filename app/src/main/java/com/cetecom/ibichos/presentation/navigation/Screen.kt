@@ -11,6 +11,13 @@ sealed class Screen(val route: String) {
     object Main     : Screen("main")
     object Map      : Screen("map")
 
+    object OnboardingOne : Screen (route = "onboardingOne")
+
+    object OnboardingTwo: Screen (route = "onboardingTwo")
+
+
+
+
     // La pantalla de detalles recibe un índice para acceder a la captura desde el catálogo
     // (Se pasa como indice en la lista del ViewModel compartido — evita encoding de objetos)
     object CaptureDetail : Screen("captureDetail/{captureIndex}") {

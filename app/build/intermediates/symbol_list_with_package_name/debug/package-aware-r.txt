@@ -690,6 +690,7 @@ drawable common_google_signin_btn_text_light_normal
 drawable common_google_signin_btn_text_light_normal_background
 drawable googleg_disabled_color_18
 drawable googleg_standard_color_18
+drawable hoja_animada
 drawable ic_call_answer
 drawable ic_call_answer_low
 drawable ic_call_answer_video
@@ -702,6 +703,10 @@ drawable ic_menu_compass
 drawable ic_menu_mapmode
 drawable ic_menu_mylocation
 drawable ic_menu_offline
+drawable ic_other_sign_in
+drawable ic_passkey
+drawable ic_password
+drawable logo_oficial
 drawable marker_default
 drawable marker_default_focused_base
 drawable moreinfo_arrow
@@ -721,6 +726,8 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable onboardin_two
+drawable onboarding_boy_bug
 drawable osm_ic_center_map
 drawable osm_ic_follow_me
 drawable osm_ic_follow_me_on
@@ -1041,6 +1048,8 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string about
 string about_message
+string android_credentials_TYPE_PASSWORD_CREDENTIAL
+string androidx_credentials_TYPE_PUBLIC_KEY_CREDENTIAL
 string androidx_startup
 string app_name
 string base
@@ -1088,6 +1097,7 @@ string copy_toast_msg
 string cyclemap
 string default_error_message
 string default_popup_window_title
+string default_web_client_id
 string dropdown_menu
 string fallback_menu_item_copy_link
 string fallback_menu_item_open_in_browser
@@ -1471,6 +1481,7 @@ style Theme_AppCompat_Light_Dialog_MinWidth
 style Theme_AppCompat_Light_DialogWhenLarge
 style Theme_AppCompat_Light_NoActionBar
 style Theme_AppCompat_NoActionBar
+style Theme_Hidden
 style Theme_IBichos
 style ThemeOverlay_AppCompat
 style ThemeOverlay_AppCompat_ActionBar

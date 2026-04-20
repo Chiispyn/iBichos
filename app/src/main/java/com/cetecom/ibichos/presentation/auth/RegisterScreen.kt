@@ -21,13 +21,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cetecom.ibichos.R
-import com.cetecom.ibichos.ui.theme.*
 import com.cetecom.ibichos.domain.model.ChileanData
+import com.cetecom.ibichos.ui.theme.*
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -52,14 +53,17 @@ fun RegisterScreen(
     var email    by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var showPass by remember { mutableStateOf(false) }
+    var nameError by remember { mutableStateOf("") }
+    var emailError by remember { mutableStateOf("") }
+    var passwordError by remember { mutableStateOf("") }
 
     // Nuevos campos
     var region by remember { mutableStateOf("") }
     var regionExpanded by remember { mutableStateOf(false) }
-    
+
     var comuna by remember { mutableStateOf("") }
     var comunaExpanded by remember { mutableStateOf(false) }
-    
+
     var gender by remember { mutableStateOf("") }
     var genderExpanded by remember { mutableStateOf(false) }
 
@@ -77,7 +81,7 @@ fun RegisterScreen(
             }
         }
     )
-    
+
     val scrollState = rememberScrollState()
 
     // Opciones dependientes
@@ -136,27 +140,47 @@ fun RegisterScreen(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     OutlinedTextField(
-                        value         = name,
-                        onValueChange = { name = it },
-                        label         = { Text("Nombre de cazador") },
-                        leadingIcon   = { Icon(Icons.Default.Person, null) },
-                        modifier      = Modifier.fillMaxWidth(),
+                        value = name,
+                        onValueChange = {
+                            name = it
+                            val (isValid, error) = validateName(it)
+                            nameError = if (isValid) "" else error
+                        },
+                        label = { Text("Nombre de cazador") },
+                        leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
+                        modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                        singleLine    = true,
-                        colors        = outlinedTextFieldColors()
+                        singleLine = true,
+                        isError = nameError.isNotEmpty(),
+                        supportingText = {
+                            if (nameError.isNotEmpty()) {
+                                Text(text = nameError)
+                            }
+                        },
+                        colors = outlinedTextFieldColors()
                     )
                     OutlinedTextField(
-                        value         = email,
-                        onValueChange = { email = it },
-                        label         = { Text("Correo electrónico") },
-                        leadingIcon   = { Icon(Icons.Default.Email, null) },
-                        modifier      = Modifier.fillMaxWidth(),
+                        value = email,
+                        onValueChange = {
+                            email = it
+                            val (isValid, error) = validationEmail(it)
+                            emailError = if (isValid) "" else error
+                        },
+                        label = { Text("Correo electrónico") },
+                        leadingIcon = { Icon(Icons.Default.Email, contentDescription = null) },
+                        modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Email,
-                            imeAction    = ImeAction.Next
+                            imeAction = ImeAction.Next
                         ),
                         singleLine = true,
-                        colors     = outlinedTextFieldColors()
+                        isError = emailError.isNotEmpty(),
+                        supportingText = {
+                            if (emailError.isNotEmpty()) {
+                                Text(text = emailError)
+                            }
+                        },
+                        colors = outlinedTextFieldColors()
                     )
 
                     // REGION Dropdown
@@ -290,28 +314,75 @@ fun RegisterScreen(
                     }
 
                     OutlinedTextField(
-                        value         = password,
-                        onValueChange = { password = it },
-                        label         = { Text("Contraseña") },
-                        leadingIcon   = { Icon(Icons.Default.Lock, null) },
+                        value = password,
+                        onValueChange = {
+                            password = it
+                            val (isValid, error) = validatePassword(it)
+                            passwordError = if (isValid) "" else error
+                        },
+                        label = { Text("Contraseña") },
+                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
                         visualTransformation = if (showPass) VisualTransformation.None
-                                               else PasswordVisualTransformation(),
-                        trailingIcon  = {
+                        else PasswordVisualTransformation(),
+                        trailingIcon = {
                             IconButton(onClick = { showPass = !showPass }) {
                                 Icon(
                                     if (showPass) Icons.Default.VisibilityOff
-                                    else Icons.Default.Visibility, null
+                                    else Icons.Default.Visibility,
+                                    contentDescription = null
                                 )
                             }
                         },
-                        modifier      = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Password,
-                            imeAction    = ImeAction.Done
+                            imeAction = ImeAction.Done
                         ),
                         singleLine = true,
-                        colors     = outlinedTextFieldColors()
+                        isError = passwordError.isNotEmpty(),
+                        supportingText = {
+                            if (passwordError.isNotEmpty()) {
+                                Text(text = passwordError)
+                            }
+                        },
+                        colors = outlinedTextFieldColors()
                     )
+
+                    OutlinedTextField(
+                        value = password,
+                        onValueChange = {
+                            password = it
+                            val (isValid, error) = validatePassword(it)
+                            passwordError = if (isValid) "" else error
+                        },
+                        label = { Text("Confirmar Contraseña") },
+                        leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+                        visualTransformation = if (showPass) VisualTransformation.None
+                        else PasswordVisualTransformation(),
+                        trailingIcon = {
+                            IconButton(onClick = { showPass = !showPass }) {
+                                Icon(
+                                    if (showPass) Icons.Default.VisibilityOff
+                                    else Icons.Default.Visibility,
+                                    contentDescription = null
+                                )
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done
+                        ),
+                        singleLine = true,
+                        isError = passwordError.isNotEmpty(),
+                        supportingText = {
+                            if (passwordError.isNotEmpty()) {
+                                Text(text = passwordError)
+                            }
+                        },
+                        colors = outlinedTextFieldColors()
+                    )
+
 
                     AnimatedVisibility(visible = uiState.error != null) {
                         Text(
@@ -379,3 +450,14 @@ private fun outlinedTextFieldColors() = OutlinedTextFieldDefaults.colors(
     disabledLabelColor   = MaterialTheme.colorScheme.onSurfaceVariant,
     disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
 )
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun RegisterScreenPreviewFake() {
+    val fakeViewModel = AuthViewModel()
+    RegisterScreen(
+        onRegisterSuccess = {},
+        onNavigateBack = {},
+        viewModel = fakeViewModel
+    )
+}
