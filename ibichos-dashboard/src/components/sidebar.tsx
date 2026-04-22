@@ -1,63 +1,80 @@
-import { 
-  LayoutDashboard, 
-  Users, 
-  BarChart3,   
-} from "lucide-react";
-// 1. IMPORTANTE: Importar NavLink
-import { NavLink } from "react-router-dom";
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../config/firebaseConfig';
+import { useAuth } from '../context/authcontext'; 
 
-const Sidebar = () => {
-  const menuItems = [
-    { name: "Dashboard", icon: <LayoutDashboard />, path: "/" },
-    { name: "Comunidad y Usuarios", icon: <Users />, path: "/usuarios" },
-    { name: "Analítica y KPIs", icon: <BarChart3 />, path: "/analitica" },
-  ];
+export default function Sidebar() {
+  const { user } = useAuth(); 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate('/'); 
+    } catch (error) {
+      console.error("Error al cerrar sesión", error);
+    }
+  };
 
   return (
-    <aside className="sidebar">
-      {/* SECCIÓN SUPERIOR: LOGO */}
-      <div className="sidebar-header">
-        <div className="logo-container">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="8" />
-            <path d="M12 2v2M12 20v2M2 12h2M20 12h2" />
-          </svg>
-        </div>
-        <div className="brand-info">
-          <h1>iBichos</h1>
-          <p>Panel Admin</p>
+    <aside className="d-flex flex-column flex-shrink-0 p-3 text-bg-dark vh-100" style={{ width: '280px' }}>
+      
+      {/* Título / Logo */}
+      <Link to="/principal" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <span className="fs-4 fw-bold">Mi Panel Web</span>
+      </Link>
+      
+      <hr />
+      
+      {/* Navegación usando nav-pills de Bootstrap */}
+      <ul className="nav nav-pills flex-column mb-auto gap-1">
+        <li className="nav-item">
+          <Link 
+            to="/principal" 
+            className={`nav-link text-white ${location.pathname === '/principal' ? 'active' : ''}`}
+          >
+            Principal
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link 
+            to="/usuarios" 
+            className={`nav-link text-white ${location.pathname === '/usuarios' ? 'active' : ''}`}
+          >
+            Usuarios
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link 
+            to="/analitica" 
+            className={`nav-link text-white ${location.pathname === '/analitica' ? 'active' : ''}`}
+          >
+            Analítica
+          </Link>
+        </li>
+      </ul>
+
+      <hr />
+
+      {/* Footer del Sidebar: Usuario y Botón */}
+      <div className="mt-auto">
+        <div className="d-flex flex-column gap-3">
+          
+          <div className="small text-truncate" title={user?.email || ''}>
+            <span className="text-white-50">Logueado como:</span><br/>
+            <strong>{user?.email}</strong>
+          </div>
+          
+          <button 
+            onClick={handleLogout} 
+            className="btn btn-danger w-100 fw-semibold"
+          >
+            Cerrar Sesión
+          </button>
+          
         </div>
       </div>
-
-      {/* SECCIÓN CENTRAL: NAVEGACIÓN */}
-      <nav className="sidebar-nav">
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {menuItems.map((item, index) => (
-            <li key={index}>
-              {/* 2. CAMBIO: button por NavLink */}
-              <NavLink 
-                to={item.path} 
-                className={({ isActive }: { isActive: boolean }) => isActive ? "nav-link active" : "nav-link"}
-                style={{ textDecoration: 'none', color: 'inherit' }}
-              >
-                <span className="icon">{item.icon}</span>
-                <span className="label">{item.name}</span>
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* SECCIÓN INFERIOR: PERFIL */}
-      <footer className="sidebar-footer">
-        <div className="user-avatar">AD</div>
-        <div className="user-details">
-          <p className="user-name">Admin User</p>
-          <p className="user-email">admin@ibichos.com</p>
-        </div>
-      </footer>
     </aside>
   );
-};
-
-export default Sidebar;
+}

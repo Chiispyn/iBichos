@@ -2,7 +2,7 @@ export interface Usuario {
 
 
  // Tus campos personalizados
- rut: string;
+ id: string;
  username: string;
  genre: string;
  email: string;
@@ -23,9 +23,9 @@ export interface Usuario {
 
 export type UserFormData = Omit<Usuario, 'id' | 'createdAt' | 'updatedAt'>;
 
-// 🟢 Tipos necesarios para la autenticación
 export interface LoginCredentials {
+
+    username: string;
     email: string;
-    password: string;
 }
 
