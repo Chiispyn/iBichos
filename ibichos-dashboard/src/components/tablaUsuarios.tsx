@@ -12,7 +12,7 @@ const TablaUsuarios = ({ usuariosFiltrados }: TablaUsuariosProps) => {
           <table className="table table-hover align-middle mb-0">
             <thead className="table-dark">
               <tr>
-                <th className="ps-4">RUT</th>
+                <th className="ps-4">ID</th>
                 <th>Usuario</th>
                 <th>Email</th>
                 <th>Ubicación</th>
@@ -25,9 +25,9 @@ const TablaUsuarios = ({ usuariosFiltrados }: TablaUsuariosProps) => {
             <tbody>
               {usuariosFiltrados && usuariosFiltrados.length > 0 ? (
                 usuariosFiltrados.map((usuario) => (
-                  <tr key={usuario.rut}>
+                  <tr key={usuario.id}>
                     <td className="ps-4">
-                      <span className="fw-bold text-secondary">{usuario.rut}</span>
+                      <span className="fw-bold text-secondary">{usuario.id}</span>
                     </td>
                     
                     <td>
@@ -61,8 +61,8 @@ const TablaUsuarios = ({ usuariosFiltrados }: TablaUsuariosProps) => {
 
                     <td className="text-center pe-4">
                       <div className="btn-group btn-group-sm">
-                        <button className="btn btn-outline-primary" title="Editar">
-                          <i className="bi bi-pencil"></i> Editar
+                        <button className="btn btn-outline-primary" title="Ver">
+                          <i className="bi bi-pencil"></i> Ver
                         </button>
                         <button className="btn btn-outline-danger" title="Eliminar">
                           <i className="bi bi-trash"></i>
