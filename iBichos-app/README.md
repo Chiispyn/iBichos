@@ -24,12 +24,13 @@
 El proyecto está construido bajo estándares modernos de desarrollo Android:
 - **Clean Architecture & MVVM.**
 - **UI:** 100% desarrollada en **Jetpack Compose**.
-- **Backend:** Firebase (Auth, Firestore). Optimizado guardando las imágenes localmente para no incurrir en gastos de servidor (Storage).
+- **Backend:** Firebase (Auth, Firestore) para base de datos y **Cloudinary** para el almacenamiento gratuito en la nube de avatares y fotografías de insectos.
 
-## ⚙️ Correr el Proyecto
+## ⚙️ Instalación y Uso (Evaluadores)
 
-Para compilar y correr localmente:
-1. Abrir el proyecto en **Android Studio**.
-2. Agregar el archivo de credenciales `google-services.json` dentro de la carpeta `/app`.
-3. *(Opcional)* Configurar tu llave de la API *Kindwise* en el código para obtener análisis reales, de lo contrario la app funcionará en modo de prueba local.
-4. Ejecutar en un emulador o dispositivo físico.
+Para evaluar y probar el proyecto, **no es necesario** descargar el código fuente ni configurar credenciales, ya que la aplicación se entrega preconfigurada.
+
+1. Descargar el archivo binario **`iBichos.apk`** entregado junto con la presentación del proyecto.
+2. Transferir el APK al dispositivo físico o arrastrarlo a un Emulador de Android.
+3. Permitir la instalación desde orígenes desconocidos si el teléfono lo solicita.
+4. La aplicación ya contiene las llaves de acceso a **Firebase** y a la **API de Inteligencia Artificial (Kindwise)** integradas, por lo que está lista para funcionar inmediatamente.

@@ -36,6 +36,9 @@ captures/
 *.jks
 *.keystore
 
+# Firebase config (contains API keys - do not commit)
+google-services.json
+
 # External native build
 .externalNativeBuild/
 .cxx/

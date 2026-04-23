@@ -10,7 +10,12 @@ import com.cetecom.ibichos.data.api.KindwiseApi
 import com.cetecom.ibichos.data.api.KindwiseRequest
 import com.cetecom.ibichos.data.repository.CaptureRepositoryImpl
 import com.cetecom.ibichos.data.repository.CloudinaryModule
+import com.cetecom.ibichos.data.repository.EventRepositoryImpl
 import com.cetecom.ibichos.data.repository.UserRepositoryImpl
+import com.cetecom.ibichos.domain.model.enums.DangerLevel
+import com.cetecom.ibichos.domain.model.enums.InsectCategory
+import com.cetecom.ibichos.domain.model.enums.GamificationConfig
+import com.cetecom.ibichos.domain.model.enums.MedalInfo
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -37,6 +42,7 @@ class CameraViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private val captureRepository = CaptureRepositoryImpl()
     private val userRepository = UserRepositoryImpl()
+    private val eventRepository = EventRepositoryImpl()
     private val api = KindwiseApi.create()
 
     // Cloudinary
@@ -95,7 +101,8 @@ class CameraViewModel : ViewModel() {
                         imageUrl = cloudinaryImageUrl,
                         insectName = "ABEJA",
                         scientificName = "Apis mellifera",
-                        dangerLevel = "Precaución: Aguijón",
+                        category = InsectCategory.HYMENOPTERA,
+                        dangerLevel = DangerLevel.CAUTION,
                         probability = 0.99,
                         lat = lat,
                         lon = lon,
@@ -133,17 +140,26 @@ class CameraViewModel : ViewModel() {
                         scientificName.uppercase()
                     }
                     val prob = suggestion.probability ?: 0.0
-                    val dangerLevels = listOf("Inofensivo", "Precaución", "Venenoso", "Plaga")
-                    val dangerLevel = dangerLevels.random()
                     val description =
                         suggestion.details?.description?.value
                             ?: "Insecto registrado taxonómicamente por la IA Kindwise. Se recomienda realizar un cruce de datos con enciclopedias especializadas para confirmar hábitos alimenticios y zona biológica nativa. Mantener respeto por el ecosistema local."
+
+                    // 5. Determinar categoría taxonómica desde el nombre científico
+                    //    (En el futuro se puede usar el campo 'taxon' de la respuesta de Kindwise)
+                    val category = inferCategoryFromName(scientificName)
+
+                    // 6. Peligro: Randomizado en esta versión demo.
+                    //    En el futuro se puede obtener de una base de datos de especies.
+                    val dangerLevel = listOf(
+                        DangerLevel.HARMLESS, DangerLevel.CAUTION, DangerLevel.VENOMOUS
+                    ).random()
 
                     saveCaptureData(
                         uid = uid,
                         imageUrl = cloudinaryImageUrl,
                         insectName = displayName,
                         scientificName = scientificName,
+                        category = category,
                         dangerLevel = dangerLevel,
                         probability = prob,
                         lat = lat,
@@ -163,95 +179,134 @@ class CameraViewModel : ViewModel() {
         imageUrl: String,
         insectName: String,
         scientificName: String,
-        dangerLevel: String,
+        category: InsectCategory,
+        dangerLevel: DangerLevel,
         probability: Double,
         lat: Double?,
         lon: Double?,
         description: String
     ) {
+        // ── Moderación automática ─────────────────────────────────────────────
+        // Si la IA tiene < 40% de certeza: rechazar y sumar strike
+        // Si tiene entre 40% y 75%: aceptar pero marcar para revisión humana
+        // Si tiene >= 75%: aprobar automáticamente
+        val needsReview: Boolean
+        val status: String
+
+        // Calcular UNA sola vez antes de guardar nada
         val isNewInsect = !captureRepository.hasCaughtInsect(uid, scientificName)
-        val xpGain = if (isNewInsect) 150L else 20L
+        val xpGain = if (isNewInsect) GamificationConfig.XP_NEW_SPECIES else GamificationConfig.XP_REPEATED_SPECIES
+
+        when {
+            probability < 0.40 -> {
+                // Rechazada: no dar XP
+                _uiState.value = CameraUiState.Error(
+                    "🔍 La IA no pudo identificar un insecto con suficiente certeza (${(probability * 100).toInt()}%). Intenta con otra foto con mejor iluminación."
+                )
+                return
+            }
+            probability < 0.75 -> {
+                // Aceptada pero pendiente de revisión humana
+                needsReview = true
+                status = "PENDING_REVIEW"
+            }
+            else -> {
+                // Aprobada automáticamente
+                needsReview = false
+                status = "APPROVED"
+            }
+        }
 
         captureRepository.saveCapture(
             userId = uid,
             imageUrl = imageUrl,
             insectName = insectName,
             scientificName = scientificName,
+            category = category,
             dangerLevel = dangerLevel,
             probability = probability,
             latitude = lat,
             longitude = lon,
             xpAwarded = xpGain,
-            description = description
+            description = description,
+            needsReview = needsReview,
+            status = status
         )
 
+        // No dar XP si el usuario está shadowbanned (se verifica en incrementXp del repositorio)
         userRepository.incrementXp(uid, xpGain)
 
+        // ── Calcular medallas (Lógica centralizada en GamificationConfig) ───
         val currentUser = userRepository.getUserProfile(uid)
-        val currentMedals = currentUser.medals
-        val newUniqueCount = currentUser.uniqueInsectsCount + if (isNewInsect) 1 else 0
+        val medalsToUnlock = GamificationConfig.evaluateMedalsToUnlock(
+            currentUser = currentUser,
+            isNewInsect = isNewInsect,
+            dangerLevel = dangerLevel,
+            category = category
+        )
 
-        val medalsToUnlock = mutableListOf<String>()
-        var incrementCategory: String? = null
-        val nameLower = insectName.lowercase()
-
-        if (nameLower.contains("araña")) incrementCategory = "aranas"
-        else if (nameLower.contains("mariposa") || nameLower.contains("polilla")) incrementCategory = "lepidopteros"
-        else if (nameLower.contains("abeja") || nameLower.contains("avispa")) incrementCategory = "polinizadores"
-        else if (nameLower.contains("escarabajo")) incrementCategory = "coleopteros"
-        else if (dangerLevel.contains("Plaga", ignoreCase = true)) incrementCategory = "plagas"
-
-        val newCategoryCount = if (incrementCategory != null) {
-            (currentUser.categoryCounts[incrementCategory] ?: 0) + 1
-        } else 0
-
-        if (isNewInsect && newUniqueCount == 1 && !currentMedals.contains("Primer Avistamiento")) {
-            medalsToUnlock.add("Primer Avistamiento")
-        }
-        if (isNewInsect && newUniqueCount == 5 && !currentMedals.contains("Investigador Novato")) {
-            medalsToUnlock.add("Investigador Novato")
-        }
-        if ((dangerLevel.contains("Venenoso", ignoreCase = true) ||
-                    dangerLevel.contains("Peligroso", ignoreCase = true)) &&
-            !currentMedals.contains("Cazador Valiente")
-        ) {
-            medalsToUnlock.add("Cazador Valiente")
-        }
-
-        if (incrementCategory == "aranas" && newCategoryCount >= 5 && !currentMedals.contains("Aracnólogo")) {
-            medalsToUnlock.add("Aracnólogo")
-        }
-        if (incrementCategory == "lepidopteros" && newCategoryCount >= 5 && !currentMedals.contains("Lepidopterólogo")) {
-            medalsToUnlock.add("Lepidopterólogo")
-        }
-        if (incrementCategory == "polinizadores" && newCategoryCount >= 10 && !currentMedals.contains("Amigo de Polinizadores")) {
-            medalsToUnlock.add("Amigo de Polinizadores")
-        }
-        if (incrementCategory == "coleopteros" && newCategoryCount >= 15 && !currentMedals.contains("Coleopterólogo")) {
-            medalsToUnlock.add("Coleopterólogo")
-        }
-        if (incrementCategory == "plagas" && newCategoryCount >= 10 && !currentMedals.contains("Control de Plagas")) {
-            medalsToUnlock.add("Control de Plagas")
+        // 📝 Log completo de SPECIES_DISCOVERED con nombre (antes de unlockMedals)
+        if (isNewInsect) {
+            runCatching {
+                eventRepository.logSpeciesDiscovered(
+                    userId = uid,
+                    scientificName = scientificName,
+                    insectName = insectName,
+                    category = category.name,
+                    xpAtEvent = currentUser.gamification.xp + xpGain
+                )
+            }
         }
 
         userRepository.unlockMedalsAndIncrementUnique(
             uid,
             medalsToUnlock,
             isNewInsect,
-            incrementCategory
+            category.name  // Ahora siempre es el nombre del enum en inglés (ej: "ARACHNID")
         )
 
+        // ── Mensaje de éxito ──────────────────────────────────────────────────
         val noveltyMsg = if (isNewInsect) "✨ ¡NUEVA ESPECIE DESCUBIERTA! ✨\n" else ""
-        val medalsMsg = if (medalsToUnlock.isNotEmpty()) {
-            "\n🏅 Logros: ${medalsToUnlock.joinToString()}"
-        } else {
-            ""
-        }
+        val reviewMsg  = if (needsReview) "\n⚠️ Pendiente de verificación" else ""
+        val medalsMsg  = if (medalsToUnlock.isNotEmpty()) {
+            "\n🏅 Logros: ${medalsToUnlock.joinToString { MedalInfo.fromId(it)?.title ?: it }}"
+        } else ""
 
         _uiState.value = CameraUiState.Success(
-            "${noveltyMsg}🦟 ¡Insecto Atrapado!\n$insectName\nConfianza: ${(probability * 100).toInt()}%\n🎁 +$xpGain XP$medalsMsg"
+            "${noveltyMsg}🦟 ¡Insecto Atrapado!\n$insectName\nConfianza: ${(probability * 100).toInt()}%\n🎁 +$xpGain XP$medalsMsg$reviewMsg"
         )
     }
+
+    /**
+     * Infiere la categoría del insecto a partir de su nombre científico.
+     * En el futuro se puede usar el campo 'taxon.order' de la respuesta de Kindwise.
+     */
+    private fun inferCategoryFromName(scientificName: String): InsectCategory {
+        val lower = scientificName.lowercase()
+        return when {
+            // Órdenes de arácnidos (no insectos, pero incluidos en el scope de la app)
+            lower.contains("araneae") || lower.contains("latrodectus") ||
+            lower.contains("loxosceles") || lower.contains("scorpion") -> InsectCategory.ARACHNID
+
+            // Coleoptera
+            lower.contains("coleoptera") || lower.contains("coccinella") ||
+            lower.contains("carabus") || lower.contains("dynastes") -> InsectCategory.COLEOPTERA
+
+            // Lepidoptera
+            lower.contains("lepidoptera") || lower.contains("papilio") ||
+            lower.contains("danaus") || lower.contains("morpho") -> InsectCategory.LEPIDOPTERA
+
+            // Hymenoptera (abejas, avispas, hormigas)
+            lower.contains("hymenoptera") || lower.contains("apis") ||
+            lower.contains("bombus") || lower.contains("vespula") ||
+            lower.contains("formica") -> InsectCategory.HYMENOPTERA
+
+            else -> InsectCategory.OTHER
+        }
+    }
+
+    /** Traduce el ID de medalla a nombre para mostrar en la UI. */
+    private fun medalDisplayName(medalId: String): String = MedalInfo.fromId(medalId)?.title ?: medalId
 
     fun resetState() {
         _uiState.value = CameraUiState.Idle

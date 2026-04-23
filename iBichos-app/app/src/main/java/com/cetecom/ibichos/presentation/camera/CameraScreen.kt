@@ -1,4 +1,4 @@
-﻿package com.cetecom.ibichos.presentation.camera
+package com.cetecom.ibichos.presentation.camera
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -241,13 +241,14 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
                                                     val loc = if (task.isSuccessful) task.result else null
                                                     viewModel.processCapture(
                                                         bitmap  = bitmap,
-                                                        lat     = loc?.latitude ?: -33.4489,
-                                                        lon     = loc?.longitude ?: -70.6693,
+                                                        // Fallback: Duoc UC Concepción (cuando el emulador no tiene GPS)
+                                                        lat     = loc?.latitude ?: -36.8230,
+                                                        lon     = loc?.longitude ?: -73.0337,
                                                         context = context
                                                     )
                                                 }
                                         } catch (e: SecurityException) {
-                                            viewModel.processCapture(bitmap, -33.4489, -70.6693, context)
+                                            viewModel.processCapture(bitmap, -36.8230, -73.0337, context)
                                         }
                                     }
 

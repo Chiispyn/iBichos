@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.cetecom.ibichos.domain.model.UserProfile
+import com.cetecom.ibichos.domain.model.enums.MedalInfo
 import com.cetecom.ibichos.presentation.LocalThemePreferences
 import com.cetecom.ibichos.ui.theme.*
 import com.cetecom.ibichos.utils.ThemeMode
@@ -37,11 +39,19 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var selectedMedal by remember { mutableStateOf<MedalInfo?>(null) }
 
+    val context = androidx.compose.ui.platform.LocalContext.current
     val pickImageLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
-        uri?.let { viewModel.uploadAvatar(it) }
+        uri?.let { viewModel.uploadAvatar(it, context) }
+    }
+
+    // Recargar perfil cada vez que se entra a esta pantalla
+    // (para mostrar XP y medallas actualizados después de una captura)
+    LaunchedEffect(Unit) {
+        viewModel.loadProfile()
     }
 
     // Mostrar mensajes de éxito/error y luego limpiar
@@ -136,8 +146,8 @@ fun ProfileScreen(
                     .padding(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                ProfileStat("⚔️", "${profile?.xp ?: 0}", "XP Total")
-                ProfileStat("🏆", profile?.level ?: "Casual", "Nivel")
+                ProfileStat("⚔️", "${profile?.gamification?.xp ?: 0}", "XP Total")
+                ProfileStat("🏆", profile?.gamification?.level?.displayName() ?: "Casual", "Nivel")
                 ProfileStat("🦟", "${profile?.totalCaptures ?: 0}", "Capturas")
             }
 
@@ -149,14 +159,8 @@ fun ProfileScreen(
             Column(
                 modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth()
             ) {
-                val xp = profile?.xp ?: 0L
-                val nextLevelXp = when {
-                    xp < 50   -> 50L
-                    xp < 200  -> 200L
-                    xp < 500  -> 500L
-                    xp < 1000 -> 1000L
-                    else      -> 1000L
-                }
+                val xp = profile?.gamification?.xp ?: 0L
+                val nextLevelXp = com.cetecom.ibichos.domain.model.enums.GamificationConfig.getNextLevelXp(xp)
                 val progress = (xp.toFloat() / nextLevelXp).coerceIn(0f, 1f)
 
                 Text(
@@ -173,7 +177,7 @@ fun ProfileScreen(
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text  = "$xp / $nextLevelXp XP → ${profile?.level ?: "Casual"}",
+                    text  = "$xp / $nextLevelXp XP → ${profile?.gamification?.level?.displayName() ?: "Casual"}",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.End,
@@ -181,7 +185,7 @@ fun ProfileScreen(
                 )
             }
 
-            if (profile?.medals?.isNotEmpty() == true) {
+            if (profile?.gamification?.medals?.isNotEmpty() == true) {
                 Spacer(Modifier.height(24.dp))
                 Column(
                     modifier = Modifier.padding(horizontal = 24.dp).fillMaxWidth()
@@ -194,9 +198,15 @@ fun ProfileScreen(
                     )
                     Spacer(Modifier.height(8.dp))
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                        profile.medals.forEach { medal ->
+                        profile.gamification.medals.forEach { medalId ->
+                            val medalInfo = MedalInfo.fromId(medalId)
+                            val title = medalInfo?.title ?: medalId
+                            val icon = medalInfo?.icon ?: "🏅"
+                            
                             Card(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { if (medalInfo != null) selectedMedal = medalInfo },
                                 shape = RoundedCornerShape(8.dp),
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                             ) {
@@ -204,25 +214,16 @@ fun ProfileScreen(
                                     modifier = Modifier.padding(12.dp).fillMaxWidth(),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    val medalIcon = when {
-                                        medal.contains("Avistamiento") || medal.contains("Novato") -> "🔰"
-                                        medal.contains("Valiente") || medal.contains("Plagas") -> "⚔️"
-                                        medal.contains("Polinizadores") -> "🐝"
-                                        medal.contains("Lepidopterólogo") -> "🦋"
-                                        medal.contains("Aracnólogo") -> "🕸️"
-                                        medal.contains("Coleopterólogo") -> "🐞"
-                                        else -> "🏅"
-                                    }
-                                    Text(text = medalIcon, fontSize = 24.sp)
+                                    Text(text = icon, fontSize = 24.sp)
                                     Spacer(Modifier.width(12.dp))
                                     Column(modifier = Modifier.weight(1f)) {
                                         Text(
-                                            text = medal,
+                                            text = title,
                                             style = MaterialTheme.typography.bodyMedium,
                                             fontWeight = FontWeight.Bold,
                                             color = MaterialTheme.colorScheme.onSurfaceVariant
                                         )
-                                        val timestamp = profile.medalsEarnedAt[medal]
+                                        val timestamp = profile.gamification.medalsEarnedAt[medalId]
                                         val dateStr = if (timestamp != null) {
                                             val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
                                             sdf.format(java.util.Date(timestamp))
@@ -282,6 +283,36 @@ fun ProfileScreen(
 
             Spacer(Modifier.height(32.dp))
         }
+    }
+
+    // Diálogo de info de medalla
+    if (selectedMedal != null) {
+        AlertDialog(
+            onDismissRequest = { selectedMedal = null },
+            icon = { Text(selectedMedal!!.icon, fontSize = 48.sp) },
+            title = {
+                Text(
+                    text = selectedMedal!!.title,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            },
+            text = {
+                Text(
+                    text = selectedMedal!!.description,
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { selectedMedal = null }) {
+                    Text("Genial", color = IBichosGreen, fontWeight = FontWeight.Bold)
+                }
+            },
+            containerColor = MaterialTheme.colorScheme.surface,
+            shape = RoundedCornerShape(24.dp)
+        )
     }
 }
 

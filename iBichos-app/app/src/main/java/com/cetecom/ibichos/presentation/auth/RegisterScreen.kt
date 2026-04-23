@@ -393,7 +393,19 @@ fun RegisterScreen(
                     }
 
                     Button(
-                        onClick  = { viewModel.register(email, password, name, region, comuna, birthDate, gender) },
+                        onClick  = {
+                            // Mapear el género mostrado en español al nombre del enum
+                            // (los valores vienen de ChileanData.genders: "Hombre", "Mujer", "Otro", "Prefiero no decirlo")
+                            val genderEnum = when (gender) {
+                                "Hombre"              -> "MALE"
+                                "Mujer"               -> "FEMALE"
+                                "Otro"                -> "OTHER"
+                                "Prefiero no decirlo" -> "PREFER_NOT_TO_SAY"
+                                else                  -> "UNSPECIFIED"
+                            }
+                            // 'comuna' es la variable local del UI; se guarda como 'city' en Firestore
+                            viewModel.register(email, password, name, region, comuna, birthDate, genderEnum)
+                        },
                         enabled  = !uiState.isLoading,
                         modifier = Modifier.fillMaxWidth().height(52.dp),
                         shape    = RoundedCornerShape(14.dp),
