@@ -39,7 +39,7 @@ export function Login() {
         // 3. Verificar si está activo
         if (data.estado === 'activo') {
           console.log("¡Bienvenido, Admin!");
-          navigate('/dashboard'); // Redirigir al panel
+          navigate('/analitica'); // Redirigir al panel de analítica
         } else {
           // Si existe pero está pendiente
           setError("Tu cuenta aún no ha sido aprobada por un administrador.");
