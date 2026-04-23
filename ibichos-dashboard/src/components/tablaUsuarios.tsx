@@ -1,10 +1,45 @@
 import type { Usuario } from "../types/usuario";
 
+import { doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { db } from '../config/firebaseConfig';
+
 interface TablaUsuariosProps {
   usuariosFiltrados: Usuario[];
+  adminsIds: string[];
 }
 
-const TablaUsuarios = ({ usuariosFiltrados }: TablaUsuariosProps) => {
+const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => {
+
+  const handleHacerAdmin = async (usuario: Usuario) => {
+    if (window.confirm(`¿Estás seguro que deseas promover a ${usuario.username} (${usuario.email}) como Administrador?`)) {
+      try {
+        const adminRef = doc(db, 'admins', usuario.id);
+        await setDoc(adminRef, {
+          email: usuario.email,
+          estado: 'activo',
+          rol: 'admin'
+        });
+        alert(`¡Éxito! ${usuario.username} ahora es administrador del Dashboard. (Recarga la página para ver los cambios)`);
+      } catch (error) {
+        console.error("Error al promover a admin:", error);
+        alert("Hubo un error al intentar hacerlo administrador. Revisa la consola.");
+      }
+    }
+  };
+
+  const handleQuitarAdmin = async (usuario: Usuario) => {
+    if (window.confirm(`⚠️ ¿Estás seguro que deseas QUITAR el acceso de Administrador a ${usuario.username}?`)) {
+      try {
+        const adminRef = doc(db, 'admins', usuario.id);
+        await deleteDoc(adminRef);
+        alert(`Se ha revocado el acceso a ${usuario.username}. (Recarga la página para ver los cambios)`);
+      } catch (error) {
+        console.error("Error al revocar admin:", error);
+        alert("Hubo un error al intentar quitarle el acceso. Revisa la consola.");
+      }
+    }
+  };
+
   return (
     <div className="card shadow-sm border-0 mt-3">
       <div className="card-body p-0">
@@ -32,7 +67,12 @@ const TablaUsuarios = ({ usuariosFiltrados }: TablaUsuariosProps) => {
                     
                     <td>
                       <div className="d-flex flex-column">
-                        <span className="fw-bold">{usuario.username}</span>
+                        <span className="fw-bold">
+                          {usuario.username}
+                          {adminsIds.includes(usuario.id) && (
+                            <span className="badge bg-danger ms-2" style={{ fontSize: '0.6rem' }}>STAFF</span>
+                          )}
+                        </span>
                         <small className="text-muted text-uppercase" style={{ fontSize: '0.7rem' }}>
                           Género: {usuario.genre}
                         </small>
@@ -61,11 +101,25 @@ const TablaUsuarios = ({ usuariosFiltrados }: TablaUsuariosProps) => {
 
                     <td className="text-center pe-4">
                       <div className="btn-group btn-group-sm">
-                        <button className="btn btn-outline-primary" title="Ver">
-                          <i className="bi bi-pencil"></i> Ver
-                        </button>
-                        <button className="btn btn-outline-danger" title="Eliminar">
-                          <i className="bi bi-trash"></i>
+                        {adminsIds.includes(usuario.id) ? (
+                          <button 
+                            className="btn btn-outline-danger" 
+                            title="Quitar Admin"
+                            onClick={() => handleQuitarAdmin(usuario)}
+                          >
+                            Revocar Admin
+                          </button>
+                        ) : (
+                          <button 
+                            className="btn btn-outline-success" 
+                            title="Hacer Admin"
+                            onClick={() => handleHacerAdmin(usuario)}
+                          >
+                            Hacer Admin
+                          </button>
+                        )}
+                        <button className="btn btn-outline-secondary" title="Banear">
+                          <i className="bi bi-slash-circle"></i>
                         </button>
                       </div>
                     </td>

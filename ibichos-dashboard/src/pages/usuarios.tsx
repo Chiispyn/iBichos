@@ -5,30 +5,47 @@ import type { Usuario } from '../types/usuario'; // 🟢 Importamos tu excelente
 import TablaUsuarios from '../components/tablaUsuarios';
 
 export default function Usuarios() {
-  // 1. Estados estrictamente tipados
   const [listaUsuarios, setListaUsuarios] = useState<Usuario[]>([]);
+  const [adminsIds, setAdminsIds] = useState<string[]>([]);
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
     const obtenerUsuariosDeFirebase = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "users"));
+        // Obtenemos los usuarios y los admins en paralelo
+        const [usersSnap, adminsSnap] = await Promise.all([
+          getDocs(collection(db, "users")),
+          getDocs(collection(db, "admins"))
+        ]);
         
+        const adminIdsList = adminsSnap.docs.map(doc => doc.id);
+        setAdminsIds(adminIdsList);
+        
+        // Diccionarios de traducción
+        const traducirGenero = (g: string) => {
+          const dict: Record<string, string> = { MALE: 'Masculino', FEMALE: 'Femenino', OTHER: 'Otro', PREFER_NOT_TO_SAY: 'Reservado', UNSPECIFIED: 'No definido' };
+          return dict[g] || g;
+        };
+
+        const traducirNivel = (lvl: string) => {
+          const dict: Record<string, string> = { CASUAL: 'Casual', AMATEUR: 'Amateur', EXPLORER: 'Explorador', ENTOMOLOGIST: 'Entomólogo', BUG_MASTER: 'Maestro de Bichos' };
+          return dict[lvl] || lvl;
+        };
+
         // 2. Mapeo exacto para cumplir con tu interfaz 'Usuario'
-        const usuariosMapeados: Usuario[] = querySnapshot.docs.map(doc => {
+        const usuariosMapeados: Usuario[] = usersSnap.docs.map(doc => {
           const data = doc.data();
           
           return {
-            id: doc.id, // Fundamental para React (key) y futuras ediciones
+            id: doc.id,
             username: data.displayName || 'Sin nombre',
-            genre: data.gender || 'NO DEFINIDO',
+            genre: traducirGenero(data.gender || 'UNSPECIFIED'),
             email: data.email || '',
-            birthdate: data.birthDate || 'N/A',
+            birthdate: data.birthDate || 'N/A', // En Android es birthDate (con D mayúscula)
             region: data.region || 'Sin región',
-            comuna: data.comuna || 'Sin comuna',
-            level: data.level || 'Casual',
+            comuna: data.city || 'Sin comuna', // ¡En Android se guardaba como city!
+            level: traducirNivel(data.gamification?.level || 'CASUAL'), // Traducido al español
             xp: data.xp || 0,
-            // Si la base de datos no tiene createdAt, lo dejamos como undefined
             createdAt: data.createdAt ? new Date(data.createdAt.toMillis()).toLocaleDateString() : undefined
           };
         });
@@ -64,7 +81,7 @@ export default function Usuarios() {
           <p className="mt-3 text-muted">Sincronizando base de datos...</p>
         </div>
       ) : (
-        <TablaUsuarios usuariosFiltrados={listaUsuarios} />
+        <TablaUsuarios usuariosFiltrados={listaUsuarios} adminsIds={adminsIds} />
       )}
     </div>
   );
