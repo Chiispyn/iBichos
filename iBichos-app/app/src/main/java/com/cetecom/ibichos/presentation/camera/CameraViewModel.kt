@@ -40,7 +40,7 @@ class CameraViewModel : ViewModel() {
     private val api = KindwiseApi.create()
 
     // Cloudinary
-    private val cloudName = "drubfka1z"
+    private val cloudName = "dmfmzlozw"
     private val uploadPreset = "IBichos"
 
     // ── MODO EMULADOR ─────────────────────────────────────────────────────────
