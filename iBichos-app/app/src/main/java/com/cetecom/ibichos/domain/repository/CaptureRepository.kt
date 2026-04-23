@@ -1,6 +1,8 @@
 package com.cetecom.ibichos.domain.repository
 
 import com.cetecom.ibichos.domain.model.CaptureItem
+import com.cetecom.ibichos.domain.model.enums.DangerLevel
+import com.cetecom.ibichos.domain.model.enums.InsectCategory
 
 /**
  * Contrato para las operaciones sobre capturas.
@@ -19,12 +21,15 @@ interface CaptureRepository {
         imageUrl: String,
         insectName: String,
         scientificName: String,
-        dangerLevel: String,
+        category: InsectCategory,
+        dangerLevel: DangerLevel,
         probability: Double,
         latitude: Double?,
         longitude: Double?,
         xpAwarded: Long,
-        description: String
+        description: String,
+        needsReview: Boolean,
+        status: String
     ): String
 
     /** Verifica si el usuario ya ha capturado esta especie antes */

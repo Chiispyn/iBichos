@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.CaptureItem
+import com.cetecom.ibichos.domain.model.enums.DangerLevel
 import com.cetecom.ibichos.ui.theme.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -155,10 +156,10 @@ private fun CaptureCard(capture: CaptureItem, onClick: () -> Unit) {
     }
 
     val dangerColor = when (capture.dangerLevel) {
-        "Inofensivo", "Mascota Amigable" -> Color(0xFF4CAF50)
-        "Precaución", "Precaución: Aguijón" -> IBichosAmber
-        "Venenoso", "Plaga" -> IBichosOrange
-        else -> MaterialTheme.colorScheme.onSurfaceVariant
+        DangerLevel.HARMLESS -> Color(0xFF4CAF50)
+        DangerLevel.CAUTION  -> IBichosAmber
+        DangerLevel.VENOMOUS -> IBichosOrange
+        DangerLevel.UNKNOWN  -> MaterialTheme.colorScheme.onSurfaceVariant
     }
 
     Card(
@@ -215,7 +216,7 @@ private fun CaptureCard(capture: CaptureItem, onClick: () -> Unit) {
                         color = dangerColor.copy(alpha = 0.2f)
                     ) {
                         Text(
-                            text      = capture.dangerLevel,
+                            text      = capture.dangerLevel.displayName(),
                             color     = dangerColor,
                             style     = MaterialTheme.typography.labelSmall,
                             modifier  = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),

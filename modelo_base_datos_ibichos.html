@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Modelo de Base de Datos — iBichos</title>
+  <style>
+    body {
+      font-family: Calibri, Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      color: #1a1a1a;
+    }
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; margin-top: 36px; }
+    p, li { font-size: 14px; }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+    th {
+      background-color: #2d6a4f;
+      color: white;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    td {
+      padding: 7px 12px;
+      border: 1px solid #ccc;
+    }
+    tr:nth-child(even) { background-color: #f4f4f4; }
+    code {
+      background: #eee;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+    .req   { color: #1a7f37; font-weight: bold; }
+    .auto  { color: #0969da; font-weight: bold; }
+    .opt   { color: #888; }
+    .leyenda { font-size: 13px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<h1>Modelo de Base de Datos — iBichos</h1>
+<p><strong>Base de datos:</strong> Cloud Firestore (NoSQL)<br>
+<strong>Colecciones:</strong> <code>users</code>, <code>captures</code></p>
+
+<p class="leyenda">
+  <span class="req">✅ Requerido</span> — el usuario lo ingresa &nbsp;|&nbsp;
+  <span class="auto">🔄 Auto</span> — gestionado por el sistema &nbsp;|&nbsp;
+  <span class="opt">⚪ Opcional</span> — puede estar vacío o nulo
+</p>
+
+<h2>Colección: <code>users</code></h2>
+<p>Documento ID: <code>uid</code> del usuario (Firebase Auth)</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Campo</th>
+      <th>Tipo</th>
+      <th>Requerido</th>
+      <th>Descripción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>uid</code></td><td>String</td><td class="req">✅ Requerido</td><td>ID único del usuario (Firebase Auth)</td></tr>
+    <tr><td><code>displayName</code></td><td>String</td><td class="req">✅ Requerido</td><td>Nombre del usuario</td></tr>
+    <tr><td><code>email</code></td><td>String</td><td class="req">✅ Requerido</td><td>Correo electrónico</td></tr>
+    <tr><td><code>region</code></td><td>String</td><td class="req">✅ Requerido</td><td>Región del usuario</td></tr>
+    <tr><td><code>comuna</code></td><td>String</td><td class="req">✅ Requerido</td><td>Comuna del usuario</td></tr>
+    <tr><td><code>birthDate</code></td><td>String</td><td class="req">✅ Requerido</td><td>Fecha de nacimiento</td></tr>
+    <tr><td><code>gender</code></td><td>String</td><td class="req">✅ Requerido</td><td>Género</td></tr>
+    <tr><td><code>avatarUrl</code></td><td>String?</td><td class="opt">⚪ Opcional</td><td>URL de la foto de perfil</td></tr>
+    <tr><td><code>xp</code></td><td>Long</td><td class="auto">🔄 Auto</td><td>XP acumulado (inicia en 0)</td></tr>
+    <tr><td><code>level</code></td><td>String</td><td class="auto">🔄 Auto</td><td>Nivel actual (inicia en "Casual")</td></tr>
+    <tr><td><code>totalCaptures</code></td><td>Int</td><td class="auto">🔄 Auto</td><td>Total de capturas (inicia en 0)</td></tr>
+    <tr><td><code>uniqueInsectsCount</code></td><td>Int</td><td class="auto">🔄 Auto</td><td>Especies únicas capturadas (inicia en 0)</td></tr>
+    <tr><td><code>medals</code></td><td>List&lt;String&gt;</td><td class="auto">🔄 Auto</td><td>Lista de medallas obtenidas (inicia vacío)</td></tr>
+    <tr><td><code>medalsEarnedAt</code></td><td>Map&lt;String, Long&gt;</td><td class="auto">🔄 Auto</td><td>Timestamp (epoch ms) por medalla ganada</td></tr>
+    <tr><td><code>levelUpAt</code></td><td>Map&lt;String, Long&gt;</td><td class="auto">🔄 Auto</td><td>Timestamp (epoch ms) por nivel alcanzado</td></tr>
+    <tr><td><code>categoryCounts</code></td><td>Map&lt;String, Int&gt;</td><td class="auto">🔄 Auto</td><td>Capturas por categoría taxonómica</td></tr>
+  </tbody>
+</table>
+
+<h2>Colección: <code>captures</code></h2>
+<p>Documento ID: auto-generado por Firestore</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Campo</th>
+      <th>Tipo</th>
+      <th>Requerido</th>
+      <th>Descripción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>id</code></td><td>String</td><td class="auto">🔄 Auto</td><td>ID del documento (generado por Firestore)</td></tr>
+    <tr><td><code>imageUrl</code></td><td>String</td><td class="req">✅ Requerido</td><td>URL de la imagen del insecto</td></tr>
+    <tr><td><code>insectName</code></td><td>String</td><td class="req">✅ Requerido</td><td>Nombre común del insecto (Kindwise)</td></tr>
+    <tr><td><code>scientificName</code></td><td>String</td><td class="req">✅ Requerido</td><td>Nombre científico del insecto (Kindwise)</td></tr>
+    <tr><td><code>probability</code></td><td>Double</td><td class="auto">🔄 Auto</td><td>Confianza del resultado Kindwise (0.0–1.0)</td></tr>
+    <tr><td><code>dangerLevel</code></td><td>String</td><td class="auto">🔄 Auto</td><td>Nivel de peligro (default: "Inofensivo")</td></tr>
+    <tr><td><code>capturedAt</code></td><td>Long</td><td class="auto">🔄 Auto</td><td>Fecha y hora de captura (milisegundos epoch)</td></tr>
+    <tr><td><code>xpAwarded</code></td><td>Long</td><td class="auto">🔄 Auto</td><td>XP otorgado por la captura (default: 50)</td></tr>
+    <tr><td><code>latitude</code></td><td>Double?</td><td class="opt">⚪ Opcional</td><td>Coordenada de latitud GPS</td></tr>
+    <tr><td><code>longitude</code></td><td>Double?</td><td class="opt">⚪ Opcional</td><td>Coordenada de longitud GPS</td></tr>
+    <tr><td><code>description</code></td><td>String</td><td class="opt">⚪ Opcional</td><td>Descripción del insecto</td></tr>
+  </tbody>
+</table>
+
+</body>
+</html>

@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.cetecom.ibichos.data.repository.EventRepositoryImpl
 
 data class AuthUiState(
     val isLoading: Boolean = false,
@@ -29,6 +30,7 @@ class AuthViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
     private val db   = FirebaseFirestore.getInstance()
+    private val eventRepo = EventRepositoryImpl()
 
     private val _uiState = MutableStateFlow(AuthUiState())
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
@@ -61,16 +63,16 @@ class AuthViewModel : ViewModel() {
     }
 
     fun register(
-        email: String, 
-        password: String, 
+        email: String,
+        password: String,
         displayName: String,
         region: String,
-        comuna: String,
+        city: String,
         birthDate: String,
         gender: String
     ) {
         if (email.isBlank() || password.isBlank() || displayName.isBlank() ||
-            region.isBlank() || comuna.isBlank() || birthDate.isBlank() || gender.isBlank()) {
+            region.isBlank() || city.isBlank() || birthDate.isBlank() || gender.isBlank()) {
             _uiState.update { it.copy(error = "Completá todos los campos") }
             return
         }
@@ -81,25 +83,45 @@ class AuthViewModel : ViewModel() {
                 val result = auth.createUserWithEmailAndPassword(email, password).await()
                 val uid    = result.user?.uid ?: ""
 
-                // Crear documento de usuario en Firestore
+                // Crear documento con la nueva estructura (gamification como sub-mapa)
                 db.collection("users").document(uid).set(
                     hashMapOf(
-                        "displayName" to displayName,
-                        "email"       to email,
-                        "region"      to region,
-                        "comuna"      to comuna,
-                        "birthDate"   to birthDate,
-                        "gender"      to gender,
-                        "level"       to "Casual",
-                        "xp"          to 0L,
-                        "createdAt"   to Timestamp.now(),
+                        // Datos del perfil
+                        "displayName"        to displayName,
+                        "email"              to email,
+                        "region"             to region,
+                        "city"               to city,
+                        "birthDate"          to birthDate,
+                        "gender"             to gender,
+                        "avatarUrl"          to null,
+                        "totalCaptures"      to 0,
+                        "createdAt"          to Timestamp.now(),
+
+                        // Moderación
+                        "strikes"            to 0,
+                        "isShadowBanned"     to false,
+
+                        // Campos raíz denormalizados para queries de ranking sin índices compuestos
+                        "xp"                 to 0L,
                         "uniqueInsectsCount" to 0,
-                        "medals"      to emptyList<String>(),
-                        "categoryCounts" to emptyMap<String, Int>()
+                        "medalsCount"        to 0,
+
+                        // Sub-documento de gamificación
+                        "gamification" to hashMapOf(
+                            "xp"                 to 0L,
+                            "level"              to "CASUAL",
+                            "uniqueInsectsCount" to 0,
+                            "medals"             to emptyList<String>(),
+                            "medalsEarnedAt"     to emptyMap<String, Long>(),
+                            "categoryCounts"     to emptyMap<String, Int>(),
+                            "levelUpAt"          to emptyMap<String, Long>()
+                        )
                     )
                 ).await()
 
                 _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+                // 📝 Log de registro para analíticas históricas
+                runCatching { eventRepo.logUserRegistered(uid) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false, error = e.message) }
             }
@@ -138,12 +160,48 @@ class AuthViewModel : ViewModel() {
             try {
                 val credential = GoogleAuthProvider.getCredential(idToken, null)
                 val result = auth.signInWithCredential(credential).await()
+                val user = result.user
+
+                // Crear documento en Firestore solo si es un usuario NUEVO con Google
+                if (result.additionalUserInfo?.isNewUser == true && user != null) {
+                    db.collection("users").document(user.uid).set(
+                        hashMapOf(
+                            "displayName"        to (user.displayName ?: "Cazador"),
+                            "email"              to (user.email ?: ""),
+                            "region"             to "",
+                            "city"               to "",
+                            "birthDate"          to "",
+                            "gender"             to "UNSPECIFIED",
+                            "avatarUrl"          to user.photoUrl?.toString(),
+                            "totalCaptures"      to 0,
+                            "createdAt"          to Timestamp.now(),
+                            "strikes"            to 0,
+                            "isShadowBanned"     to false,
+                            "xp"                 to 0L,
+                            "uniqueInsectsCount" to 0,
+                            "medalsCount"        to 0,
+                            "gamification"       to hashMapOf(
+                                "xp"                 to 0L,
+                                "level"              to "CASUAL",
+                                "uniqueInsectsCount" to 0,
+                                "medals"             to emptyList<String>(),
+                                "medalsEarnedAt"     to emptyMap<String, Long>(),
+                                "categoryCounts"     to emptyMap<String, Int>(),
+                                "levelUpAt"          to emptyMap<String, Long>()
+                            )
+                        )
+                    ).await()
+                }
 
                 _uiState.value = AuthUiState(
                     isLoading = false,
                     user = result.user,
                     error = null
                 )
+                // 📝 Log de registro para nuevos usuarios de Google
+                if (result.additionalUserInfo?.isNewUser == true && user != null) {
+                    runCatching { eventRepo.logUserRegistered(user.uid) }
+                }
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,

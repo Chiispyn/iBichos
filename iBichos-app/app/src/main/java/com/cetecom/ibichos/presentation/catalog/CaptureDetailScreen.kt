@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.CaptureItem
+import com.cetecom.ibichos.domain.model.enums.DangerLevel
 import com.cetecom.ibichos.ui.theme.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -40,11 +41,10 @@ fun CaptureDetailScreen(
     }
 
     val (dangerColor, dangerEmoji) = when (capture.dangerLevel) {
-        "Inofensivo", "Mascota Amigable" -> Pair(Color(0xFF4CAF50), "✅")
-        "Precaución", "Precaución: Aguijón" -> Pair(IBichosAmber, "⚠️")
-        "Venenoso" -> Pair(IBichosOrange, "☠️")
-        "Plaga"    -> Pair(IBichosRed, "🚫")
-        else       -> Pair(MaterialTheme.colorScheme.onSurfaceVariant, "❓")
+        DangerLevel.HARMLESS -> Pair(Color(0xFF4CAF50), "✅")
+        DangerLevel.CAUTION  -> Pair(IBichosAmber, "⚠️")
+        DangerLevel.VENOMOUS -> Pair(IBichosOrange, "☠️")
+        DangerLevel.UNKNOWN  -> Pair(MaterialTheme.colorScheme.onSurfaceVariant, "❓")
     }
 
     Scaffold(
@@ -119,7 +119,7 @@ fun CaptureDetailScreen(
                         ) {
                             Text(dangerEmoji, style = MaterialTheme.typography.titleLarge)
                             Text(
-                                text       = capture.dangerLevel,
+                                text       = capture.dangerLevel.displayName(),
                                 color      = dangerColor,
                                 style      = MaterialTheme.typography.labelMedium,
                                 fontWeight = FontWeight.Bold
