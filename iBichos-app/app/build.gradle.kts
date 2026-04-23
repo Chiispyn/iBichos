@@ -60,6 +60,7 @@ dependencies {
     // Core Android
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("com.google.android.gms:play-services-cast-tv:21.1.1")
 
     // ── Compose BOM ──────────────────────────────────────────────────────────
     val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
@@ -115,4 +116,15 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:21.2.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
+
+    // Cloudinary SDK para Android
+    implementation("com.cloudinary:cloudinary-android:2.3.1")
+
+    // Corrutinas (necesarias para el manejo asíncrono en el Repository)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // ViewModel y Lifecycle (para el ImageViewModel)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 }
