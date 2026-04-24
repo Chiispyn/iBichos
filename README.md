@@ -17,4 +17,3 @@ Panel de control web para administrar los datos de la aplicaci√≥n, revisar anal√
 - *Entrar a la carpeta `ibichos-dashboard` para ver las instrucciones de despliegue.*
 
 ---
-*Proyecto universitario desarrollado para CETECOM.*
