@@ -37,7 +37,7 @@ fun SplashScreen(
     // Lanzador del hilo de tiempo (3 segundos)
     LaunchedEffect(key1 = true) {
         startAnimation = true
-        delay(3000L) 
+        delay(3000L)
         onSplashFinished()
     }
 
@@ -51,31 +51,13 @@ fun SplashScreen(
                 )
             )
     ) {
-        // Hojas animadas flotando alrededor del logo central
-        AnimatedLeaf(
-            modifier = Modifier.align(Alignment.Center).offset(x = (-110).dp, y = (-120).dp),
-            baseRotation = 135f
-        )
-        AnimatedLeaf(
-            modifier = Modifier.align(Alignment.Center).offset(x = 120.dp, y = (-85).dp),
-            baseRotation = -135f
-        )
-        AnimatedLeaf(
-            modifier = Modifier.align(Alignment.Center).offset(x = (-90).dp, y = 130.dp),
-            baseRotation = 45f
-        )
-        AnimatedLeaf(
-            modifier = Modifier.align(Alignment.Center).offset(x = 110.dp, y = 140.dp),
-            baseRotation = -45f
-        )
 
-        // Logo
         Image(
             painter = painterResource(id = R.drawable.logo_oficial),
             contentDescription = "Logo Oficial iBichos",
             modifier = Modifier
                 .align(Alignment.Center)
-                .size(240.dp) 
+                .size(240.dp)
                 .scale(logoScale)
                 .alpha(logoAlpha)
         )
