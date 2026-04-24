@@ -64,7 +64,7 @@ Registro de cada insecto identificado mediante la cámara y validado por la Inte
 | `xpAwarded` | Number | Automático | Backend | Puntos otorgados por esta captura específica a la cuenta del usuario. |
 | `description` | String | Sí | Kindwise IA | Resumen enciclopédico de la especie biológica. |
 | `needsReview` | Boolean | Automático | Backend | `true` si la IA tiene baja confianza. Default: `false`. |
-| `status` | String | Automático | Backend | Enum: `APPROVED`, `REJECTED`, `PENDING`. |
+| `validationStatus`| String | Automático | Backend | Enum: `APPROVED`, `REJECTED`, `PENDING_REVIEW`. |
 
 ---
 
@@ -99,3 +99,18 @@ Registro de retención y "Screen Time" para analíticas de uso, gestionado por A
 | `endedAt` | Timestamp| No | Timestamp de cuando la app pasó a *Background* o se deslogueó. `null` si sigue activa. |
 | `durationMinutes` | Number | Sí | Duración total de la sesión calculada en minutos. Inicia en `0`. |
 | `deviceOS` | String | Sí | Plataforma cliente (Por defecto `"Android"`). |
+
+---
+
+## 5. Colección `admins`
+Gestiona los accesos al Dashboard Web de iBichos. Solo los usuarios listados aquí pueden entrar al panel de administración para moderar el contenido.
+
+**Ruta:** `admins/{uid}`
+
+| Campo | Tipo | Obligatorio | Descripción |
+| :--- | :--- | :---: | :--- |
+| **`uid`** | **String** | **Sí** | **[ID DEL DOCUMENTO] Identificador único del administrador (UID de Firebase Auth).** |
+| `email` | String | Sí | Correo electrónico del administrador. |
+| `estado` | String | Sí | Estado del acceso (Ej: `"activo"`). |
+| `rol` | String | Sí | Nivel de permisos (Ej: `"admin"`). |
+
