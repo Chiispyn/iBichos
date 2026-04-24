@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Arquitectura: iBichos App</title>
+    <style>
+        :root {
+            --primary: #3DDC84;
+            --dark: #121212;
+            --surface: #1E1E1E;
+            --text: #E0E0E0;
+            --text-muted: #9E9E9E;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--dark);
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        h1, h2, h3 { color: var(--primary); }
+        h1 { border-bottom: 2px solid var(--primary); padding-bottom: 10px; font-size: 2.5rem;}
+        h2 { margin-top: 40px; border-left: 4px solid var(--primary); padding-left: 15px;}
+        .highlight { background: #2D2D2D; padding: 15px; border-radius: 8px; border-left: 4px solid #4285F4; margin: 20px 0;}
+        code { background: #2A2A2A; padding: 2px 6px; border-radius: 4px; color: #FFA000; font-family: monospace;}
+        pre { background: #2A2A2A; padding: 15px; border-radius: 8px; overflow-x: auto; color: #E0E0E0; border: 1px solid #444;}
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #444; padding: 12px; text-align: left; }
+        th { background-color: #2D2D2D; color: var(--primary); }
+        .tag { display: inline-block; padding: 4px 10px; background: rgba(61,220,132,0.2); color: var(--primary); border-radius: 20px; font-size: 0.85rem; font-weight: bold;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Arquitectura Técnica: iBichos App (Android)</h1>
+        <p>Este documento es la referencia técnica definitiva para el equipo de desarrollo. Detalla en profundidad las decisiones de diseño, patrones de código y flujos de datos utilizados en la aplicación móvil nativa de iBichos, desarrollada en Kotlin.</p>
+
+        <h2>1. Patrón Arquitectónico: Clean Architecture + MVVM</h2>
+        <p>El proyecto no utiliza la arquitectura tradicional monolítica de Android. Implementamos <strong>Clean Architecture</strong> para lograr el principio de "Separación de Preocupaciones" (Separation of Concerns). Esto aísla la lógica de negocio de los frameworks externos (como Firebase o la Interfaz Gráfica).</p>
+
+        <div class="highlight">
+            <strong>Las Tres Capas Estrictas:</strong>
+            <ul>
+                <li><span class="tag">Data Layer</span> Es la única capa que interactúa con la red. Aquí residen <code>UserRepositoryImpl</code> y <code>CaptureRepositoryImpl</code>. Utiliza <strong>Corrutinas de Kotlin</strong> para manejar solicitudes asíncronas a Firestore sin bloquear el hilo principal (Main Thread).</li>
+                <li><span class="tag">Domain Layer</span> Contiene entidades puras en Kotlin (ej. <code>data class User</code>, enums como <code>UserLevel</code>) y Repositorios como interfaces. <strong>Esta capa no tiene dependencias de Android.</strong> Es 100% testeable mediante Unit Testing aislado.</li>
+                <li><span class="tag">Presentation Layer</span> Construida con <strong>Jetpack Compose</strong>. Las pantallas no tienen lógica condicional de base de datos; simplemente "observan" estados a través de un <code>ViewModel</code> usando <code>StateFlow</code>.</li>
+            </ul>
+        </div>
+
+        <h2>2. Flujo Crítico de Negocio: La Toma de Captura</h2>
+        <p>La función central de la aplicación (Identificar Insectos) involucra un orquestamiento complejo de 3 APIs distintas que ocurre en menos de 3 segundos:</p>
+        
+        <ol>
+            <li><strong>Hardware (CameraX):</strong> El usuario abre la cámara. Se utiliza la librería CameraX de Android Jetpack para capturar un <code>ImageProxy</code> y convertirlo a un archivo temporal local.</li>
+            <li><strong>Almacenamiento (Cloudinary):</strong> Para evitar los cuellos de botella de facturación de Firebase Storage, la imagen se sube mediante una petición HTTP POST a la API REST de Cloudinary. Cloudinary procesa la imagen y devuelve una <code>secure_url</code> pública.</li>
+            <li><strong>Inteligencia Artificial (Kindwise API):</strong> El <code>ViewModel</code> toma esa URL pública y dispara un request a la API de Kindwise (<code>https://api.plant.id/v2/identify</code> u homóloga de insectos). 
+                <br><br>
+                <em>Mapeo de Datos Kindwise:</em> Kindwise devuelve un JSON complejo. El repositorio extrae:
+                <ul>
+                    <li><code>suggestions[0].plant_details.scientific_name</code></li>
+                    <li><code>probability</code> (Certeza de la predicción, double 0.0 - 1.0).</li>
+                </ul>
+            </li>
+            <li><strong>Clasificación Interna:</strong> La app toma el nombre científico y ejecuta nuestra lógica de taxonomía, asignando un enum <code>TaxonomicCategory</code> (ej. <code>ARACHNIDA</code>) y calculando el <code>dangerLevel</code> (ej. <code>VENOMOUS</code>).</li>
+            <li><strong>Persistencia (Firestore):</strong> Se construye un objeto inmutable <code>Capture</code> y se inserta como documento en la colección <code>captures</code> asociado al UID del usuario mediante el campo <code>userId</code>.</li>
+        </ol>
+
+        <h2>3. Motor Centralizado de Gamificación</h2>
+        <p>Para evitar que el código sea ilegible, la experiencia del usuario (XP) no se calcula en las pantallas, sino en un motor centralizado estático o inyectado llamado <code>GamificationConfig</code>.</p>
+        
+        <pre><code>
+// Ejemplo conceptual del motor de Gamificación
+object GamificationConfig {
+    // Escala de Puntos Asimétrica
+    fun calculateXp(category: TaxonomicCategory): Int {
+        return when(category) {
+            TaxonomicCategory.ARACHNIDA, TaxonomicCategory.HYMENOPTERA -> 300
+            TaxonomicCategory.COLEOPTERA -> 200
+            else -> 100
+        }
+    }
+
+    // Máquina de Estados para Ligas
+    fun calculateLevel(totalXp: Int): UserLevel {
+        return when {
+            totalXp >= 10000 -> UserLevel.BUG_MASTER
+            totalXp >= 5000 -> UserLevel.ENTOMOLOGIST
+            totalXp >= 2500 -> UserLevel.EXPLORER
+            totalXp >= 1000 -> UserLevel.AMATEUR
+            else -> UserLevel.CASUAL
+        }
+    }
+}
+        </code></pre>
+
+        <h2>4. Trazabilidad de Sesiones y Analítica (Screen Time)</h2>
+        <p>El sistema recopila datos de manera pasiva para nutrir de información al Dashboard Web. Esto se logra mediante la interceptación del ciclo de vida (Lifecycle) de Android cruzado con la sesión de autenticación.</p>
+        
+        <ul>
+            <li>En <code>MainActivity</code>, se declara un <code>FirebaseAuth.AuthStateListener</code>.</li>
+            <li>Cuando un usuario válido se detecta, se genera un documento en la colección <code>sessions</code> con un Timestamp <code>startedAt</code>.</li>
+            <li>Cuando el usuario minimiza la app (OnStop) o cierra sesión, el sistema calcula la diferencia en milisegundos con la hora actual, y guarda el valor <code>durationMinutes</code>. Esto nos permite generar métricas de retención diarias exactas.</li>
+        </ul>
+
+        <h2>5. Gestión de Errores e Integridad</h2>
+        <p>Toda comunicación hacia Firebase se realiza dentro de bloques <code>try-catch</code> y retornando a la UI un envoltorio (Wrapper) de estado, comúnmente llamado <code>Result&lt;T&gt;</code> (o Resource). Esto garantiza que la interfaz de usuario de Jetpack Compose siempre pueda mostrar un estado de "Cargando", "Éxito" o un "Error amigable" si no hay conexión a internet, evitando que la aplicación sufra un <em>Crash</em> fatal.</p>
+
+    </div>
+</body>
+</html>

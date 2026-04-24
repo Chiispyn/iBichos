@@ -19,6 +19,8 @@ export interface Usuario {
  // Compatibilidad con tu código anterior (mapeo de campos)
  createdAt?: string; // Mapearemos 'created' a este si es necesario
  updatedAt?: string; // Mapearemos 'updated' a este si es necesario
+ isShadowBanned?: boolean; // Bandera para saber si el usuario está baneado
+ strikes?: number; // Contador de advertencias
 }
 
 export type UserFormData = Omit<Usuario, 'id' | 'createdAt' | 'updatedAt'>;
