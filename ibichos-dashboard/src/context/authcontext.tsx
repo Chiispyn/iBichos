@@ -6,14 +6,16 @@ import { auth, db } from '../config/firebaseConfig';
 interface AuthContextType {
   user: User | null;
   isAdminActive: boolean;
+  username: string;
   loading: boolean;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, isAdminActive: false, loading: true });
+const AuthContext = createContext<AuthContextType>({ user: null, isAdminActive: false, username: '', loading: true });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAdminActive, setIsAdminActive] = useState(false);
+  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -26,11 +28,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const adminDoc = await getDoc(doc(db, "admins", currentUser.uid));
         if (adminDoc.exists() && adminDoc.data().estado === 'activo') {
           setIsAdminActive(true);
+          // Intentar obtener el username desde la colección de usuarios
+          const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+          if (userDoc.exists() && userDoc.data().displayName) {
+            setUsername(userDoc.data().displayName);
+          } else if (currentUser.displayName) {
+            setUsername(currentUser.displayName);
+          } else {
+            setUsername(currentUser.email?.split('@')[0] || 'Admin');
+          }
         } else {
           setIsAdminActive(false);
+          setUsername('');
         }
       } else {
         setIsAdminActive(false);
+        setUsername('');
       }
       setLoading(false);
     });
@@ -39,7 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAdminActive, loading }}>
+    <AuthContext.Provider value={{ user, isAdminActive, username, loading }}>
       {children}
     </AuthContext.Provider>
   );

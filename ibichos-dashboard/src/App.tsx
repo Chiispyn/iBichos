@@ -20,7 +20,7 @@ function App() {
             <ProtectedRoute> 
               <div className="d-flex vh-100 w-100 overflow-hidden">
                 <Sidebar />
-                <main className="flex-grow-1 overflow-auto bg-light p-4">
+                <main className="flex-grow-1 overflow-auto ibichos-dashboard-bg p-4">
                   <Routes>
                     <Route path="principal" element={<Principal />} />
                     <Route path="usuarios" element={<Usuarios />} />
