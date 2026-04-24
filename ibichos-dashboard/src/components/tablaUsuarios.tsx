@@ -1,5 +1,6 @@
 import type { Usuario } from "../types/usuario";
 
+import { useState } from 'react';
 import { doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../config/firebaseConfig';
 
@@ -10,34 +11,75 @@ interface TablaUsuariosProps {
 
 const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => {
 
-  const handleHacerAdmin = async (usuario: Usuario) => {
-    if (window.confirm(`¿Estás seguro que deseas promover a ${usuario.username} (${usuario.email}) como Administrador?`)) {
-      try {
-        const adminRef = doc(db, 'admins', usuario.id);
-        await setDoc(adminRef, {
-          email: usuario.email,
-          estado: 'activo',
-          rol: 'admin'
-        });
-        alert(`¡Éxito! ${usuario.username} ahora es administrador del Dashboard. (Recarga la página para ver los cambios)`);
-      } catch (error) {
-        console.error("Error al promover a admin:", error);
-        alert("Hubo un error al intentar hacerlo administrador. Revisa la consola.");
-      }
-    }
+  const [modal, setModal] = useState<{isOpen: boolean, title: string, message: string, onConfirm: (() => void) | null, confirmColor: string}>({
+    isOpen: false, title: '', message: '', onConfirm: null, confirmColor: 'btn-primary'
+  });
+
+  const showModal = (title: string, message: string, onConfirm: (() => void) | null, confirmColor: string = 'btn-primary') => {
+    setModal({ isOpen: true, title, message, onConfirm, confirmColor });
   };
 
-  const handleQuitarAdmin = async (usuario: Usuario) => {
-    if (window.confirm(`⚠️ ¿Estás seguro que deseas QUITAR el acceso de Administrador a ${usuario.username}?`)) {
-      try {
-        const adminRef = doc(db, 'admins', usuario.id);
-        await deleteDoc(adminRef);
-        alert(`Se ha revocado el acceso a ${usuario.username}. (Recarga la página para ver los cambios)`);
-      } catch (error) {
-        console.error("Error al revocar admin:", error);
-        alert("Hubo un error al intentar quitarle el acceso. Revisa la consola.");
-      }
-    }
+  const closeModal = () => setModal(prev => ({ ...prev, isOpen: false }));
+
+  const handleHacerAdmin = (usuario: Usuario) => {
+    showModal(
+      'Nombrar Administrador',
+      `¿Estás seguro que deseas promover a ${usuario.username} (${usuario.email}) como Administrador?`,
+      async () => {
+        closeModal();
+        try {
+          const adminRef = doc(db, 'admins', usuario.id);
+          await setDoc(adminRef, { email: usuario.email, estado: 'activo', rol: 'admin' });
+          showModal('¡Éxito!', `${usuario.username} ahora es administrador. (Recarga la página para ver los cambios)`, null);
+        } catch (error) {
+          console.error("Error al promover a admin:", error);
+          showModal('Error', 'Hubo un error al intentar hacerlo administrador. Revisa la consola.', null);
+        }
+      },
+      'btn-primary'
+    );
+  };
+
+  const handleQuitarAdmin = (usuario: Usuario) => {
+    showModal(
+      'Revocar Administrador',
+      `⚠️ ¿Estás seguro que deseas QUITAR el acceso de Administrador a ${usuario.username}?`,
+      async () => {
+        closeModal();
+        try {
+          const adminRef = doc(db, 'admins', usuario.id);
+          await deleteDoc(adminRef);
+          showModal('¡Revocado!', `Se ha revocado el acceso a ${usuario.username}. (Recarga la página para ver los cambios)`, null);
+        } catch (error) {
+          console.error("Error al revocar admin:", error);
+          showModal('Error', 'Hubo un error al intentar quitarle el acceso. Revisa la consola.', null);
+        }
+      },
+      'btn-danger'
+    );
+  };
+
+  const handleToggleBan = (usuario: Usuario) => {
+    const isCurrentlyBanned = !!usuario.isShadowBanned;
+    const accion = isCurrentlyBanned ? 'Desbanear' : 'Shadowbanear';
+    const color = isCurrentlyBanned ? 'btn-success' : 'btn-dark';
+    
+    showModal(
+      `${accion} Usuario`,
+      `¿Estás seguro que deseas ${accion.toLowerCase()} a ${usuario.username}?`,
+      async () => {
+        closeModal();
+        try {
+          const userRef = doc(db, 'users', usuario.id);
+          await setDoc(userRef, { isShadowBanned: !isCurrentlyBanned }, { merge: true });
+          showModal('¡Éxito!', `Se ha actualizado el estado de moderación de ${usuario.username}. (Recarga la página para ver los cambios)`, null);
+        } catch (error) {
+          console.error(`Error al ${accion}:`, error);
+          showModal('Error', `Hubo un error al intentar ${accion}. Revisa la consola.`, null);
+        }
+      },
+      color
+    );
   };
 
   return (
@@ -52,6 +94,7 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
                 <th>Email</th>
                 <th>Ubicación</th>
                 <th className="text-center">Progreso</th>
+                <th>Reputación</th>
                 <th>F. Nacimiento</th>
                 <th className="text-center pe-4">Acciones</th>
               </tr>
@@ -96,30 +139,36 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
                     </td>
 
                     <td>
+                      <div className="d-flex flex-column text-truncate">
+                        <span className={`badge ${usuario.isShadowBanned ? 'bg-danger' : 'bg-success'} align-self-start mb-1`} style={{ fontSize: '0.65rem' }}>
+                          {usuario.isShadowBanned ? 'BANEADO' : 'CUENTA ACTIVA'}
+                        </span>
+                        <small className="text-muted">{usuario.strikes || 0} advertencias (strikes)</small>
+                      </div>
+                    </td>
+
+                    <td>
                       <small>{usuario.birthdate}</small>
                     </td>
 
                     <td className="text-center pe-4">
-                      <div className="btn-group btn-group-sm">
-                        {adminsIds.includes(usuario.id) ? (
-                          <button 
-                            className="btn btn-outline-danger" 
-                            title="Quitar Admin"
-                            onClick={() => handleQuitarAdmin(usuario)}
-                          >
-                            Revocar Admin
-                          </button>
-                        ) : (
-                          <button 
-                            className="btn btn-outline-success" 
-                            title="Hacer Admin"
-                            onClick={() => handleHacerAdmin(usuario)}
-                          >
-                            Hacer Admin
-                          </button>
-                        )}
-                        <button className="btn btn-outline-secondary" title="Banear">
-                          <i className="bi bi-slash-circle"></i>
+                      <div className="d-flex justify-content-center gap-2">
+                        <button 
+                          className={`btn btn-sm ${adminsIds.includes(usuario.id) ? 'btn-outline-danger' : 'btn-outline-primary'}`}
+                          title={adminsIds.includes(usuario.id) ? "Quitar Administrador" : "Nombrar Administrador"}
+                          onClick={() => adminsIds.includes(usuario.id) ? handleQuitarAdmin(usuario) : handleHacerAdmin(usuario)}
+                        >
+                          <i className={`bi ${adminsIds.includes(usuario.id) ? 'bi-shield-minus' : 'bi-shield-check'} me-1`}></i> 
+                          {adminsIds.includes(usuario.id) ? 'Revocar Admin' : 'Hacer Admin'}
+                        </button>
+                        
+                        <button 
+                          className={`btn btn-sm ${usuario.isShadowBanned ? 'btn-success' : 'btn-dark'}`}
+                          title={usuario.isShadowBanned ? "Levantar Shadowban" : "Aplicar Shadowban"}
+                          onClick={() => handleToggleBan(usuario)}
+                        >
+                          <i className={`bi ${usuario.isShadowBanned ? 'bi-unlock' : 'bi-slash-circle'} me-1`}></i> 
+                          {usuario.isShadowBanned ? 'Desbanear' : 'Banear'}
                         </button>
                       </div>
                     </td>
@@ -136,6 +185,33 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
           </table>
         </div>
       </div>
+
+      {/* Modal de Confirmación y Notificación */}
+      {modal.isOpen && (
+        <div className="modal fade show d-block" style={{ backgroundColor: 'rgba(0,0,0,0.6)' }} tabIndex={-1}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '1rem' }}>
+              <div className="modal-header border-bottom-0 pt-4 px-4">
+                <h5 className="modal-title fw-bold text-dark">{modal.title}</h5>
+                <button type="button" className="btn-close" onClick={closeModal}></button>
+              </div>
+              <div className="modal-body px-4 pb-4">
+                <p className="text-secondary fs-6 mb-0">{modal.message}</p>
+              </div>
+              <div className="modal-footer border-top-0 pb-4 px-4">
+                <button type="button" className="btn btn-light fw-bold px-4" onClick={closeModal} style={{ borderRadius: '0.5rem' }}>
+                  {modal.onConfirm ? 'Cancelar' : 'Entendido'}
+                </button>
+                {modal.onConfirm && (
+                  <button type="button" className={`btn ${modal.confirmColor} fw-bold px-4`} onClick={modal.onConfirm} style={{ borderRadius: '0.5rem' }}>
+                    Confirmar
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

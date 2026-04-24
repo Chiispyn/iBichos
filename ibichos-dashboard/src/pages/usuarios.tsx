@@ -46,7 +46,9 @@ export default function Usuarios() {
             comuna: data.city || 'Sin comuna', // ¡En Android se guardaba como city!
             level: traducirNivel(data.gamification?.level || 'CASUAL'), // Traducido al español
             xp: data.xp || 0,
-            createdAt: data.createdAt ? new Date(data.createdAt.toMillis()).toLocaleDateString() : undefined
+            createdAt: data.createdAt ? new Date(data.createdAt.toMillis()).toLocaleDateString() : undefined,
+            isShadowBanned: data.isShadowBanned || false,
+            strikes: data.strikes || 0
           };
         });
 
