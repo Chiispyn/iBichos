@@ -3,29 +3,41 @@ package com.cetecom.ibichos.presentation.catalog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.domain.model.enums.DangerLevel
-import com.cetecom.ibichos.ui.theme.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
+// 🎨 PALETA FINAL (verde suave + amarillo)
+private val GreenSoft = Color(0xFFE8F5E9)
+private val GreenPrimary = Color(0xFF4CAF50)
+private val GreenDark = Color(0xFF2E7D32)
+
+private val YellowAccent = Color(0xFFFFC107)
+private val YellowSoft = Color(0xFFFFF8E1)
+
+private val BackgroundSoft = Color(0xFFF7FBF8)
+private val TextPrimary = Color(0xFF1F2937)
+private val TextSecondary = Color(0xFF6B7280)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,168 +52,241 @@ fun CaptureDetailScreen(
         } else "Fecha desconocida"
     }
 
-    val (dangerColor, dangerEmoji) = when (capture.dangerLevel) {
-        DangerLevel.HARMLESS -> Pair(Color(0xFF4CAF50), "✅")
-        DangerLevel.CAUTION  -> Pair(IBichosAmber, "⚠️")
-        DangerLevel.VENOMOUS -> Pair(IBichosOrange, "☠️")
-        DangerLevel.UNKNOWN  -> Pair(MaterialTheme.colorScheme.onSurfaceVariant, "❓")
+    val dangerColor = when (capture.dangerLevel) {
+        DangerLevel.HARMLESS -> GreenPrimary
+        DangerLevel.CAUTION -> YellowAccent
+        DangerLevel.VENOMOUS -> Color(0xFFEF4444)
+        DangerLevel.UNKNOWN -> Color(0xFF64748B)
     }
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Detalle del Insecto", color = MaterialTheme.colorScheme.onBackground) },
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Detalle del Insecto",
+                        fontWeight = FontWeight.Bold,
+                        color = TextPrimary
+                    )
+                },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, null, tint = IBichosGreen)
+                    IconButton(
+                        onClick = onNavigateBack,
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .background(GreenSoft, CircleShape)
+                    ) {
+                        Icon(Icons.Default.ArrowBack, null, tint = GreenDark)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.surface
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.White
                 )
             )
         },
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = BackgroundSoft
     ) { paddingValues ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(paddingValues)
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(IBichosGreen.copy(alpha = 0.3f), MaterialTheme.colorScheme.background)
+                        listOf(Color.White, GreenSoft)
                     )
                 )
-                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
-            // ── Imagen grande ─────────────────────────────────────────────
+
+            // 📷 Imagen
             AsyncImage(
-                model              = if (capture.imageUrl.startsWith("/"))
-                    File(capture.imageUrl) else capture.imageUrl,
+                model = if (capture.imageUrl.startsWith("/")) File(capture.imageUrl) else capture.imageUrl,
                 contentDescription = capture.insectName,
-                modifier           = Modifier
+                modifier = Modifier
                     .fillMaxWidth()
-                    .height(280.dp),
-                contentScale       = ContentScale.Crop
+                    .height(280.dp)
+                    .clip(RoundedCornerShape(24.dp)),
+                contentScale = ContentScale.Crop
             )
 
-            Column(
-                modifier = Modifier.padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+            // 🐝 Header
+            Card(
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
             ) {
-                // Nombre + nivel de peligro
                 Row(
-                    modifier              = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment     = Alignment.Top
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text       = capture.insectName,
-                            style      = MaterialTheme.typography.headlineLarge,
-                            fontWeight = FontWeight.Bold,
-                            color      = MaterialTheme.colorScheme.onBackground
-                        )
-                        Text(
-                            text  = capture.scientificName,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
+
+                    Box(
+                        modifier = Modifier
+                            .size(70.dp)
+                            .background(GreenSoft, CircleShape),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            Icons.Default.BugReport,
+                            null,
+                            tint = GreenPrimary,
+                            modifier = Modifier.size(36.dp)
                         )
                     }
+
+                    Spacer(Modifier.width(12.dp))
+
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            capture.insectName.uppercase(),
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = TextPrimary
+                        )
+                        Text(
+                            capture.scientificName,
+                            fontStyle = FontStyle.Italic,
+                            color = TextSecondary
+                        )
+                    }
+
                     Surface(
-                        shape = RoundedCornerShape(12.dp),
-                        color = dangerColor.copy(alpha = 0.2f)
+                        shape = RoundedCornerShape(16.dp),
+                        color = dangerColor.copy(alpha = 0.15f)
                     ) {
-                        Column(
-                            modifier            = Modifier.padding(12.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(dangerEmoji, style = MaterialTheme.typography.titleLarge)
+                            Icon(Icons.Default.Warning, null, tint = dangerColor, modifier = Modifier.size(18.dp))
+                            Spacer(Modifier.width(4.dp))
                             Text(
-                                text       = capture.dangerLevel.displayName(),
-                                color      = dangerColor,
-                                style      = MaterialTheme.typography.labelMedium,
-                                fontWeight = FontWeight.Bold
+                                capture.dangerLevel.displayName(),
+                                color = dangerColor,
+                                fontWeight = FontWeight.Bold,
+                                style = MaterialTheme.typography.labelMedium
                             )
                         }
                     }
                 }
+            }
 
-                HorizontalDivider(color = MaterialTheme.colorScheme.outline)
-
-                // Estadísticas
+            // 📊 Stats
+            Card(
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
                 Row(
-                    modifier              = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp)
+                        .background(YellowSoft, RoundedCornerShape(16.dp))
+                        .padding(vertical = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    StatItem(label = "Confianza IA", value = "${(capture.probability * 100).toInt()}%", color = IBichosGreen)
-                    StatItem(label = "XP Ganado", value = "+${capture.xpAwarded} XP", color = IBichosTeal)
-                }
 
-                // Fecha
+                    StatBox(
+                        modifier = Modifier.weight(1f),
+                        icon = Icons.Default.Verified,
+                        value = "${(capture.probability * 100).toInt()}%",
+                        label = "Confianza IA",
+                        color = GreenPrimary
+                    )
+
+                    VerticalDivider(
+                        modifier = Modifier.height(50.dp),
+                        color = GreenPrimary.copy(alpha = 0.2f)
+                    )
+
+                    StatBox(
+                        modifier = Modifier.weight(1f),
+                        icon = Icons.Default.Star,
+                        value = "+${capture.xpAwarded} XP",
+                        label = "XP",
+                        color = YellowAccent
+                    )
+                }
+            }
+
+            InfoCard(Icons.Default.CalendarMonth, "Fecha de captura", dateStr)
+
+            if (capture.latitude != null && capture.longitude != null) {
                 InfoCard(
-                    label   = "📅 Fecha de captura",
-                    content = dateStr
+                    Icons.Default.LocationOn,
+                    "Ubicación GPS",
+                    "Lat: %.4f, Lon: %.4f".format(capture.latitude, capture.longitude)
                 )
+            }
 
-                // Ubicación
-                if (capture.latitude != null && capture.longitude != null) {
-                    InfoCard(
-                        label   = "📍 Ubicación GPS",
-                        content = "Lat: %.4f, Lon: %.4f".format(capture.latitude, capture.longitude)
-                    )
-                }
-
-                // Descripción
-                if (capture.description.isNotEmpty()) {
-                    InfoCard(
-                        label   = "📖 Información Biológica",
-                        content = capture.description
-                    )
-                }
+            if (capture.description.isNotEmpty()) {
+                InfoCard(Icons.Default.Eco, "Información Biológica", capture.description)
             }
         }
     }
 }
 
 @Composable
-private fun StatItem(label: String, value: String, color: Color) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text       = value,
-            style      = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            color      = color
-        )
-        Text(
-            text  = label,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
-
-@Composable
-private fun InfoCard(label: String, content: String) {
-    Card(
-        modifier  = Modifier.fillMaxWidth(),
-        shape     = RoundedCornerShape(12.dp),
-        colors    = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+private fun StatBox(
+    modifier: Modifier,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    value: String,
+    label: String,
+    color: Color
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(
-                text  = label,
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                text  = content,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .background(color.copy(alpha = 0.15f), CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(icon, null, tint = color)
+        }
+
+        Spacer(Modifier.width(8.dp))
+
+        Column {
+            Text(value, fontWeight = FontWeight.Bold, color = color)
+            Text(label, color = TextSecondary)
         }
     }
 }
 
+@Composable
+private fun InfoCard(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    content: String
+) {
+    Card(
+        shape = RoundedCornerShape(18.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Row(modifier = Modifier.padding(14.dp)) {
+
+            Box(
+                modifier = Modifier
+                    .size(44.dp)
+                    .background(GreenSoft, RoundedCornerShape(12.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(icon, null, tint = GreenPrimary)
+            }
+
+            Spacer(Modifier.width(10.dp))
+
+            Column {
+                Text(label, color = TextSecondary)
+                Spacer(Modifier.height(4.dp))
+                Text(content, color = TextPrimary)
+            }
+        }
+    }
+}
