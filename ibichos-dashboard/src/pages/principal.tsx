@@ -6,7 +6,7 @@ import { UserPlus, ImagePlus, AlertCircle, Sparkles, ChevronRight } from 'lucide
 import { useNavigate } from 'react-router-dom';
 
 export default function Principal() {
-  const { user } = useAuth();
+  const { username } = useAuth();
   const navigate = useNavigate();
   const [statsDia, setStatsDia] = useState({ nuevosUsuarios: 0, capturasHoy: 0, pendientesHoy: 0 });
   const [cargando, setCargando] = useState(true);
@@ -63,7 +63,7 @@ export default function Principal() {
       {/* Saludo Banner */}
       <div className="bg-success text-white rounded-4 p-5 mb-5 shadow-sm position-relative overflow-hidden">
         <div className="position-relative" style={{ zIndex: 1 }}>
-          <h1 className="fw-bold mb-2">¡Hola de nuevo, {user?.email?.split('@')[0] || 'Admin'}! 👋</h1>
+          <h1 className="fw-bold mb-2">¡Hola de nuevo, <span className="text-warning">{username}</span>! 👋</h1>
           <p className="fs-5 mb-0 text-white-50 text-capitalize">{fechaFormateada}</p>
         </div>
         <Sparkles className="position-absolute text-white opacity-25" size={150} style={{ right: '-20px', top: '-20px' }} />
