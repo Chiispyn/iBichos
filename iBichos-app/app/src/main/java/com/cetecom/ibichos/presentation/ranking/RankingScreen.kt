@@ -46,6 +46,10 @@ import com.cetecom.ibichos.ui.theme.IBichosGreen
 private val LightGreen = Color(0xFF5EE6A1)
 private val LightGreenDark = Color(0xFF2ED47A)
 
+private val SoftGreen = Color(0xFF6FCF97)
+private val SoftGreenLight = Color(0xFFA8E6CF)
+private val SoftGreenDark = Color(0xFF27AE60)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RankingScreen(
@@ -76,7 +80,7 @@ fun RankingScreen(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            LightGreen.copy(alpha = 0.18f),
+                            LightGreen.copy(alpha = 0.25f),
                             MaterialTheme.colorScheme.background
                         )
                     )
@@ -225,8 +229,8 @@ fun AnimatedRankingTopBar(
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        LightGreen,
-                        LightGreenDark
+                        SoftGreen,
+                        SoftGreen
                     )
                 )
             )
@@ -268,7 +272,7 @@ fun AnimatedRankingTopBar(
             ) {
                 Text(
                     text = "Pizarra de Prestigio",
-                    fontSize = 24.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.White
                 )
