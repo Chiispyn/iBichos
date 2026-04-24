@@ -10,12 +10,13 @@ interface Captura {
   dangerLevel: string;
   confidence: number;
   needsReview: boolean;
-  status: string; // 'PENDING', 'APPROVED', 'REJECTED'
+  validationStatus: string; // 'PENDING_REVIEW', 'APPROVED', 'REJECTED'
   userId: string;
 }
 
 export default function Capturas() {
   const [capturas, setCapturas] = useState<Captura[]>([]);
+  const [filtro, setFiltro] = useState<'ALL' | 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED'>('ALL');
   const [cargando, setCargando] = useState(true);
 
   const fetchCapturas = async () => {
@@ -28,17 +29,17 @@ export default function Capturas() {
           imageUrl: d.imageUrl || '',
           category: d.category || 'Desconocido',
           dangerLevel: d.dangerLevel || 'UNKNOWN',
-          confidence: d.probability || 0, // ¡En Android se llama probability!
+          confidence: d.probability || 0,
           needsReview: d.needsReview || false,
-          status: d.status || 'PENDING',
+          validationStatus: d.validationStatus || (d.needsReview ? 'PENDING_REVIEW' : (d.probability < 0.40 ? 'REJECTED' : 'APPROVED')),
           userId: d.userId || 'Anónimo'
         };
       });
 
-      // Ordenar: primero las PENDIENTES o que necesitan review
+      // Ordenar: primero las que necesitan review (PENDING_REVIEW)
       datos.sort((a, b) => {
-        if (a.status === 'PENDING' && b.status !== 'PENDING') return -1;
-        if (a.status !== 'PENDING' && b.status === 'PENDING') return 1;
+        if (a.validationStatus === 'PENDING_REVIEW' && b.validationStatus !== 'PENDING_REVIEW') return -1;
+        if (a.validationStatus !== 'PENDING_REVIEW' && b.validationStatus === 'PENDING_REVIEW') return 1;
         return 0;
       });
 
@@ -58,19 +59,21 @@ export default function Capturas() {
     try {
       const capturaRef = doc(db, 'captures', id);
       await updateDoc(capturaRef, {
-        status: nuevoEstado,
-        needsReview: false // Ya fue revisada
+        validationStatus: nuevoEstado,
+        needsReview: false 
       });
       
-      // Actualizar UI sin recargar
       setCapturas(prev => prev.map(cap => 
-        cap.id === id ? { ...cap, status: nuevoEstado, needsReview: false } : cap
+        cap.id === id ? { ...cap, validationStatus: nuevoEstado, needsReview: false } : cap
       ));
     } catch (error) {
       console.error("Error al moderar la captura:", error);
-      alert("Error de conexión al moderar.");
     }
   };
+
+  const capturasFiltradas = filtro === 'ALL' 
+    ? capturas 
+    : capturas.filter(c => c.validationStatus === filtro);
 
   const getDangerColor = (level: string) => {
     switch(level) {
@@ -113,79 +116,114 @@ export default function Capturas() {
 
   return (
     <div className="container-fluid py-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
         <div>
           <h2 className="fw-bold text-success">
             <ShieldAlert className="me-2 mb-1" />
             Moderación de Capturas
           </h2>
-          <p className="text-muted">Revisa las fotografías que la IA no pudo identificar con certeza o pendientes de aprobación.</p>
+          <p className="text-muted mb-0">Gestiona y valida la calidad de las fotografías enviadas por los usuarios.</p>
+        </div>
+
+        {/* Filtros */}
+        <div className="btn-group shadow-sm p-1 bg-white rounded-3">
+          <button 
+            className={`btn btn-sm px-3 ${filtro === 'ALL' ? 'btn-success active' : 'btn-light'}`}
+            onClick={() => setFiltro('ALL')}
+          >
+            Todas
+          </button>
+          <button 
+            className={`btn btn-sm px-3 ${filtro === 'PENDING_REVIEW' ? 'btn-warning active' : 'btn-light'}`}
+            onClick={() => setFiltro('PENDING_REVIEW')}
+          >
+            Pendientes
+          </button>
+          <button 
+            className={`btn btn-sm px-3 ${filtro === 'APPROVED' ? 'btn-success active' : 'btn-light'}`}
+            onClick={() => setFiltro('APPROVED')}
+          >
+            Aprobadas
+          </button>
+          <button 
+            className={`btn btn-sm px-3 ${filtro === 'REJECTED' ? 'btn-danger active' : 'btn-light'}`}
+            onClick={() => setFiltro('REJECTED')}
+          >
+            Rechazadas
+          </button>
         </div>
       </div>
 
       <div className="row g-4">
-        {capturas.length === 0 ? (
+        {capturasFiltradas.length === 0 ? (
           <div className="col-12 text-center py-5">
-            <p className="text-muted fs-5">No hay capturas registradas en la base de datos.</p>
+            <div className="bg-white p-5 rounded-4 shadow-sm">
+              <Clock size={48} className="text-muted mb-3" />
+              <p className="text-muted fs-5 mb-0">No hay capturas en esta categoría.</p>
+            </div>
           </div>
         ) : (
-          capturas.map((cap) => (
+          capturasFiltradas.map((cap) => (
             <div key={cap.id} className="col-12 col-md-6 col-lg-4 col-xl-3">
-              <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+              <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative">
                 
-                {/* Imagen (Cloudinary o Firebase Storage) */}
+                {/* Badge de Estado */}
+                <div className="position-absolute top-0 end-0 m-2 z-1">
+                  {cap.validationStatus === 'PENDING_REVIEW' ? (
+                    <span className="badge bg-warning text-dark shadow-sm"><Clock size={12} className="me-1"/> Revisión</span>
+                  ) : cap.validationStatus === 'APPROVED' ? (
+                    <span className="badge bg-success shadow-sm"><CheckCircle size={12} className="me-1"/> Aprobada</span>
+                  ) : (
+                    <span className="badge bg-danger shadow-sm"><XCircle size={12} className="me-1"/> Rechazada</span>
+                  )}
+                </div>
+
                 <div 
                   style={{ 
-                    height: '200px', 
-                    backgroundImage: `url(${cap.imageUrl || 'https://via.placeholder.com/300x200?text=Sin+Imagen'})`,
+                    height: '220px', 
+                    backgroundImage: `url(${cap.imageUrl || 'https://via.placeholder.com/300x220?text=Sin+Imagen'})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'
                   }}
-                  className="position-relative"
-                >
-                  {/* Etiqueta de Estado Flotante */}
-                  <div className="position-absolute top-0 end-0 m-2">
-                    {cap.status === 'PENDING' ? (
-                      <span className="badge bg-warning text-dark"><Clock size={12} className="me-1"/> Pendiente</span>
-                    ) : cap.status === 'APPROVED' ? (
-                      <span className="badge bg-success"><CheckCircle size={12} className="me-1"/> Aprobado</span>
-                    ) : (
-                      <span className="badge bg-danger"><XCircle size={12} className="me-1"/> Rechazado</span>
-                    )}
-                  </div>
-                </div>
+                />
 
                 <div className="card-body">
-                  <h5 className="fw-bold mb-1">{traducirCategoria(cap.category)}</h5>
-                  <p className="small text-muted mb-3">ID Usuario: {cap.userId.substring(0,8)}...</p>
+                  <div className="mb-2">
+                    <span className="badge bg-light text-dark border mb-2">{traducirCategoria(cap.category)}</span>
+                    <p className="small text-muted mb-0">UID: <code>{cap.userId.substring(0,8)}</code></p>
+                  </div>
                   
+                  <hr className="my-3 opacity-10" />
+
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <span className="small text-secondary">Certeza IA:</span>
-                    <span className="fw-bold">{(cap.confidence * 100).toFixed(1)}%</span>
+                    <span className={`fw-bold ${cap.confidence < 0.4 ? 'text-danger' : cap.confidence < 0.75 ? 'text-warning' : 'text-success'}`}>
+                      {(cap.confidence * 100).toFixed(1)}%
+                    </span>
                   </div>
 
-                  <div className="d-flex justify-content-between align-items-center mb-3">
+                  <div className="d-flex justify-content-between align-items-center mb-4">
                     <span className="small text-secondary">Peligrosidad:</span>
                     <span className={`badge bg-${getDangerColor(cap.dangerLevel)}`}>
                       {traducirPeligro(cap.dangerLevel)}
                     </span>
                   </div>
 
-                  {/* Acciones de Moderación */}
-                  <div className="d-grid gap-2 d-flex mt-4">
+                  {/* Acciones */}
+                  <div className="d-grid gap-2 d-flex">
                     <button 
-                      className="btn btn-outline-success flex-grow-1"
+                      className="btn btn-outline-success btn-sm flex-grow-1 fw-bold"
                       onClick={() => handleModeracion(cap.id, 'APPROVED')}
-                      disabled={cap.status === 'APPROVED'}
+                      disabled={cap.validationStatus === 'APPROVED'}
                     >
-                      <CheckCircle size={18} className="me-1" /> Aprobar
+                      Aprobar
                     </button>
                     <button 
-                      className="btn btn-outline-danger flex-grow-1"
+                      className="btn btn-outline-danger btn-sm flex-grow-1 fw-bold"
                       onClick={() => handleModeracion(cap.id, 'REJECTED')}
-                      disabled={cap.status === 'REJECTED'}
+                      disabled={cap.validationStatus === 'REJECTED'}
                     >
-                      <XCircle size={18} className="me-1" /> Rechazar
+                      Rechazar
                     </button>
                   </div>
                 </div>

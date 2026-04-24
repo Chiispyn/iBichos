@@ -56,6 +56,10 @@ class UserRepositoryImpl(
         val userRef = db.collection("users").document(uid)
         val doc = userRef.get().await()
 
+        // 🛡️ Verificar Shadowban: Si el usuario está baneado, no gana XP
+        val isShadowBanned = doc.getBoolean("isShadowBanned") ?: false
+        if (isShadowBanned) return
+
         // Leer XP actual desde el sub-documento gamification
         @Suppress("UNCHECKED_CAST")
         val gamificationMap = doc.get("gamification") as? Map<String, Any> ?: emptyMap()
@@ -121,7 +125,9 @@ class UserRepositoryImpl(
             .get()
             .await()
 
-        return snapshot.documents.map { mapDocumentToUserProfileFast(it) }
+        return snapshot.documents
+            .filter { it.getBoolean("isShadowBanned") != true }
+            .map { mapDocumentToUserProfileFast(it) }
     }
 
     override suspend fun getTopUsersByUniqueInsects(limit: Int): List<UserProfile> {
@@ -131,7 +137,9 @@ class UserRepositoryImpl(
             .limit(limit.toLong())
             .get()
             .await()
-        return snapshot.documents.map { mapDocumentToUserProfileFast(it) }
+        return snapshot.documents
+            .filter { it.getBoolean("isShadowBanned") != true }
+            .map { mapDocumentToUserProfileFast(it) }
     }
 
     override suspend fun getTopUsersByMedals(limit: Int): List<UserProfile> {
@@ -144,6 +152,7 @@ class UserRepositoryImpl(
             .await()
 
         return snapshot.documents
+            .filter { it.getBoolean("isShadowBanned") != true }
             .map { mapDocumentToUserProfileFast(it) }
             .sortedByDescending { it.gamification.medals.size }
             .take(limit)
@@ -158,6 +167,12 @@ class UserRepositoryImpl(
         if (medalsToUnlock.isEmpty() && !isNewInsect && incrementCategory == null) return
 
         val userRef = db.collection("users").document(uid)
+        val doc = userRef.get().await()
+
+        // 🛡️ Verificar Shadowban: Si el usuario está baneado, no desbloquea logros ni suma especies
+        val isShadowBanned = doc.getBoolean("isShadowBanned") ?: false
+        if (isShadowBanned) return
+
         val updates = mutableMapOf<String, Any>()
 
         if (medalsToUnlock.isNotEmpty()) {
