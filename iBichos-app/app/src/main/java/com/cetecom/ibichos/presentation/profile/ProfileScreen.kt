@@ -233,46 +233,6 @@ private fun ProfileHeader(
         label = "leaf_rotation_2"
     )
 
-    val particleOffset1 by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = -18f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(2600, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "particle_offset_1"
-    )
-
-    val particleOffset2 by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = -25f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3400, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "particle_offset_2"
-    )
-
-    val particleOffset3 by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = -14f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3000, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "particle_offset_3"
-    )
-
-    val particleOffset4 by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = -20f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(3800, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "particle_offset_4"
-    )
-
     val particleAlpha by infiniteTransition.animateFloat(
         initialValue = 0.35f,
         targetValue = 0.9f,
@@ -281,6 +241,66 @@ private fun ProfileHeader(
             repeatMode = RepeatMode.Reverse
         ),
         label = "particle_alpha"
+    )
+
+    val beeX by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 26f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2800, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "bee_x"
+    )
+
+    val beeY by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = -18f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2300, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "bee_y"
+    )
+
+    val butterflyY by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = -16f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(2600, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "butterfly_y"
+    )
+
+    val butterflyRotation by infiniteTransition.animateFloat(
+        initialValue = -12f,
+        targetValue = 12f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1800, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "butterfly_rotation"
+    )
+
+    val antX by infiniteTransition.animateFloat(
+        initialValue = -20f,
+        targetValue = 85f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(4500, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "ant_x"
+    )
+
+    val wormY by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = -10f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1800, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "worm_y"
     )
 
     Box(
@@ -294,7 +314,7 @@ private fun ProfileHeader(
                 .align(Alignment.TopStart)
                 .padding(start = 78.dp, top = 110.dp)
                 .graphicsLayer {
-                    translationY = particleOffset1
+                    translationY = -10f
                     alpha = particleAlpha
                 }
         )
@@ -304,7 +324,7 @@ private fun ProfileHeader(
                 .align(Alignment.TopEnd)
                 .padding(end = 82.dp, top = 135.dp)
                 .graphicsLayer {
-                    translationY = particleOffset2
+                    translationY = -18f
                     alpha = particleAlpha
                 }
         )
@@ -314,18 +334,7 @@ private fun ProfileHeader(
                 .align(Alignment.Center)
                 .padding(start = 170.dp, bottom = 80.dp)
                 .graphicsLayer {
-                    translationY = particleOffset3
-                    alpha = particleAlpha
-                }
-        )
-
-        FloatingParticle(
-            size = 6,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(top = 95.dp, end = 160.dp)
-                .graphicsLayer {
-                    translationY = particleOffset4
+                    translationY = -14f
                     alpha = particleAlpha
                 }
         )
@@ -351,6 +360,54 @@ private fun ProfileHeader(
                 .graphicsLayer {
                     translationY = leafOffset2
                     rotationZ = leafRotation2
+                }
+        )
+
+        Text(
+            text = "🐞",
+            fontSize = 34.sp,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(start = 34.dp, top = 128.dp)
+                .graphicsLayer {
+                    translationY = leafOffset1 - 4f
+                    rotationZ = leafRotation1
+                }
+        )
+
+        Text(
+            text = "🐝",
+            fontSize = 38.sp,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(end = 42.dp, top = 92.dp)
+                .graphicsLayer {
+                    translationX = beeX
+                    translationY = beeY
+                    rotationZ = 8f
+                }
+        )
+
+        Text(
+            text = "🐜",
+            fontSize = 26.sp,
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = 40.dp, bottom = 4.dp)
+                .graphicsLayer {
+                    translationX = antX
+                }
+        )
+
+        Text(
+            text = "🐛",
+            fontSize = 38.sp,
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 30.dp, top = 150.dp)
+                .graphicsLayer {
+                    translationY = wormY
+                    rotationZ = -8f
                 }
         )
 
