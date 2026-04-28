@@ -14,6 +14,7 @@ sealed class Screen(val route: String) {
     object OnboardingOne : Screen (route = "onboardingOne")
 
     object OnboardingTwo: Screen (route = "onboardingTwo")
+    object CompleteProfile : Screen("completeProfile")
 
 
 

@@ -5,7 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, AreaChart, Area
 } from 'recharts';
-import { Activity, Users, Camera, ShieldAlert, Clock, Smartphone, Bug, ShieldCheck, ChevronRight } from 'lucide-react';
+import { Activity, Users, Camera, ShieldAlert, Clock, Smartphone, Bug, ShieldCheck, ChevronRight, MapPin, UserCircle2, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const COLORS = ['#3DDC84', '#F4B400', '#DB4437', '#4285F4', '#9C27B0', '#00BCD4'];
@@ -25,6 +25,14 @@ export default function Analitica() {
   const [validationData, setValidationData] = useState<any[]>([]);
   const [monthlySessionsData, setMonthlySessionsData] = useState<any[]>([]);
   const [monthlyCapturesData, setMonthlyCapturesData] = useState<any[]>([]);
+  const [genreData, setGenreData] = useState<any[]>([]);
+  const [comunaData, setComunaData] = useState<any[]>([]);
+  const [ageData, setAgeData] = useState<any[]>([]);
+  
+  // --- ESTADOS DE FILTRO REGIONAL ---
+  const [rawUsers, setRawUsers] = useState<any[]>([]);
+  const [regionsList, setRegionsList] = useState<string[]>([]);
+  const [selectedRegion, setSelectedRegion] = useState('Todas');
 
   // --- FUNCIONES DE APOYO (Traducción de Enums de Firestore/Kotlin) ---
   const traducirNivel = (lvl: string) => {
@@ -42,6 +50,48 @@ export default function Analitica() {
     return dict[danger] || danger;
   };
 
+  const traducirGenero = (g: string) => {
+    const dict: Record<string, string> = { MALE: 'Masculino', FEMALE: 'Femenino', OTHER: 'Otro', PREFER_NOT_TO_SAY: 'Reservado', UNSPECIFIED: 'No definido' };
+    return dict[g] || g;
+  };
+
+  const calcularEdad = (fechaNac: string) => {
+    if (!fechaNac || fechaNac === 'N/A') return 0;
+    try {
+      // El formato en Android es DD/MM/YYYY
+      const parts = fechaNac.split('/');
+      if (parts.length !== 3) return 0;
+
+      const day = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1; // Meses en JS son 0-11
+      const year = parseInt(parts[2], 10);
+
+      if (isNaN(day) || isNaN(month) || isNaN(year)) return 0;
+
+      const birthDate = new Date(year, month, day);
+      if (isNaN(birthDate.getTime())) return 0;
+
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    } catch {
+      return 0;
+    }
+  };
+
+  const clasificarEdad = (edad: number) => {
+    if (edad <= 0 || isNaN(edad)) return 'N/A';
+    if (edad < 18) return 'Menor de 18';
+    if (edad <= 25) return '18-25 años';
+    if (edad <= 35) return '26-35 años';
+    if (edad <= 50) return '36-50 años';
+    return 'Más de 50 años';
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,12 +101,21 @@ export default function Analitica() {
         const usersSnap = await getDocs(collection(db, 'users'));
         let totalUsers = 0;
         const levelCounts: Record<string, number> = {};
+        const usersList: any[] = [];
+        const regionsSet = new Set<string>();
+
         usersSnap.forEach(doc => {
           totalUsers++;
           const data = doc.data();
           const level = traducirNivel(data.gamification?.level || 'CASUAL');
           levelCounts[level] = (levelCounts[level] || 0) + 1;
+          
+          usersList.push(data);
+          if (data.region) regionsSet.add(data.region);
         });
+
+        setRawUsers(usersList);
+        setRegionsList(Array.from(regionsSet).sort());
 
         // 2. PROCESAMIENTO DE CAPTURAS E INTELIGENCIA ARTIFICIAL
         const capturesSnap = await getDocs(collection(db, 'captures'));
@@ -142,6 +201,48 @@ export default function Analitica() {
     fetchData();
   }, []);
 
+  // --- EFECTO PARA FILTRADO REGIONAL ---
+  useEffect(() => {
+    if (rawUsers.length === 0) return;
+
+    let filtered = rawUsers;
+    if (selectedRegion !== 'Todas') {
+      filtered = rawUsers.filter(u => u.region === selectedRegion);
+    }
+
+    const genreCounts: Record<string, number> = {};
+    const comunaCounts: Record<string, number> = {};
+    const ageCounts: Record<string, number> = {
+      'Menor de 18': 0, '18-25 años': 0, '26-35 años': 0, '36-50 años': 0, 'Más de 50 años': 0, 'N/A': 0
+    };
+
+    filtered.forEach(u => {
+      // Género
+      const gen = traducirGenero(u.gender || 'UNSPECIFIED');
+      genreCounts[gen] = (genreCounts[gen] || 0) + 1;
+
+      // Comuna
+      const com = u.city || 'Sin comuna';
+      comunaCounts[com] = (comunaCounts[com] || 0) + 1;
+
+      // Edad
+      if (u.birthDate && u.birthDate !== 'N/A') {
+        const edad = calcularEdad(u.birthDate);
+        const rango = clasificarEdad(edad);
+        ageCounts[rango]++;
+      } else {
+        ageCounts['N/A']++;
+      }
+    });
+
+    setGenreData(Object.entries(genreCounts).map(([name, value]) => ({ name, value })));
+    setComunaData(Object.entries(comunaCounts).map(([name, value]) => ({ name, value }))
+      .sort((a, b) => b.value - a.value).slice(0, 10)); // Top 10
+    setAgeData(Object.entries(ageCounts).map(([name, value]) => ({ name, value }))
+      .filter(item => item.value > 0));
+
+  }, [selectedRegion, rawUsers]);
+
   if (loading) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
@@ -169,6 +270,11 @@ export default function Analitica() {
         <li className="nav-item">
           <button className={`nav-link w-100 ${activeTab === 'biodiversidad' ? 'active bg-success shadow' : 'text-success bg-white border'}`} onClick={() => setActiveTab('biodiversidad')} style={{ fontWeight: 'bold' }}>
             <Bug size={18} className="me-2 mb-1" /> Biodiversidad
+          </button>
+        </li>
+        <li className="nav-item">
+          <button className={`nav-link w-100 ${activeTab === 'demografia' ? 'active bg-success shadow' : 'text-success bg-white border'}`} onClick={() => setActiveTab('demografia')} style={{ fontWeight: 'bold' }}>
+            <UserCircle2 size={18} className="me-2 mb-1" /> Demografía
           </button>
         </li>
         <li className="nav-item">
@@ -330,6 +436,113 @@ export default function Analitica() {
                       <Bar dataKey="value" fill="#4285F4" radius={[0, 4, 4, 0]} name="Ejemplares" />
                     </BarChart>
                   </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ---------------- PESTAÑA DEMOGRAFÍA (Perfil de Usuarios) ---------------- */}
+      {activeTab === 'demografia' && (
+        <div className="tab-content fade-in-up">
+          <div className="row g-4 mb-4">
+            <div className="col-md-12">
+              <div className="card ibichos-card shadow-sm border-success">
+                <div className="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                  <div className="d-flex align-items-center">
+                    <div className="bg-success bg-opacity-10 p-3 rounded-circle me-3">
+                      <MapPin size={32} className="text-success" />
+                    </div>
+                    <div>
+                      <h6 className="text-muted mb-1">Filtrar Análisis por Región</h6>
+                      <h3 className="fw-bold mb-0">{selectedRegion}</h3>
+                    </div>
+                  </div>
+                  
+                  {/* Selector de Región */}
+                  <div className="flex-grow-1 max-w-md" style={{ maxWidth: '300px' }}>
+                    <select 
+                      className="form-select form-select-lg border-success shadow-sm fw-bold text-success"
+                      value={selectedRegion}
+                      onChange={(e) => setSelectedRegion(e.target.value)}
+                    >
+                      <option value="Todas">🇨🇱 Todas las regiones</option>
+                      {regionsList.map(region => (
+                        <option key={region} value={region}>{region}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row g-4">
+            {/* Gráfico: Género */}
+            <div className="col-lg-4">
+              <div className="card ibichos-card h-100 p-3">
+                <h5 className="fw-bold mb-4 text-dark"><UserCircle2 size={20} className="me-2" /> Género ({selectedRegion})</h5>
+                <div style={{ height: 300 }}>
+                  {genreData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie data={genreData} innerRadius={70} outerRadius={100} paddingAngle={5} dataKey="value">
+                          {genreData.map((_entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend verticalAlign="bottom" height={36} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="h-100 d-flex align-items-center justify-content-center text-muted">Sin datos en esta zona</div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Gráfico: Edades */}
+            <div className="col-lg-4">
+              <div className="card ibichos-card h-100 p-3">
+                <h5 className="fw-bold mb-4 text-dark"><Calendar size={20} className="me-2" /> Edades en {selectedRegion}</h5>
+                <div style={{ height: 300 }}>
+                  {ageData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={ageData}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
+                        <XAxis dataKey="name" tick={{fontSize: 10}} interval={0} />
+                        <YAxis allowDecimals={false} />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#9C27B0" radius={[4, 4, 0, 0]} name="Usuarios" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="h-100 d-flex align-items-center justify-content-center text-muted">Sin datos en esta zona</div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Gráfico: Comunas */}
+            <div className="col-lg-4">
+              <div className="card ibichos-card h-100 p-3">
+                <h5 className="fw-bold mb-4 text-dark"><MapPin size={20} className="me-2" /> Top Comunas {selectedRegion !== 'Todas' ? `de ${selectedRegion}` : ''}</h5>
+                <div style={{ height: 300 }}>
+                  {comunaData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={comunaData} layout="vertical">
+                        <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.3} />
+                        <XAxis type="number" allowDecimals={false} />
+                        <YAxis dataKey="name" type="category" width={80} tick={{fontSize: 10}} />
+                        <Tooltip />
+                        <Bar dataKey="value" fill="#3DDC84" radius={[0, 4, 4, 0]} name="Usuarios" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="h-100 d-flex align-items-center justify-content-center text-muted">Sin datos en esta zona</div>
+                  )}
                 </div>
               </div>
             </div>
