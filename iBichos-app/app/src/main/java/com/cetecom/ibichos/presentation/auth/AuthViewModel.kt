@@ -128,6 +128,51 @@ class AuthViewModel : ViewModel() {
         }
     }
 
+    fun completeProfile(
+        region: String,
+        city: String,
+        birthDate: String,
+        gender: String
+    ) {
+        val uid = auth.currentUser?.uid ?: return
+        if (region.isBlank() || city.isBlank() || birthDate.isBlank() || gender.isBlank()) {
+            _uiState.update { it.copy(error = "Completá todos los campos") }
+            return
+        }
+
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, error = null) }
+            try {
+                db.collection("users").document(uid).update(
+                    mapOf(
+                        "region"    to region,
+                        "city"      to city,
+                        "birthDate" to birthDate,
+                        "gender"    to gender
+                    )
+                ).await()
+                _uiState.update { it.copy(isLoading = false, isSuccess = true) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isLoading = false, error = e.message) }
+            }
+        }
+    }
+
+    fun checkProfileCompletion(onResult: (Boolean) -> Unit) {
+        val uid = auth.currentUser?.uid ?: return onResult(false)
+        viewModelScope.launch {
+            try {
+                val doc = db.collection("users").document(uid).get().await()
+                val region = doc.getString("region") ?: ""
+                val city = doc.getString("city") ?: ""
+                val birthDate = doc.getString("birthDate") ?: ""
+                onResult(region.isNotEmpty() && city.isNotEmpty() && birthDate.isNotEmpty())
+            } catch (e: Exception) {
+                onResult(false)
+            }
+        }
+    }
+
     fun clearError() = _uiState.update { it.copy(error = null) }
     fun resetSuccess() = _uiState.update { it.copy(isSuccess = false) }
 
@@ -146,10 +191,10 @@ class AuthViewModel : ViewModel() {
             if (idToken != null) {
                 signInWithGoogle(idToken)
             } else {
-                setError("No se pudo obtener el idToken")
+                setError("No se pudo obtener la identidad de Google")
             }
         } catch (e: Exception) {
-            setError(e.message ?: "Error Google Sign-In")
+            setError("Error al conectar con Google")
         }
     }
 

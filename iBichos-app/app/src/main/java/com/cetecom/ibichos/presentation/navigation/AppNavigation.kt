@@ -23,6 +23,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.cetecom.ibichos.presentation.auth.AuthViewModel
+import com.cetecom.ibichos.presentation.auth.CompleteProfileScreen
 import com.cetecom.ibichos.presentation.auth.LoginScreen
 import com.cetecom.ibichos.presentation.auth.RegisterScreen
 import com.cetecom.ibichos.presentation.camera.CameraScreen
@@ -72,9 +73,17 @@ fun AppNavigation() {
         composable(Screen.Splash.route) {
             SplashScreen(
                 onSplashFinished = {
-                    val nextRoute = if (authViewModel.isLoggedIn()) Screen.Main.route else Screen.Login.route
-                    navController.navigate(nextRoute) {
-                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    if (authViewModel.isLoggedIn()) {
+                        authViewModel.checkProfileCompletion { isComplete ->
+                            val nextRoute = if (isComplete) Screen.Main.route else Screen.CompleteProfile.route
+                            navController.navigate(nextRoute) {
+                                popUpTo(Screen.Splash.route) { inclusive = true }
+                            }
+                        }
+                    } else {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
                     }
                 }
             )
@@ -85,8 +94,11 @@ fun AppNavigation() {
             LoginScreen(
                 viewModel        = authViewModel,
                 onLoginSuccess   = {
-                    navController.navigate(Screen.OnboardingOne.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
+                    authViewModel.checkProfileCompletion { isComplete ->
+                        val nextRoute = if (isComplete) Screen.OnboardingOne.route else Screen.CompleteProfile.route
+                        navController.navigate(nextRoute) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
                     }
                 },
                 onNavigateToRegister = { navController.navigate(Screen.Register.route) }
@@ -109,6 +121,7 @@ fun AppNavigation() {
                 },
                 onNavigateToMap    = { navController.navigate(Screen.Map.route) },
                 onLogout           = {
+                    authViewModel.signOut()
                     navController.navigate(Screen.Login.route) {
                         popUpTo(Screen.Main.route) { inclusive = true }
                     }
@@ -161,8 +174,24 @@ fun AppNavigation() {
         composable(route = Screen.OnboardingTwo.route){
             IBichosWelcomeTwoScreen(
                 onStartClick = {
-                    navController.navigate(Screen.Main.route)
+                    authViewModel.checkProfileCompletion { isComplete ->
+                        val nextRoute = if (isComplete) Screen.Main.route else Screen.CompleteProfile.route
+                        navController.navigate(nextRoute) {
+                            popUpTo(Screen.OnboardingTwo.route) { inclusive = true }
+                        }
+                    }
                 }
+            )
+        }
+
+        composable(Screen.CompleteProfile.route) {
+            CompleteProfileScreen(
+                onSuccess = {
+                    navController.navigate(Screen.Main.route) {
+                        popUpTo(Screen.CompleteProfile.route) { inclusive = true }
+                    }
+                },
+                viewModel = authViewModel
             )
         }
     }
