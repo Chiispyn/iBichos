@@ -1,28 +1,4 @@
-#root {
-  background-color: ghostwhite !important;
-  min-height: 100vh;
-  display: block !important;
-}
-
-.ibichos-dashboard-bg {
-  background-color: #f1f8f3;
-  /* Subtle leaf/topographic vector pattern using SVG */
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-26.68 26.68-2.617-2.616L54.627 0zm-14.15 0L60 19.523v3.748L37.288 0h3.188zm10.743 0L60 8.78v3.748L48.032 0h3.188zM60 30.266L42.502 12.768l2.618-2.617L60 27.648v2.618zm0-21.485L47.53 0h3.187L60 9.266v-.485zM0 48.032L11.968 60h-3.188L0 51.22v-3.188zm0-10.743L22.712 60h-3.188L0 41.037v-3.748zm0-10.744L33.456 60h-3.188L0 30.293v-3.748zm0-10.743L44.2 60h-3.188L0 19.55v-3.748zm0-10.744L54.944 60h-3.188L0 8.806V5.058zm0-4.05L60 58.99v-2.02L2.02 0H0v1.008z' fill='%233ddc84' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-}
-
-.sidebar-ibichos .nav-link {
-  transition: all 0.2s ease;
-  border-radius: 0.5rem;
-}
-
-.sidebar-ibichos .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateX(3px);
-}
-
-.sidebar-ibichos .nav-link.active {
-  background-color: #3DDC84 !important;
-  color: #0b2e13 !important;
-  font-weight: 700;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+/* 
+  Este archivo ha sido migrado a src/styles/global.css para mayor orden.
+  Favor de añadir nuevos estilos globales allá.
+*/
