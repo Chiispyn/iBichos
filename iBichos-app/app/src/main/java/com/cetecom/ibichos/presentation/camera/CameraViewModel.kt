@@ -50,11 +50,15 @@ class CameraViewModel : ViewModel() {
     private val uploadPreset = "IBichos"
 
     // ── MODO EMULADOR ─────────────────────────────────────────────────────────
-    private val isEmulatorMode = true
+    private val isEmulatorMode = false
     // ─────────────────────────────────────────────────────────────────────────
 
     private val _uiState = MutableStateFlow<CameraUiState>(CameraUiState.Idle)
     val uiState: StateFlow<CameraUiState> = _uiState.asStateFlow()
+
+    fun setLoading() {
+        _uiState.value = CameraUiState.Loading
+    }
 
     fun processCapture(bitmap: Bitmap, lat: Double?, lon: Double?, context: Context) {
         val uid = auth.currentUser?.uid ?: run {
