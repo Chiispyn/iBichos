@@ -80,10 +80,10 @@ fun MapScreen(
                         }
                     }
 
-                    // Centrar en la última captura si hay alguna con ubicación
-                    val last = captures.lastOrNull { it.latitude != null }
-                    if (last?.latitude != null && last.longitude != null) {
-                        mapView.controller.animateTo(GeoPoint(last.latitude, last.longitude))
+                    // Centrar en la captura más reciente si hay alguna con ubicación
+                    val recent = captures.firstOrNull { it.latitude != null }
+                    if (recent?.latitude != null && recent.longitude != null) {
+                        mapView.controller.animateTo(GeoPoint(recent.latitude, recent.longitude))
                         mapView.controller.setZoom(15.0)
                     }
 

@@ -38,6 +38,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.cetecom.ibichos.ui.theme.*
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
+import com.google.android.gms.tasks.CancellationTokenSource
 import java.io.ByteArrayOutputStream
 
 @Composable
@@ -50,15 +52,16 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
     var imageCapture by remember { mutableStateOf<ImageCapture?>(null) }
     var hasPermissions by remember {
         mutableStateOf(
-            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-                    == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
         )
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { perms ->
-        hasPermissions = perms[Manifest.permission.CAMERA] == true
+        hasPermissions = perms[Manifest.permission.CAMERA] == true &&
+                        perms[Manifest.permission.ACCESS_FINE_LOCATION] == true
     }
 
     LaunchedEffect(Unit) {
@@ -113,7 +116,7 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
             ) {
                 Text("📷", fontSize = 48.sp)
                 Text(
-                    text  = "Se necesita permiso de cámara",
+                    text  = "Se necesitan permisos de cámara y ubicación",
                     color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.bodyLarge
                 )
@@ -221,6 +224,15 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
                     IconButton(
                         onClick = {
                             val capture = imageCapture ?: return@IconButton
+                            
+                            // Lógica Anti-Fraude "Arcaica": 25% de probabilidad de forzar flash
+                            // Esto genera un reflejo delatador si le están sacando foto a un monitor o libro con brillo.
+                            if (kotlin.random.Random.nextFloat() < 0.25f) {
+                                capture.flashMode = androidx.camera.core.ImageCapture.FLASH_MODE_ON
+                            } else {
+                                capture.flashMode = androidx.camera.core.ImageCapture.FLASH_MODE_AUTO
+                            }
+
                             val fusedLocation = LocationServices
                                 .getFusedLocationProviderClient(context)
 
@@ -234,22 +246,28 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
                                         val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                                         image.close()
 
-                                        // Intentar obtener ubicación
-                                        try {
-                                            fusedLocation.lastLocation
-                                                .addOnCompleteListener { task ->
-                                                    val loc = if (task.isSuccessful) task.result else null
-                                                    viewModel.processCapture(
-                                                        bitmap  = bitmap,
-                                                        // Fallback: Duoc UC Concepción (cuando el emulador no tiene GPS)
-                                                        lat     = loc?.latitude ?: -36.8230,
-                                                        lon     = loc?.longitude ?: -73.0337,
-                                                        context = context
-                                                    )
-                                                }
-                                        } catch (e: SecurityException) {
-                                            viewModel.processCapture(bitmap, -36.8230, -73.0337, context)
-                                        }
+                                        // Indicar carga inmediatamente mientras se obtiene el GPS
+                                        viewModel.setLoading()
+
+                                         // Intentar obtener ubicación fresca (Priority High Accuracy)
+                                         try {
+                                             val cts = CancellationTokenSource()
+                                             fusedLocation.getCurrentLocation(
+                                                 Priority.PRIORITY_HIGH_ACCURACY,
+                                                 cts.token
+                                             ).addOnCompleteListener { task ->
+                                                 val loc = if (task.isSuccessful) task.result else null
+                                                 viewModel.processCapture(
+                                                     bitmap = bitmap,
+                                                     // Fallback: Duoc UC Concepción (si el GPS está apagado o falla)
+                                                     lat = loc?.latitude ?: -36.8230,
+                                                     lon = loc?.longitude ?: -73.0337,
+                                                     context = context
+                                                 )
+                                             }
+                                         } catch (e: SecurityException) {
+                                             viewModel.processCapture(bitmap, -36.8230, -73.0337, context)
+                                         }
                                     }
 
                                     override fun onError(exc: ImageCaptureException) {
