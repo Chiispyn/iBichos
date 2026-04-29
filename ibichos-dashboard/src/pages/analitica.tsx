@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { db } from '../config/firebaseConfig';
 import { collection, getDocs } from 'firebase/firestore';
-import { 
+import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, LabelList
 } from 'recharts';
@@ -15,7 +15,7 @@ export default function Analitica() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('actividad');
   const [loading, setLoading] = useState(true);
-  
+
   // --- ESTADOS DE MÉTRICAS ---
   const [stats, setStats] = useState({ totalUsers: 0, totalCaptures: 0, pendingReview: 0, totalSessions: 0, totalMinutes: 0 });
   const [levelData, setLevelData] = useState<any[]>([]);
@@ -23,13 +23,13 @@ export default function Analitica() {
   const [dangerData, setDangerData] = useState<any[]>([]);
   const [sessionsData, setSessionsData] = useState<any[]>([]);
   const [retentionStats, setRetentionStats] = useState({ day1: '0', day7: '0', day30: '0' });
-  const [activationStats, setActivationStats] = useState({ activados: 0, abandono: 0 });  const [validationData, setValidationData] = useState<any[]>([]);
+  const [activationStats, setActivationStats] = useState({ activados: 0, abandono: 0 }); const [validationData, setValidationData] = useState<any[]>([]);
   const [monthlySessionsData, setMonthlySessionsData] = useState<any[]>([]);
   const [monthlyCapturesData, setMonthlyCapturesData] = useState<any[]>([]);
   const [genreData, setGenreData] = useState<any[]>([]);
   const [comunaData, setComunaData] = useState<any[]>([]);
   const [ageData, setAgeData] = useState<any[]>([]);
-  
+
   // --- ESTADOS DE FILTRO REGIONAL ---
   const [rawUsers, setRawUsers] = useState<any[]>([]);
   const [regionsList, setRegionsList] = useState<string[]>([]);
@@ -97,7 +97,7 @@ export default function Analitica() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        
+
         // 1. PROCESAMIENTO DE USUARIOS Y LIGAS
         const userFirstCapture: Record<string, Date> = {};
         const userFirstSession: Record<string, Date> = {};
@@ -112,7 +112,7 @@ export default function Analitica() {
           const data = doc.data();
           const level = traducirNivel(data.gamification?.level || 'CASUAL');
           levelCounts[level] = (levelCounts[level] || 0) + 1;
-          
+
           usersList.push(data);
           if (data.region) regionsSet.add(data.region);
         });
@@ -141,8 +141,9 @@ export default function Analitica() {
           };
 
 
-          if (data.validationStatus === 'PENDING_REVIEW' || data.needsReview) pendingReview++;
-          
+          const currentStatus = data.status || data.validationStatus;
+          if (currentStatus === 'PENDING_REVIEW' || data.needsReview) pendingReview++;
+
           // Agrupación por categoría (Biodiversidad)
           const cat = traducirCategoria(data.category || 'OTHER');
           catCounts[cat] = (catCounts[cat] || 0) + 1;
@@ -152,9 +153,9 @@ export default function Analitica() {
           dangerCounts[danger] = (dangerCounts[danger] || 0) + 1;
 
           // Cálculo de Eficacia IA: Comparamos estado de validación (Incluyendo las ocultas/borradas lógicamente)
-          if (data.validationStatus === 'REJECTED' || data.validationStatus === 'DELETED' || data.probability < 0.40) {
+          if (currentStatus === 'REJECTED' || currentStatus === 'DELETED' || (data.probability || 0) < 0.40) {
             validationCounts['Rechazadas']++;
-          } else if (data.validationStatus === 'PENDING_REVIEW' || data.needsReview) {
+          } else if (currentStatus === 'PENDING_REVIEW' || data.needsReview) {
             validationCounts['Pendientes']++;
           } else {
             validationCounts['Aprobadas']++;
@@ -162,10 +163,10 @@ export default function Analitica() {
 
           // Timeline Mensual de Capturas
           if (data.timestamp) {
-             const dateObj = data.timestamp.toDate ? data.timestamp.toDate() : new Date(data.timestamp);
-             const monthStr = dateObj.toLocaleDateString('es-CL', { month: 'long', year: 'numeric' });
-             const monthFormatted = monthStr.charAt(0).toUpperCase() + monthStr.slice(1);
-             monthlyCapturesMap[monthFormatted] = (monthlyCapturesMap[monthFormatted] || 0) + 1;
+            const dateObj = data.timestamp.toDate ? data.timestamp.toDate() : new Date(data.timestamp);
+            const monthStr = dateObj.toLocaleDateString('es-CL', { month: 'long', year: 'numeric' });
+            const monthFormatted = monthStr.charAt(0).toUpperCase() + monthStr.slice(1);
+            monthlyCapturesMap[monthFormatted] = (monthlyCapturesMap[monthFormatted] || 0) + 1;
           }
         });
 
@@ -173,10 +174,10 @@ export default function Analitica() {
         const sessionsSnap = await getDocs(collection(db, 'sessions'));
         let totalSessions = 0;
         let totalMinutes = 0;
-        const timelineData: Record<string, number> = {};
         const monthlySessionsMap: Record<string, number> = {};
-        
-        // Agrupación para cálculo de retención
+
+        // Agrupación para cálculo de uso diario (con ordenamiento cronológico)
+        const timelineMap: Record<string, { name: string, minutos: number, dateObj: Date }> = {};
         const userSessionsMap: Record<string, Date[]> = {};
 
         sessionsSnap.forEach(doc => {
@@ -194,15 +195,20 @@ export default function Analitica() {
             }
           }
 
-      
+
           if (data.startedAt) {
             // Manejo de compatibilidad para toDate() o toMillis()
             const dateObj = data.startedAt.toDate ? data.startedAt.toDate() : new Date(data.startedAt.toMillis());
+            // Usamos YYYY-MM-DD como clave para agrupar y ordenar fácilmente
+            const dateKey = dateObj.toISOString().split('T')[0];
             const dateStr = dateObj.toLocaleDateString('es-CL', { month: 'short', day: 'numeric' });
             const monthStr = dateObj.toLocaleDateString('es-CL', { month: 'long', year: 'numeric' });
             const monthFormatted = monthStr.charAt(0).toUpperCase() + monthStr.slice(1);
-            
-            timelineData[dateStr] = (timelineData[dateStr] || 0) + duration;
+
+            if (!timelineMap[dateKey]) {
+              timelineMap[dateKey] = { name: dateStr, minutos: 0, dateObj: dateObj };
+            }
+            timelineMap[dateKey].minutos += duration;
             monthlySessionsMap[monthFormatted] = (monthlySessionsMap[monthFormatted] || 0) + duration;
 
             // Agrupar sesiones por usuario
@@ -212,6 +218,11 @@ export default function Analitica() {
             }
           }
         });
+
+        // Convertimos el mapa en array y ORDENAMOS por fecha real
+        const sortedSessionsData = Object.values(timelineMap)
+          .sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime())
+          .map(item => ({ name: item.name, minutos: item.minutos }));
 
         // Lógica matemática de Retención
         let eligibleD1 = 0, retainedD1 = 0;
@@ -223,7 +234,7 @@ export default function Analitica() {
           fechas.sort((a, b) => a.getTime() - b.getTime());
           const primeraVez = fechas[0];
           const diasDesdeOrigen = Math.floor((hoy.getTime() - primeraVez.getTime()) / (1000 * 60 * 60 * 24));
-          
+
           let maxDiaRetorno = 0;
           fechas.forEach(f => {
             const diff = Math.floor((f.getTime() - primeraVez.getTime()) / (1000 * 60 * 60 * 24));
@@ -254,10 +265,10 @@ export default function Analitica() {
           if (primeraCaptura) {
             // Calculamos la diferencia en minutos
             const diffMinutos = (primeraCaptura.getTime() - primeraSesion.getTime()) / (1000 * 60);
-            
+
             // Si tomó la foto entre 0 y 10 minutos después de su primera sesión
             if (diffMinutos <= 10 && diffMinutos >= 0) {
-              activadosCount++; 
+              activadosCount++;
             } else {
               abandonoCount++; // Se demoró más de 10 min
             }
@@ -273,13 +284,13 @@ export default function Analitica() {
         });
 
         // --- PREPARACIÓN DE DATOS PARA RECHARTS ---
-        
+
         setStats({ totalUsers, totalCaptures, pendingReview, totalSessions, totalMinutes });
         setLevelData(Object.entries(levelCounts).map(([name, value]) => ({ name, value })));
         setCategoryData(Object.entries(catCounts).map(([name, value]) => ({ name, value })));
         setDangerData(Object.entries(dangerCounts).map(([name, value]) => ({ name, value })));
         setValidationData(Object.entries(validationCounts).map(([name, value]) => ({ name, value })));
-        setSessionsData(Object.entries(timelineData).map(([name, minutos]) => ({ name, minutos })));
+        setSessionsData(sortedSessionsData);
         setMonthlySessionsData(Object.entries(monthlySessionsMap).map(([name, minutos]) => ({ name, minutos })));
         setMonthlyCapturesData(Object.entries(monthlyCapturesMap).map(([name, capturas]) => ({ name, capturas })));
 
@@ -441,33 +452,26 @@ export default function Analitica() {
                 </div>
 
                 <div className="row align-items-center g-4">
-                  {/* Gráfico Donut de Activación */}
-                  <div className="col-md-5 d-flex justify-content-center position-relative">
-                    <div style={{ width: '220px', height: '220px', position: 'relative' }}>
+                  {/* Gráfico de Barras de Activación */}
+                  <div className="col-md-5 d-flex justify-content-center">
+                    <div style={{ width: '100%', height: '200px' }}>
                       <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={[
-                              { name: 'Activados', value: activationStats.activados, fill: '#10B981' }, 
-                              { name: 'Abandono', value: activationStats.abandono, fill: '#EF4444' }   
-                            ]}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={75}
-                            outerRadius={105}
-                            paddingAngle={3}
-                            stroke="none"
-                            dataKey="value"
-                          />
-                        </PieChart>
+                        <BarChart
+                          data={[
+                            { name: 'Activados', value: activationStats.activados, fill: '#10B981' },
+                            { name: 'Abandono', value: activationStats.abandono, fill: '#EF4437' }
+                          ]}
+                          layout="vertical"
+                          margin={{ top: 20, right: 50, left: 20, bottom: 0 }}
+                        >
+                          <XAxis type="number" hide />
+                          <YAxis dataKey="name" type="category" hide />
+                          <Tooltip cursor={{ fill: 'transparent' }} />
+                          <Bar dataKey="value" radius={[0, 10, 10, 0]} barSize={40}>
+                            <LabelList dataKey="value" position="right" formatter={(v: any) => `${v}%`} fill="#334155" fontWeight="bold" />
+                          </Bar>
+                        </BarChart>
                       </ResponsiveContainer>
-                      {/* Porcentaje Central Dinámico */}
-                      <div className="position-absolute text-center w-100" style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                        <h2 className="fw-bolder mb-0" style={{ color: '#10B981', fontSize: '2.5rem', lineHeight: '1' }}>
-                          {activationStats.activados}%
-                        </h2>
-                        <span className="text-muted fw-semibold" style={{ fontSize: '0.85rem' }}>Activados</span>
-                      </div>
                     </div>
                   </div>
 
@@ -488,7 +492,7 @@ export default function Analitica() {
                       <div className="col-sm-6">
                         <div className="p-3 h-100" style={{ backgroundColor: '#FFF5F5', borderRadius: '12px' }}>
                           <div className="d-flex align-items-center mb-2">
-                            <Activity size={16} className="text-danger me-2" style={{ transform: 'rotate(180deg)' }}/>
+                            <Activity size={16} className="text-danger me-2" style={{ transform: 'rotate(180deg)' }} />
                             <span className="text-secondary small fw-semibold">Tasa de Abandono</span>
                           </div>
                           <h2 className="fw-bold text-danger mb-0">{activationStats.abandono}%</h2>
@@ -570,28 +574,44 @@ export default function Analitica() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={levelData}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
-                      <XAxis dataKey="name" tick={{fontSize: 12}} />
+                      <XAxis dataKey="name" tick={{ fontSize: 12 }} />
                       <YAxis allowDecimals={false} />
-                      <Tooltip cursor={{fill: 'rgba(61, 220, 132, 0.1)'}} />
+                      <Tooltip cursor={{ fill: 'rgba(61, 220, 132, 0.1)' }} />
                       <Bar dataKey="value" fill="#3DDC84" radius={[4, 4, 0, 0]} name="Exploradores" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               </div>
             </div>
-            {/* Gráfico: Retención Diaria */}
+            {/* Gráfico: Uso Diario (Área Lineal) */}
             <div className="col-lg-6">
-              <div className="card ibichos-card h-100 p-3">
+              <div className="card ibichos-card h-100 p-3 shadow-sm border-0">
                 <h5 className="fw-bold mb-4 text-dark">Uso Diario (Minutos)</h5>
                 <div style={{ height: 300 }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={sessionsData}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.3} />
-                      <XAxis dataKey="name" tick={{fontSize: 12}} />
-                      <YAxis />
-                      <Tooltip />
-                      <Line type="monotone" dataKey="minutos" stroke="#9C27B0" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 8 }} />
-                    </LineChart>
+                    <AreaChart data={sessionsData}>
+                      <defs>
+                        <linearGradient id="colorMin" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#9C27B0" stopOpacity={0.3} />
+                          <stop offset="95%" stopColor="#9C27B0" stopOpacity={0} />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.1} />
+                      <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#64748B' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 12, fill: '#64748B' }} axisLine={false} tickLine={false} />
+                      <Tooltip
+                        contentStyle={{ borderRadius: '10px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                      />
+                      <Area
+                        type="linear"
+                        dataKey="minutos"
+                        stroke="#9C27B0"
+                        strokeWidth={3}
+                        fillOpacity={1}
+                        fill="url(#colorMin)"
+                        activeDot={{ r: 6, strokeWidth: 0 }}
+                      />
+                    </AreaChart>
                   </ResponsiveContainer>
                 </div>
               </div>
@@ -603,23 +623,23 @@ export default function Analitica() {
       {/* ---------------- PESTAÑA BIODIVERSIDAD (Ecosistema) ---------------- */}
       {activeTab === 'biodiversidad' && (
         <div className="tab-content fade-in-up">
-          
-          {/* Tarjeta Superior: Total de Capturas */}
+
+          {/* Tarjeta Superior: Inventario Biológico (Lleva al Catálogo) */}
           <div className="row g-4 mb-4">
             <div className="col-md-12">
-              <div className="card ibichos-card shadow-sm border-primary border-opacity-25" style={{ cursor: 'pointer' }} onClick={() => navigate('/capturas')}>
+              <div className="card ibichos-card shadow-sm border-primary border-opacity-25" style={{ cursor: 'pointer' }} onClick={() => navigate('/catalogo')}>
                 <div className="card-body">
                   <div className="d-flex align-items-center mb-2">
                     <div className="bg-primary bg-opacity-10 p-3 rounded-circle me-3">
                       <Camera size={32} className="text-primary" />
                     </div>
                     <div>
-                      <h6 className="text-muted mb-1">Inventario Biológico (Total de avistamientos)</h6>
+                      <h6 className="text-muted mb-1">Inventario Biológico (Especies Verificadas)</h6>
                       <h3 className="fw-bold mb-0 text-primary">{stats.totalCaptures.toLocaleString('es-CL')}</h3>
                     </div>
                   </div>
                   <div className="d-flex justify-content-between align-items-center mt-2 border-top pt-2">
-                    <small className="text-primary fw-bold">Ir a Galería de Fotos</small>
+                    <small className="text-primary fw-bold">Ver Catálogo Completo</small>
                     <ChevronRight size={14} className="text-primary" />
                   </div>
                 </div>
@@ -628,51 +648,29 @@ export default function Analitica() {
           </div>
 
           <div className="row g-4">
-            {/* Gráfico 1: Salud Pública (Doughnut con Porcentajes) */}
+            {/* Gráfico 1: Salud Pública (BARRAS HORIZONTALES) */}
             <div className="col-lg-6">
               <div className="card ibichos-card h-100 p-4 shadow-sm border-0">
                 <h5 className="fw-bold mb-1 text-dark">Riesgos para la Salud</h5>
                 <p className="text-muted small mb-4">Distribución del nivel de peligrosidad de las especies</p>
-                
+
                 <div style={{ height: 320 }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie 
-                        data={dangerData} 
-                        innerRadius={80} 
-                        outerRadius={120} 
-                        paddingAngle={4} 
-                        dataKey="value"
-                        labelLine={false}
-                        // 1. Agregamos ": any" a los parámetros destructurados
-                        label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
-                          // 2. Validación de seguridad rápida para que TS no se queje
-                          if (midAngle === undefined || percent === undefined) return null;
-                          
-                          const RADIAN = Math.PI / 180;
-                          const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-                          const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                          const y = cy + radius * Math.sin(-midAngle * RADIAN);
-                          
-                          if (percent < 0.04) return null; 
-                          return (
-                            <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontWeight="bold" fontSize={13}>
-                              {`${(percent * 100).toFixed(1)}%`}
-                            </text>
-                          );
-                        }}
-                      >
+                    <BarChart data={dangerData} layout="vertical" margin={{ top: 0, right: 60, left: 20, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.2} />
+                      <XAxis type="number" hide />
+                      <YAxis dataKey="name" type="category" width={100} tick={{ fontSize: 12, fill: '#475569', fontWeight: 600 }} axisLine={false} tickLine={false} />
+                      <Tooltip
+                        cursor={{ fill: '#F1F5F9' }}
+                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
+                      />
+                      <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={30}>
                         {dangerData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={(DANGER_COLORS as any)[entry.name] || COLORS[index % COLORS.length]} />
                         ))}
-                      </Pie>
-                      {/* 3. Cambiamos (value: number) a (value: any) en el formatter */}
-                      <Tooltip 
-                        formatter={(value: any) => [`${value} avistamientos`, 'Cantidad']}
-                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
-                      />
-                      <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '13px', paddingTop: '20px' }} />
-                    </PieChart>
+                        <LabelList dataKey="value" position="right" fill="#64748B" fontSize={13} fontWeight="bold" />
+                      </Bar>
+                    </BarChart>
                   </ResponsiveContainer>
                 </div>
               </div>
@@ -683,16 +681,16 @@ export default function Analitica() {
               <div className="card ibichos-card h-100 p-4 shadow-sm border-0">
                 <h5 className="fw-bold mb-1 text-dark">Especies Identificadas</h5>
                 <p className="text-muted small mb-4">Clasificación taxonómica de las capturas</p>
-                
+
                 <div style={{ height: 320 }}>
                   <ResponsiveContainer width="100%" height="100%">
                     {/* Añadimos un margen derecho mayor (right: 40) para que el número final no se corte */}
                     <BarChart data={categoryData} layout="vertical" margin={{ top: 0, right: 40, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.2} />
                       <XAxis type="number" hide /> {/* Ocultamos el eje X inferior para hacerlo más limpio */}
-                      <YAxis dataKey="name" type="category" width={110} tick={{fontSize: 12, fill: '#475569', fontWeight: 500}} axisLine={false} tickLine={false} />
-                      <Tooltip 
-                        cursor={{fill: '#F1F5F9'}}
+                      <YAxis dataKey="name" type="category" width={110} tick={{ fontSize: 12, fill: '#475569', fontWeight: 500 }} axisLine={false} tickLine={false} />
+                      <Tooltip
+                        cursor={{ fill: '#F1F5F9' }}
                         contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
                       />
                       <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={24}>
@@ -715,7 +713,7 @@ export default function Analitica() {
       {/* ---------------- PESTAÑA DEMOGRAFÍA (Perfil de Usuarios) ---------------- */}
       {activeTab === 'demografia' && (
         <div className="tab-content fade-in-up">
-          
+
           {/* Tarjeta de Filtro Regional */}
           <div className="row g-4 mb-4">
             <div className="col-md-12">
@@ -730,10 +728,10 @@ export default function Analitica() {
                       <h3 className="fw-bold mb-0 text-dark">{selectedRegion}</h3>
                     </div>
                   </div>
-                  
+
                   {/* Selector de Región */}
                   <div className="flex-grow-1 max-w-md" style={{ maxWidth: '300px' }}>
-                    <select 
+                    <select
                       className="form-select form-select-lg border-success shadow-sm fw-bold text-success"
                       value={selectedRegion}
                       onChange={(e) => setSelectedRegion(e.target.value)}
@@ -750,46 +748,30 @@ export default function Analitica() {
           </div>
 
           <div className="row g-4">
-            {/* Gráfico 1: Género (Pie Chart con Porcentajes) */}
-            <div className="col-lg-4">
+            {/* Gráfico 1: Género (BARRAS HORIZONTALES) */}
+            <div className="col-lg-6">
               <div className="card ibichos-card h-100 p-4 shadow-sm border-0">
                 <h5 className="fw-bold mb-1 text-dark"><UserCircle2 size={20} className="me-2 text-primary" /> Género</h5>
                 <p className="text-muted small mb-4">Distribución en {selectedRegion}</p>
-                
+
                 <div style={{ height: 280 }}>
                   {genreData.length > 0 ? (
                     <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie 
-                          data={genreData} 
-                          innerRadius={65} 
-                          outerRadius={105} 
-                          paddingAngle={4} 
-                          dataKey="value"
-                          labelLine={false}
-                          label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }: any) => {
-                            if (midAngle === undefined || percent === undefined || percent < 0.05) return null;
-                            const RADIAN = Math.PI / 180;
-                            const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-                            const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                            const y = cy + radius * Math.sin(-midAngle * RADIAN);
-                            return (
-                              <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central" fontWeight="bold" fontSize={13}>
-                                {`${(percent * 100).toFixed(1)}%`}
-                              </text>
-                            );
-                          }}
-                        >
+                      <BarChart data={genreData} layout="vertical" margin={{ top: 0, right: 60, left: 20, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.2} />
+                        <XAxis type="number" hide />
+                        <YAxis dataKey="name" type="category" width={100} tick={{ fontSize: 12, fill: '#475569', fontWeight: 600 }} axisLine={false} tickLine={false} />
+                        <Tooltip
+                          cursor={{ fill: '#F1F5F9' }}
+                          contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
+                        />
+                        <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={25}>
                           {genreData.map((_entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                           ))}
-                        </Pie>
-                        <Tooltip 
-                          formatter={(value: any) => [`${value} usuarios`, 'Cantidad']}
-                          contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
-                        />
-                        <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '13px', paddingTop: '15px' }} />
-                      </PieChart>
+                          <LabelList dataKey="value" position="right" fill="#64748B" fontSize={13} fontWeight="bold" />
+                        </Bar>
+                      </BarChart>
                     </ResponsiveContainer>
                   ) : (
                     <div className="h-100 d-flex align-items-center justify-content-center text-muted fw-semibold bg-light rounded-3">Sin datos en esta zona</div>
@@ -799,22 +781,22 @@ export default function Analitica() {
             </div>
 
             {/* Gráfico 2: Edades (Barras Verticales Multicolor) */}
-            <div className="col-lg-4">
+            <div className="col-lg-6">
               <div className="card ibichos-card h-100 p-4 shadow-sm border-0">
                 <h5 className="fw-bold mb-1 text-dark"><Calendar size={20} className="me-2 text-warning" /> Edades</h5>
                 <p className="text-muted small mb-4">Grupos etarios en {selectedRegion}</p>
-                
+
                 <div style={{ height: 280 }}>
                   {ageData.length > 0 ? (
                     <ResponsiveContainer width="100%" height="100%">
                       {/* Damos un top margin para que los números no se corten arriba */}
                       <BarChart data={ageData} margin={{ top: 25, right: 0, left: 0, bottom: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
-                        <XAxis dataKey="name" tick={{fontSize: 11, fill: '#475569', fontWeight: 500}} axisLine={false} tickLine={false} interval={0} />
+                        <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#475569', fontWeight: 500 }} axisLine={false} tickLine={false} interval={0} />
                         <YAxis hide /> {/* Ocultamos el eje Y porque ahora tenemos los números en las barras */}
-                        <Tooltip 
-                          cursor={{fill: '#F1F5F9'}} 
-                          contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }} 
+                        <Tooltip
+                          cursor={{ fill: '#F1F5F9' }}
+                          contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
                         />
                         <Bar dataKey="value" radius={[6, 6, 0, 0]} barSize={40}>
                           {ageData.map((_entry, index) => (
@@ -831,38 +813,13 @@ export default function Analitica() {
               </div>
             </div>
 
-            {/* Gráfico 3: Comunas (Barras Horizontales Multicolor) */}
-            <div className="col-lg-4">
-              <div className="card ibichos-card h-100 p-4 shadow-sm border-0">
-                <h5 className="fw-bold mb-1 text-dark"><MapPin size={20} className="me-2 text-danger" /> Top Comunas</h5>
-                <p className="text-muted small mb-4">Concentración en {selectedRegion !== 'Todas' ? selectedRegion : 'todo el país'}</p>
-                
-                <div style={{ height: 280 }}>
-                  {comunaData.length > 0 ? (
-                    <ResponsiveContainer width="100%" height="100%">
-                      {/* Damos un right margin para que los números al final de la barra no se corten */}
-                      <BarChart data={comunaData} layout="vertical" margin={{ top: 0, right: 35, left: 0, bottom: 0 }}>
-                        <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.2} />
-                        <XAxis type="number" hide /> {/* Ocultamos eje X inferior */}
-                        <YAxis dataKey="name" type="category" width={85} tick={{fontSize: 11, fill: '#475569', fontWeight: 500}} axisLine={false} tickLine={false} />
-                        <Tooltip 
-                          cursor={{fill: '#F1F5F9'}} 
-                          contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }} 
-                        />
-                        <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={20}>
-                          {comunaData.map((_entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[(index + 4) % COLORS.length]} /> // Offset de color diferente
-                          ))}
-                          <LabelList dataKey="value" position="right" fill="#64748B" fontSize={12} fontWeight="bold" />
-                        </Bar>
-                      </BarChart>
-                    </ResponsiveContainer>
-                  ) : (
-                    <div className="h-100 d-flex align-items-center justify-content-center text-muted fw-semibold bg-light rounded-3">Sin datos en esta zona</div>
-                  )}
-                </div>
-              </div>
-            </div>
+          </div>
+
+          {/* BOTÓN A GEOGRAFÍA */}
+          <div className="mt-4 text-center">
+            <button className="btn btn-success px-5 py-3 fw-bold shadow-sm" onClick={() => navigate('/geografia')}>
+              Ver Detalle Geográfico Completo <ChevronRight size={20} className="ms-2" />
+            </button>
           </div>
         </div>
       )}
@@ -870,8 +827,8 @@ export default function Analitica() {
       {/* ---------------- PESTAÑA MODERACIÓN (Eficacia IA) ---------------- */}
       {activeTab === 'moderacion' && (
         <div className="tab-content fade-in-up">
-          
-          {/* Tarjeta de Carga de Trabajo */}
+
+          {/* Tarjeta de Carga de Trabajo (Lleva a Moderación) */}
           <div className="row g-4 mb-4">
             <div className="col-md-12">
               <div className="card ibichos-card shadow-sm border-warning" style={{ cursor: 'pointer' }} onClick={() => navigate('/capturas')}>
@@ -881,12 +838,12 @@ export default function Analitica() {
                       <ShieldAlert size={32} className="text-warning" />
                     </div>
                     <div>
-                      <h6 className="text-muted mb-1">Carga de Trabajo de Moderación</h6>
+                      <h6 className="text-muted mb-1">Bandeja de Moderación (Pendientes)</h6>
                       <h3 className="fw-bold mb-0 text-warning">{stats.pendingReview}</h3>
                     </div>
                   </div>
                   <div className="d-flex justify-content-between align-items-center mt-2 border-top pt-2">
-                    <small className="text-warning fw-bold">Resolver Pendientes</small>
+                    <small className="text-warning fw-bold">Gestionar Pendientes y Rechazos</small>
                     <ChevronRight size={14} className="text-warning" />
                   </div>
                 </div>
@@ -897,7 +854,7 @@ export default function Analitica() {
           <div className="row g-4">
             <div className="col-lg-12">
               <div className="card ibichos-card p-4 shadow-sm border-0">
-                
+
                 {/* Cabecera */}
                 <div className="d-flex align-items-center mb-4">
                   <div className="bg-primary bg-opacity-10 p-3 rounded-3 me-3">
@@ -914,56 +871,50 @@ export default function Analitica() {
                   const rechazadas = validationData.find(d => d.name === 'Rechazadas')?.value || 0;
                   const pendientes = validationData.find(d => d.name === 'Pendientes')?.value || 0;
                   const totalValidaciones = aprobadas + rechazadas + pendientes;
-                  
+
                   const porc_aprobadas = totalValidaciones > 0 ? ((aprobadas / totalValidaciones) * 100).toFixed(1) : 0;
                   const porc_rechazadas = totalValidaciones > 0 ? ((rechazadas / totalValidaciones) * 100).toFixed(1) : 0;
                   const porc_pendientes = totalValidaciones > 0 ? ((pendientes / totalValidaciones) * 100).toFixed(1) : 0;
 
                   return (
-                  <div className="row align-items-center g-4">
-                      
-                      {/* Gráfico Gauge - Ahora usa col-xl-5 para apilarse en pantallas < 1200px */}
-                      <div className="col-xl-5 col-lg-12 d-flex flex-column align-items-center justify-content-center pt-2">
-                        
-                        <div style={{ width: '100%', maxWidth: '320px', height: '160px' }}>
+                    <div className="row align-items-center g-4">
+
+                      {/* Gráfico de Barras de Precisión IA */}
+                      <div className="col-xl-5 col-lg-12 pt-2">
+                        <div style={{ width: '100%', height: '200px' }}>
                           <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
-                              <Pie
-                                data={[
-                                  { value: aprobadas, fill: '#3DDC84' },
-                                  { value: pendientes, fill: '#F4B400' },
-                                  { value: rechazadas, fill: '#DB4437' }
-                                ]}
-                                cx="50%"
-                                cy="100%"
-                                startAngle={180}
-                                endAngle={0}
-                                innerRadius={100}
-                                outerRadius={145}
-                                cornerRadius={6}
-                                paddingAngle={2}
-                                stroke="none"
-                                dataKey="value"
-                              />
-                            </PieChart>
+                            <BarChart
+                              data={[
+                                { name: 'Éxito', value: aprobadas, fill: '#3DDC84' },
+                                { name: 'Revisión', value: pendientes, fill: '#F4B400' },
+                                { name: 'Fallo', value: rechazadas, fill: '#DB4437' }
+                              ]}
+                              layout="vertical"
+                              margin={{ top: 10, right: 60, left: 20, bottom: 10 }}
+                            >
+                              <XAxis type="number" hide />
+                              <YAxis dataKey="name" type="category" width={80} tick={{ fontSize: 12, fontWeight: 600 }} axisLine={false} tickLine={false} />
+                              <Tooltip cursor={{ fill: 'transparent' }} />
+                              <Bar dataKey="value" radius={[0, 8, 8, 0]} barSize={35}>
+                                <LabelList dataKey="value" position="right" fill="#334155" fontWeight="bold" />
+                              </Bar>
+                            </BarChart>
                           </ResponsiveContainer>
                         </div>
-                        
-                        <div className="text-center" style={{ marginTop: '-55px', zIndex: 10 }}>
-                          <h1 className="fw-bolder mb-0 text-dark" style={{ fontSize: '3.8rem', lineHeight: '1', letterSpacing: '-2px' }}>
+                        <div className="text-center mt-3">
+                          <h2 className="fw-bolder mb-0 text-success" style={{ fontSize: '2.5rem' }}>
                             {porc_aprobadas}%
-                          </h1>
-                          <span className="text-secondary fw-bold text-uppercase d-block mt-1" style={{ fontSize: '0.85rem', letterSpacing: '2px' }}>
-                            Éxito IA
+                          </h2>
+                          <span className="text-secondary fw-bold text-uppercase" style={{ fontSize: '0.8rem', letterSpacing: '1px' }}>
+                            Precisión Global
                           </span>
                         </div>
-
                       </div>
 
                       {/* Cuadros de Información - Ahora usa col-xl-7 */}
                       <div className="col-xl-7 col-lg-12">
                         <div className="d-flex flex-column gap-3">
-                          
+
                           {/* Cuadro VERDE */}
                           <div className="p-3 shadow-sm border border-success border-opacity-10" style={{ backgroundColor: '#F0FFF4', borderRadius: '12px' }}>
                             <div className="d-flex align-items-start gap-3">
