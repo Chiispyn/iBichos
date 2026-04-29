@@ -58,6 +58,11 @@ fun RankingScreen(
     val uiState by viewModel.uiState.collectAsState()
     var showInfoDialog by remember { mutableStateOf(false) }
 
+    // Recarga automática al entrar a la pantalla
+    LaunchedEffect(Unit) {
+        viewModel.loadRanking()
+    }
+
     if (showInfoDialog) {
         RankingInfoDialog(
             onDismiss = { showInfoDialog = false }

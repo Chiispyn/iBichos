@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { collection, getDocs, doc, updateDoc, deleteDoc, increment } from 'firebase/firestore';
+import { collection, onSnapshot, doc, updateDoc, deleteDoc, increment } from 'firebase/firestore';
 import { db } from '../config/firebaseConfig';
 import { CheckCircle, XCircle, Clock, ShieldAlert, Trash2 } from 'lucide-react';
 
@@ -10,24 +10,24 @@ interface Captura {
   dangerLevel: string;
   confidence: number;
   needsReview: boolean;
-  validationStatus: string; // 'PENDING_REVIEW', 'APPROVED', 'REJECTED'
+  status: string; // 'PENDING_REVIEW', 'APPROVED', 'REJECTED'
   userId: string;
   lat?: number;
   lng?: number;
 }
 
 export default function Capturas() {
-   const [capturas, setCapturas] = useState<Captura[]>([]);
+  const [capturas, setCapturas] = useState<Captura[]>([]);
   const [filtro, setFiltro] = useState<'PENDING_REVIEW' | 'REJECTED'>('PENDING_REVIEW');
   const [cargando, setCargando] = useState(true);
-   const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
-  // --- OBTENER DATOS DE FIRESTORE ---
-  const fetchCapturas = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "captures"));
+  useEffect(() => {
+    setCargando(true);
+    // Escucha en tiempo real de la colección "captures"
+    const unsubscribe = onSnapshot(collection(db, "captures"), (querySnapshot) => {
       const datos: Captura[] = querySnapshot.docs
         .map(doc => {
           const d = doc.data();
@@ -38,31 +38,29 @@ export default function Capturas() {
             dangerLevel: d.dangerLevel || 'UNKNOWN',
             confidence: d.probability || 0,
             needsReview: d.needsReview || false,
-            validationStatus: d.validationStatus || (d.needsReview ? 'PENDING_REVIEW' : (d.probability < 0.40 ? 'REJECTED' : 'APPROVED')),
+            status: d.status || d.validationStatus || (d.needsReview ? 'PENDING_REVIEW' : (d.probability < 0.40 ? 'REJECTED' : 'APPROVED')),
             userId: d.userId || 'Anónimo',
             lat: d.latitude,
             lng: d.longitude
           };
         })
-        .filter(cap => cap.validationStatus !== 'DELETED'); // Filtramos las borradas lógicamente
+        .filter(cap => cap.status !== 'DELETED');
 
-      // Ordenamos para que las pendientes aparezcan primero
+      // Ordenar: Pendientes primero
       datos.sort((a, b) => {
-        if (a.validationStatus === 'PENDING_REVIEW' && b.validationStatus !== 'PENDING_REVIEW') return -1;
-        if (a.validationStatus !== 'PENDING_REVIEW' && b.validationStatus === 'PENDING_REVIEW') return 1;
+        if (a.status === 'PENDING_REVIEW' && b.status !== 'PENDING_REVIEW') return -1;
+        if (a.status !== 'PENDING_REVIEW' && b.status === 'PENDING_REVIEW') return 1;
         return 0;
       });
 
       setCapturas(datos);
-    } catch (error) {
-      console.error("Error al obtener capturas:", error);
-    } finally {
       setCargando(false);
-    }
-  };
+    }, (error) => {
+      console.error("Error en tiempo real (Capturas):", error);
+      setCargando(false);
+    });
 
-  useEffect(() => {
-    fetchCapturas();
+    return () => unsubscribe();
   }, []);
 
   // --- LÓGICA DE MODERACIÓN Y PENALIZACIÓN ---
@@ -70,10 +68,10 @@ export default function Capturas() {
     try {
       const capturaRef = doc(db, 'captures', id);
       const updates: any = {
-        validationStatus: nuevoEstado,
-        needsReview: false 
+        status: nuevoEstado,
+        needsReview: false
       };
-      
+
       // Si el moderador corrigió la categoría (ej: de Other a Arácnido)
       if (nuevaCat) updates.category = nuevaCat;
 
@@ -91,10 +89,10 @@ export default function Capturas() {
           alert("¡Strike aplicado! El usuario ha sido penalizado por fraude.");
         }
       }
-      
+
       // Actualizamos el estado local para que la UI se refresque al instante
-      setCapturas(prev => prev.map(cap => 
-        cap.id === id ? { ...cap, validationStatus: nuevoEstado, needsReview: false, category: nuevaCat || cap.category } : cap
+      setCapturas(prev => prev.map(cap =>
+        cap.id === id ? { ...cap, status: nuevoEstado, needsReview: false, category: nuevaCat || cap.category } : cap
       ));
     } catch (error) {
       console.error("Error al moderar la captura:", error);
@@ -108,7 +106,7 @@ export default function Capturas() {
       // En lugar de deleteDoc, usamos updateDoc para marcarla como DELETED
       const capturaRef = doc(db, 'captures', selectedId);
       await updateDoc(capturaRef, {
-        validationStatus: 'DELETED',
+        status: 'DELETED',
         needsReview: false
       });
 
@@ -128,10 +126,10 @@ export default function Capturas() {
   };
 
   // --- FILTRADO Y TRADUCCIONES ---
-  const capturasFiltradas = capturas.filter(c => c.validationStatus === filtro);
+  const capturasFiltradas = capturas.filter(c => c.status === filtro);
 
   const getDangerColor = (level: string) => {
-    switch(level) {
+    switch (level) {
       case 'HARMLESS': return 'success';
       case 'VENOMOUS': return 'danger';
       case 'CAUTION': return 'warning';
@@ -140,7 +138,7 @@ export default function Capturas() {
   };
 
   const traducirPeligro = (level: string) => {
-    switch(level) {
+    switch (level) {
       case 'HARMLESS': return 'Inofensivo';
       case 'VENOMOUS': return 'Venenoso';
       case 'CAUTION': return 'Precaución';
@@ -173,15 +171,15 @@ export default function Capturas() {
 
         {/* Filtros de Trabajo (Solo Pendientes y Rechazadas) */}
         <div className="btn-group shadow-sm p-1 bg-white rounded-3">
-          <button 
-            className={`btn btn-sm px-4 fw-bold ${filtro === 'PENDING_REVIEW' ? 'btn-warning active shadow-sm' : 'btn-light'}`} 
+          <button
+            className={`btn btn-sm px-4 fw-bold ${filtro === 'PENDING_REVIEW' ? 'btn-warning active shadow-sm' : 'btn-light'}`}
             onClick={() => setFiltro('PENDING_REVIEW')}
           >
             <Clock size={16} className="me-2 mb-1" />
             Pendientes de Revisión
           </button>
-          <button 
-            className={`btn btn-sm px-4 fw-bold ${filtro === 'REJECTED' ? 'btn-danger active shadow-sm' : 'btn-light'}`} 
+          <button
+            className={`btn btn-sm px-4 fw-bold ${filtro === 'REJECTED' ? 'btn-danger active shadow-sm' : 'btn-light'}`}
             onClick={() => setFiltro('REJECTED')}
           >
             <XCircle size={16} className="me-2 mb-1" />
@@ -202,10 +200,10 @@ export default function Capturas() {
         ) : (
           capturasFiltradas.map((cap) => {
             // HEURÍSTICA ANTI-FRAUDE: Detectamos si hay muchas fotos en la misma coordenada
-            const mismasCoord = capturas.filter(c => 
-              c.userId === cap.userId && 
-              c.lat === cap.lat && 
-              c.lng === cap.lng && 
+            const mismasCoord = capturas.filter(c =>
+              c.userId === cap.userId &&
+              c.lat === cap.lat &&
+              c.lng === cap.lng &&
               cap.lat !== undefined
             ).length;
             const esSospechoso = mismasCoord >= 3;
@@ -213,25 +211,25 @@ export default function Capturas() {
             return (
               <div key={cap.id} className="col-12 col-md-6 col-lg-4 col-xl-3 fade-in-up">
                 <div className={`card h-100 ibichos-card position-relative ${esSospechoso ? 'border border-warning border-2' : ''}`}>
-                  
+
                   {/* Contenedor de Imagen y Banner de Fraude */}
                   <div className="position-relative" style={{ cursor: 'zoom-in' }} onClick={() => setSelectedImg(cap.imageUrl)}>
                     <div className="ibichos-img-container" style={{ backgroundImage: `url(${cap.imageUrl || 'https://via.placeholder.com/300x220?text=Sin+Imagen'})` }} />
-                    
+
                     {/* Botones de acción y estado sobre la imagen */}
                     <div className="position-absolute top-0 end-0 m-2 z-1">
-                      {cap.validationStatus === 'PENDING_REVIEW' ? (
-                        <span className="badge bg-warning text-dark shadow-sm"><Clock size={12} className="me-1"/> Revisión</span>
-                      ) : cap.validationStatus === 'APPROVED' ? (
-                        <span className="badge bg-success shadow-sm"><CheckCircle size={12} className="me-1"/> Aprobada</span>
+                      {cap.status === 'PENDING_REVIEW' ? (
+                        <span className="badge bg-warning text-dark shadow-sm"><Clock size={12} className="me-1" /> Revisión</span>
+                      ) : cap.status === 'APPROVED' ? (
+                        <span className="badge bg-success shadow-sm"><CheckCircle size={12} className="me-1" /> Aprobada</span>
                       ) : (
-                        <span className="badge bg-danger shadow-sm"><XCircle size={12} className="me-1"/> Rechazada</span>
+                        <span className="badge bg-danger shadow-sm"><XCircle size={12} className="me-1" /> Rechazada</span>
                       )}
                     </div>
 
-                    <button 
+                    <button
                       className="position-absolute top-0 start-0 m-2 z-1 btn btn-dark btn-sm bg-opacity-50 border-0 rounded-circle p-1"
-                      onClick={() => openModal(cap.id)}
+                      onClick={(e) => { e.stopPropagation(); openModal(cap.id); }}
                     >
                       <Trash2 size={16} className="text-white" />
                     </button>
@@ -248,10 +246,10 @@ export default function Capturas() {
                     {/* SELECTOR DE CATEGORÍA (CORRECCIÓN DE IA) */}
                     <div className="mb-3">
                       <label className="small text-muted mb-1 d-block">Categoría (Corregir si es necesario):</label>
-                      <select 
+                      <select
                         className="form-select form-select-sm border-success bg-light fw-bold"
                         value={cap.category}
-                        onChange={(e) => handleModeracion(cap.id, cap.validationStatus as any, e.target.value)}
+                        onChange={(e) => handleModeracion(cap.id, cap.status as any, e.target.value)}
                       >
                         <option value="ARACHNID">Arácnido 🕷️</option>
                         <option value="COLEOPTERA">Coleóptero 🐞</option>
@@ -259,9 +257,9 @@ export default function Capturas() {
                         <option value="HYMENOPTERA">Himenóptero 🐝</option>
                         <option value="OTHER">Otro ❓</option>
                       </select>
-                      <p className="small text-muted mt-2 mb-0">ID Usuario: <code>{cap.userId.substring(0,8)}</code></p>
+                      <p className="small text-muted mt-2 mb-0">ID Usuario: <code>{cap.userId.substring(0, 8)}</code></p>
                     </div>
-                    
+
                     <hr className="my-3 opacity-10" />
 
                     {/* MÉTRICAS DE IDENTIFICACIÓN */}
@@ -281,25 +279,25 @@ export default function Capturas() {
 
                     {/* ACCIONES DE MODERACIÓN */}
                     <div className="d-grid gap-2 d-flex">
-                      <button 
-                        className={`btn btn-sm flex-grow-1 fw-bold ${cap.validationStatus === 'APPROVED' ? 'btn-success' : 'btn-outline-success'}`}
+                      <button
+                        className={`btn btn-sm flex-grow-1 fw-bold ${cap.status === 'APPROVED' ? 'btn-success' : 'btn-outline-success'}`}
                         onClick={() => handleModeracion(cap.id, 'APPROVED')}
-                        disabled={cap.validationStatus === 'APPROVED'}
+                        disabled={cap.status === 'APPROVED'}
                       >
-                        {cap.validationStatus === 'APPROVED' ? 'Aprobada' : 'Aprobar'}
+                        {cap.status === 'APPROVED' ? 'Aprobada' : 'Aprobar'}
                       </button>
-                      <button 
-                        className={`btn btn-sm flex-grow-1 fw-bold ${cap.validationStatus === 'REJECTED' ? 'btn-danger' : 'btn-outline-danger'}`}
+                      <button
+                        className={`btn btn-sm flex-grow-1 fw-bold ${cap.status === 'REJECTED' ? 'btn-danger' : 'btn-outline-danger'}`}
                         onClick={() => handleModeracion(cap.id, 'REJECTED')}
-                        disabled={cap.validationStatus === 'REJECTED'}
+                        disabled={cap.status === 'REJECTED'}
                       >
-                        {cap.validationStatus === 'REJECTED' ? 'Rechazada' : 'Rechazar'}
+                        {cap.status === 'REJECTED' ? 'Rechazada' : 'Rechazar'}
                       </button>
                     </div>
 
                     {/* REPORTE DE FRAUDE (STRIKE MANUAL) */}
-                    {cap.validationStatus !== 'APPROVED' && (
-                      <button 
+                    {cap.status !== 'APPROVED' && (
+                      <button
                         className="btn btn-dark btn-sm w-100 mt-2 fw-bold"
                         onClick={() => handleModeracion(cap.id, 'REJECTED', undefined, true)}
                       >
@@ -326,10 +324,10 @@ export default function Capturas() {
                   <button type="button" className="btn-close btn-close-white ms-auto" onClick={() => setSelectedImg(null)}></button>
                 </div>
                 <div className="modal-body p-2 text-center">
-                  <img 
-                    src={selectedImg} 
-                    className="img-fluid rounded shadow-lg" 
-                    style={{ maxHeight: '80vh', objectFit: 'contain' }} 
+                  <img
+                    src={selectedImg}
+                    className="img-fluid rounded shadow-lg"
+                    style={{ maxHeight: '80vh', objectFit: 'contain' }}
                     alt="Zoom de insecto"
                   />
                 </div>

@@ -283,10 +283,13 @@ private fun ProfileHeader(
         label = "particle_alpha"
     )
 
+    val configuration = androidx.compose.ui.platform.LocalConfiguration.current
+    val headerHeight = (configuration.screenHeightDp * 0.42).dp
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(355.dp),
+            .height(headerHeight),
         contentAlignment = Alignment.TopCenter
     ) {
         FloatingParticle(
@@ -735,14 +738,14 @@ private fun LogoutButton(
 }
 
 @Composable
-private fun ProfileStat(
+private fun RowScope.ProfileStat(
     emoji: String,
     value: String,
     label: String
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.width(95.dp)
+        modifier = Modifier.weight(1f)
     ) {
         Text(emoji, fontSize = 32.sp)
 

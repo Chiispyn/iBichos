@@ -53,6 +53,11 @@ fun CatalogScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    // Recarga automática al entrar a la pantalla
+    LaunchedEffect(Unit) {
+        viewModel.loadCaptures()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
