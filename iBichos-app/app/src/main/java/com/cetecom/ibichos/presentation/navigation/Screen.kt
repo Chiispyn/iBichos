@@ -9,7 +9,9 @@ sealed class Screen(val route: String) {
     object Login    : Screen("login")
     object Register : Screen("register")
     object Main     : Screen("main")
-    object Map      : Screen("map")
+    object Map : Screen("map?lat={lat}&lng={lng}") {
+        fun createRoute(lat: Double, lng: Double) = "map?lat=$lat&lng=$lng"
+    }
 
     object OnboardingOne : Screen (route = "onboardingOne")
 
@@ -19,10 +21,8 @@ sealed class Screen(val route: String) {
 
 
 
-    // La pantalla de detalles recibe un índice para acceder a la captura desde el catálogo
-    // (Se pasa como indice en la lista del ViewModel compartido — evita encoding de objetos)
-    object CaptureDetail : Screen("captureDetail/{captureIndex}") {
-        fun createRoute(index: Int) = "captureDetail/$index"
-    }
+    // La pantalla de detalles ahora obtiene la captura seleccionada desde NavigationState
+    object CaptureDetail : Screen("captureDetail")
+
 }
 

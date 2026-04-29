@@ -22,6 +22,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.presentation.auth.AuthViewModel
 import com.cetecom.ibichos.presentation.auth.CompleteProfileScreen
 import com.cetecom.ibichos.presentation.auth.LoginScreen
@@ -37,6 +38,11 @@ import com.cetecom.ibichos.presentation.profile.ProfileScreen
 import com.cetecom.ibichos.presentation.ranking.RankingScreen
 import com.cetecom.ibichos.presentation.splash.SplashScreen
 import com.cetecom.ibichos.ui.theme.*
+import kotlinx.coroutines.launch
+
+object NavigationState {
+    var captureForDetail: CaptureItem? = null
+}
 
 // ── Ítems del BottomNav ───────────────────────────────────────────────────────
 private data class BottomNavItem(
@@ -116,8 +122,9 @@ fun AppNavigation() {
         // ── Main (BottomNav) ──────────────────────────────────────────────
         composable(Screen.Main.route) {
             MainScreenWithBottomNav(
-                onNavigateToDetail = { index: Int ->
-                    navController.navigate(Screen.CaptureDetail.createRoute(index))
+                onNavigateToDetail = { capture ->
+                    NavigationState.captureForDetail = capture
+                    navController.navigate(Screen.CaptureDetail.route)
                 },
                 onNavigateToMap    = { navController.navigate(Screen.Map.route) },
                 onLogout           = {
@@ -130,37 +137,50 @@ fun AppNavigation() {
         }
 
         // ── Detalle de captura ────────────────────────────────────────────
-        // El ViewModel de catálogo es compartido (misma instancia en Main y Detail)
-        composable(
-            route     = Screen.CaptureDetail.route,
-            arguments = listOf(navArgument("captureIndex") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val index = backStackEntry.arguments?.getInt("captureIndex") ?: 0
-            val catalogViewModel: CatalogViewModel = viewModel(
-                viewModelStoreOwner = navController.getBackStackEntry(Screen.Main.route)
-            )
-            val state by catalogViewModel.uiState.collectAsState()
-            val capture = state.captures.getOrNull(index)
+        composable(Screen.CaptureDetail.route) {
+            val capture = NavigationState.captureForDetail
 
             if (capture != null) {
+                val scope = androidx.compose.runtime.rememberCoroutineScope()
+
                 CaptureDetailScreen(
                     capture        = capture,
-                    onNavigateBack = { navController.popBackStack() }
+                    onNavigateBack = { navController.popBackStack() },
+                    onDelete = { id ->
+                        scope.launch {
+                            com.cetecom.ibichos.data.repository.CaptureRepositoryImpl().deleteCapture(id)
+                            navController.popBackStack()
+                        }
+                    },
+                    onNavigateToMap = { lat, lng ->
+                        navController.navigate(Screen.Map.createRoute(lat, lng))
+                    }
                 )
             } else {
-                // Si la lista aún no cargó, mostrar loading
-                androidx.compose.foundation.layout.Box(
-                    modifier            = androidx.compose.ui.Modifier.fillMaxSize(),
-                    contentAlignment    = androidx.compose.ui.Alignment.Center
-                ) {
-                    CircularProgressIndicator(color = IBichosGreen)
-                }
+                navController.popBackStack()
             }
         }
 
         // ── Mapa ─────────────────────────────────────────────────────────
-        composable(Screen.Map.route) {
-            MapScreen(onNavigateBack = { navController.popBackStack() })
+        composable(
+            route = Screen.Map.route,
+            arguments = listOf(
+                navArgument("lat") { type = NavType.StringType; nullable = true },
+                navArgument("lng") { type = NavType.StringType; nullable = true }
+            )
+        ) { backStackEntry ->
+            val lat = backStackEntry.arguments?.getString("lat")?.toDoubleOrNull()
+            val lng = backStackEntry.arguments?.getString("lng")?.toDoubleOrNull()
+            
+            MapScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToDetail = { capture ->
+                    NavigationState.captureForDetail = capture
+                    navController.navigate(Screen.CaptureDetail.route)
+                },
+                initialLat = lat,
+                initialLng = lng
+            )
         }
 
         composable(route = Screen.OnboardingOne.route){
@@ -201,7 +221,7 @@ fun AppNavigation() {
  */
 @Composable
 fun MainScreenWithBottomNav(
-    onNavigateToDetail: (Int) -> Unit,
+    onNavigateToDetail: (CaptureItem) -> Unit,
     onNavigateToMap: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -267,8 +287,7 @@ fun MainScreenWithBottomNav(
                     viewModel          = catalogViewModel,
                     onNavigateToMap    = onNavigateToMap,
                     onNavigateToDetail = { capture ->
-                        val index = catalogViewModel.uiState.value.captures.indexOf(capture)
-                        if (index >= 0) onNavigateToDetail(index)
+                        onNavigateToDetail(capture)
                     }
                 )
             }
