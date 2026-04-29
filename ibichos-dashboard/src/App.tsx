@@ -18,9 +18,9 @@ function App() {
 
           <Route path="/*" element={
             <ProtectedRoute> 
-              <div className="d-flex vh-100 w-100 overflow-hidden">
+              <div className="d-flex flex-column flex-lg-row min-vh-100 bg-light">
                 <Sidebar />
-                <main className="flex-grow-1 overflow-auto ibichos-dashboard-bg p-4">
+                <main className="flex-grow-1 p-3 p-lg-4" style={{ overflowY: 'auto' }}>
                   <Routes>
                     <Route path="principal" element={<Principal />} />
                     <Route path="usuarios" element={<Usuarios />} />
