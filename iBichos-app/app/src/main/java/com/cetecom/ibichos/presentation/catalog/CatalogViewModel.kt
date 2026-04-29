@@ -1,4 +1,4 @@
-﻿package com.cetecom.ibichos.presentation.catalog
+package com.cetecom.ibichos.presentation.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -44,5 +44,15 @@ class CatalogViewModel : ViewModel() {
             }
         }
     }
-}
 
+    fun deleteCapture(id: String) {
+        viewModelScope.launch {
+            try {
+                repository.deleteCapture(id)
+                loadCaptures() // Refrescar lista local
+            } catch (e: Exception) {
+                _uiState.update { it.copy(error = "No se pudo eliminar: ${e.message}") }
+            }
+        }
+    }
+}

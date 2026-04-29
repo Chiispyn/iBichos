@@ -1,6 +1,7 @@
 package com.cetecom.ibichos.presentation.catalog
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.domain.model.enums.DangerLevel
+import com.cetecom.ibichos.ui.theme.IBichosGreen
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -43,8 +45,13 @@ private val TextSecondary = Color(0xFF6B7280)
 @Composable
 fun CaptureDetailScreen(
     capture: CaptureItem,
-    onNavigateBack: () -> Unit
+    currentUserId: String = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "",
+    onNavigateBack: () -> Unit,
+    onDelete: (String) -> Unit = {},
+    onNavigateToMap: (Double, Double) -> Unit = { _, _ -> }
 ) {
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    
     val dateStr = remember(capture.capturedAt) {
         if (capture.capturedAt > 0) {
             SimpleDateFormat("dd 'de' MMMM yyyy, HH:mm", Locale("es"))
@@ -81,7 +88,14 @@ fun CaptureDetailScreen(
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = Color.White
-                )
+                ),
+                actions = {
+                    if (currentUserId == capture.userId) {
+                        IconButton(onClick = { showDeleteDialog = true }) {
+                            Icon(Icons.Default.Delete, "Borrar", tint = Color(0xFFEF4444))
+                        }
+                    }
+                }
             )
         },
         containerColor = BackgroundSoft
@@ -102,12 +116,15 @@ fun CaptureDetailScreen(
         ) {
 
             // 📷 Imagen
+            val configuration = androidx.compose.ui.platform.LocalConfiguration.current
+            val imageHeight = (configuration.screenHeightDp * 0.35).dp
+
             AsyncImage(
                 model = if (capture.imageUrl.startsWith("/")) File(capture.imageUrl) else capture.imageUrl,
                 contentDescription = capture.insectName,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(280.dp)
+                    .height(imageHeight)
                     .clip(RoundedCornerShape(24.dp)),
                 contentScale = ContentScale.Crop
             )
@@ -214,14 +231,28 @@ fun CaptureDetailScreen(
 
             if (capture.latitude != null && capture.longitude != null) {
                 InfoCard(
-                    Icons.Default.LocationOn,
-                    "Ubicación GPS",
-                    "Lat: %.4f, Lon: %.4f".format(capture.latitude, capture.longitude)
+                    icon = Icons.Default.LocationOn,
+                    label = "Ubicación GPS",
+                    content = "Toca para ver en el mapa",
+                    modifier = Modifier.clickable {
+                        onNavigateToMap(capture.latitude, capture.longitude)
+                    },
+                    isLink = true
                 )
             }
 
             if (capture.description.isNotEmpty()) {
                 InfoCard(Icons.Default.Eco, "Información Biológica", capture.description)
+            }
+            
+            if (showDeleteDialog) {
+                DeleteConfirmDialog(
+                    onConfirm = {
+                        showDeleteDialog = false
+                        onDelete(capture.id)
+                    },
+                    onDismiss = { showDeleteDialog = false }
+                )
             }
         }
     }
@@ -263,18 +294,24 @@ private fun StatBox(
 private fun InfoCard(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     label: String,
-    content: String
+    content: String,
+    modifier: Modifier = Modifier,
+    isLink: Boolean = false
 ) {
     Card(
         shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        modifier = modifier
     ) {
-        Row(modifier = Modifier.padding(14.dp)) {
+        Row(
+            modifier = Modifier.padding(14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
             Box(
                 modifier = Modifier
                     .size(44.dp)
-                    .background(GreenSoft, RoundedCornerShape(12.dp)),
+                    .background(if (isLink) GreenPrimary.copy(alpha = 0.1f) else GreenSoft, RoundedCornerShape(12.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(icon, null, tint = GreenPrimary)
@@ -282,11 +319,37 @@ private fun InfoCard(
 
             Spacer(Modifier.width(10.dp))
 
-            Column {
-                Text(label, color = TextSecondary)
+            Column(modifier = Modifier.weight(1f)) {
+                Text(label, color = TextSecondary, style = MaterialTheme.typography.labelSmall)
                 Spacer(Modifier.height(4.dp))
-                Text(content, color = TextPrimary)
+                Text(content, color = if (isLink) GreenPrimary else TextPrimary, fontWeight = if (isLink) FontWeight.Bold else FontWeight.Normal)
+            }
+            
+            if (isLink) {
+                Icon(Icons.Default.ChevronRight, null, tint = GreenPrimary, modifier = Modifier.size(20.dp))
             }
         }
     }
+}
+
+@Composable
+private fun DeleteConfirmDialog(
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text("¿Eliminar captura?") },
+        text = { Text("Esta acción no se puede deshacer y perderás la XP ganada.") },
+        confirmButton = {
+            Button(onClick = onConfirm, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFEF4444))) {
+                Text("Eliminar", color = Color.White)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Cancelar")
+            }
+        }
+    )
 }

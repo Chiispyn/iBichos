@@ -3,7 +3,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from '../config/firebaseConfig';
 import { useAuth } from '../context/authcontext';
 // Importamos los iconos de Lucide (asumiendo que los tienes instalados por tu código anterior)
-import { LogOut, Menu, User, Activity, Users, Home } from 'lucide-react';
+import { LogOut, Menu, User, Activity, Users, Home, Globe2, Bug, ShieldAlert } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Sidebar() {
@@ -81,6 +81,21 @@ export default function Sidebar() {
                   <Activity size={18} /> Analítica
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/geografia" className={getLinkClasses('/geografia')} onClick={closeNav}>
+                  <Globe2 size={18} /> Geografía
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/catalogo" className={getLinkClasses('/catalogo')} onClick={closeNav}>
+                  <Bug size={18} /> Catálogo
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/capturas" className={getLinkClasses('/capturas')} onClick={closeNav}>
+                  <ShieldAlert size={18} /> Moderación
+                </Link>
+              </li>
             </ul>
 
             <hr className="text-white-50 my-3" />
@@ -132,6 +147,21 @@ export default function Sidebar() {
           <li className="nav-item">
             <Link to="/analitica" className={getLinkClasses('/analitica')}>
               <Activity size={20} /> Analítica
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/geografia" className={getLinkClasses('/geografia')}>
+              <Globe2 size={20} /> Geografía
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/catalogo" className={getLinkClasses('/catalogo')}>
+              <Bug size={20} /> Catálogo
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/capturas" className={getLinkClasses('/capturas')}>
+              <ShieldAlert size={20} /> Moderación
             </Link>
           </li>
         </ul>

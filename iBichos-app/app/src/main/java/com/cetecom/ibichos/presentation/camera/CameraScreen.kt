@@ -26,6 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
@@ -107,6 +109,38 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
                     }
                 }
             )
+
+            // ── OVERLAY DE PREVIEW (FOTO TOMADA) ─────────────────────────
+            AnimatedVisibility(
+                visible = uiState is CameraUiState.Preview,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                if (uiState is CameraUiState.Preview) {
+                    val previewState = uiState as CameraUiState.Preview
+                    Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+                        androidx.compose.foundation.Image(
+                            bitmap = previewState.bitmap.asImageBitmap(),
+                            contentDescription = "Foto capturada",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                        
+                        // Gradiente para que los botones se vean bien
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                                .align(Alignment.BottomCenter)
+                                .background(
+                                    androidx.compose.ui.graphics.Brush.verticalGradient(
+                                        colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f))
+                                    )
+                                )
+                        )
+                    }
+                }
+            }
         } else {
             // ── Sin permisos ─────────────────────────────────────────────
             Column(
@@ -178,6 +212,47 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
                                     )
                                 }
                             }
+                            is CameraUiState.Preview -> {
+                                val state = uiState as CameraUiState.Preview
+                                Column(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        text = "¿Analizar este insecto?",
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                        style = MaterialTheme.typography.titleLarge,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Text(
+                                        text = "Asegúrate de que se vea nítido",
+                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                    Spacer(Modifier.height(20.dp))
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                    ) {
+                                        OutlinedButton(
+                                            onClick = { viewModel.resetState() },
+                                            modifier = Modifier.weight(1f),
+                                            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+                                        ) {
+                                            Text("Repetir", color = MaterialTheme.colorScheme.onSurface)
+                                        }
+                                        Button(
+                                            onClick = { 
+                                                viewModel.processCapture(state.bitmap, state.lat, state.lon, context) 
+                                            },
+                                            modifier = Modifier.weight(1f),
+                                            colors = ButtonDefaults.buttonColors(containerColor = IBichosGreen)
+                                        ) {
+                                            Text("Analizar ✨", color = OnGreen)
+                                        }
+                                    }
+                                }
+                            }
                             is CameraUiState.Success -> {
                                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                     Text(
@@ -246,28 +321,23 @@ fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
                                         val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
                                         image.close()
 
-                                        // Indicar carga inmediatamente mientras se obtiene el GPS
-                                        viewModel.setLoading()
-
-                                         // Intentar obtener ubicación fresca (Priority High Accuracy)
-                                         try {
-                                             val cts = CancellationTokenSource()
-                                             fusedLocation.getCurrentLocation(
-                                                 Priority.PRIORITY_HIGH_ACCURACY,
-                                                 cts.token
-                                             ).addOnCompleteListener { task ->
-                                                 val loc = if (task.isSuccessful) task.result else null
-                                                 viewModel.processCapture(
-                                                     bitmap = bitmap,
-                                                     // Fallback: Duoc UC Concepción (si el GPS está apagado o falla)
-                                                     lat = loc?.latitude ?: -36.8230,
-                                                     lon = loc?.longitude ?: -73.0337,
-                                                     context = context
-                                                 )
-                                             }
-                                         } catch (e: SecurityException) {
-                                             viewModel.processCapture(bitmap, -36.8230, -73.0337, context)
-                                         }
+                                        // Intentar obtener ubicación antes de mostrar el preview
+                                        try {
+                                            val cts = CancellationTokenSource()
+                                            fusedLocation.getCurrentLocation(
+                                                Priority.PRIORITY_HIGH_ACCURACY,
+                                                cts.token
+                                            ).addOnCompleteListener { task ->
+                                                val loc = if (task.isSuccessful) task.result else null
+                                                viewModel.setPreview(
+                                                    bitmap = bitmap,
+                                                    lat = loc?.latitude ?: -36.8230,
+                                                    lon = loc?.longitude ?: -73.0337
+                                                )
+                                            }
+                                        } catch (e: SecurityException) {
+                                            viewModel.setPreview(bitmap, -36.8230, -73.0337)
+                                        }
                                     }
 
                                     override fun onError(exc: ImageCaptureException) {
