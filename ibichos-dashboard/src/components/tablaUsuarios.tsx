@@ -113,7 +113,7 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
                         <span className="fw-bold">
                           {usuario.username}
                           {adminsIds.includes(usuario.id) && (
-                            <span className="badge bg-danger ms-2" style={{ fontSize: '0.6rem' }}>STAFF</span>
+                            <span className="badge bg-danger ms-2" style={{ fontSize: '0.6rem' }}>Moderador</span>
                           )}
                         </span>
                         <small className="text-muted text-uppercase" style={{ fontSize: '0.7rem' }}>
