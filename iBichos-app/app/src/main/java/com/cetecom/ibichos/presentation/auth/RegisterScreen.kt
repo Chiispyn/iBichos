@@ -97,8 +97,9 @@ fun RegisterScreen(
         }
     )
 
-    val comunasForRegion = remember(region) {
-        ChileanData.regionsWithComunas[region] ?: emptyList()
+    val locations by viewModel.locations.collectAsStateWithLifecycle()
+    val comunasForRegion = remember(region, locations) {
+        locations[region] ?: emptyList()
     }
 
     val canRegister =
@@ -240,7 +241,7 @@ fun RegisterScreen(
                             expanded = regionExpanded,
                             onDismissRequest = { regionExpanded = false }
                         ) {
-                            ChileanData.regionsWithComunas.keys.forEach { r ->
+                            locations.keys.forEach { r ->
                                 DropdownMenuItem(
                                     text = { Text(r) },
                                     onClick = {
