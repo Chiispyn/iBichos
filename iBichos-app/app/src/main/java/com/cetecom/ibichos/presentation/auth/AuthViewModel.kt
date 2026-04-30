@@ -35,10 +35,31 @@ class AuthViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(AuthUiState())
     val uiState: StateFlow<AuthUiState> = _uiState.asStateFlow()
 
+    private val _locations = MutableStateFlow<Map<String, List<String>>>(emptyMap())
+    val locations: StateFlow<Map<String, List<String>>> = _locations.asStateFlow()
+
     init {
         auth.addAuthStateListener { firebaseAuth ->
             val user = firebaseAuth.currentUser
             _uiState.update { it.copy(user = user) }
+        }
+        loadLocations()
+    }
+
+    private fun loadLocations() {
+        viewModelScope.launch {
+            try {
+                val doc = db.collection("metadata").document("locations").get().await()
+                if (doc.exists()) {
+                    @Suppress("UNCHECKED_CAST")
+                    val regions = doc.get("regions") as? Map<String, List<String>>
+                    if (regions != null) {
+                        _locations.value = regions
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

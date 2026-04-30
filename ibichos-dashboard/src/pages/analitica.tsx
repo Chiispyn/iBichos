@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { db } from '../config/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, LabelList
 } from 'recharts';
-import { Activity, Users, Camera, ShieldAlert, Clock, Smartphone, Bug, ShieldCheck, ChevronRight, MapPin, UserCircle2, Calendar, Brain, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
+import { Activity, Users, Camera, ShieldAlert, Clock, Smartphone, Bug, ShieldCheck, ChevronRight, MapPin, UserCircle2, Calendar, Brain, CheckCircle2, XCircle, AlertCircle, Download, Database } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const COLORS = ['#3DDC84', '#F4B400', '#DB4437', '#4285F4', '#9C27B0', '#00BCD4'];
@@ -23,7 +23,11 @@ export default function Analitica() {
   const [dangerData, setDangerData] = useState<any[]>([]);
   const [sessionsData, setSessionsData] = useState<any[]>([]);
   const [retentionStats, setRetentionStats] = useState({ day1: '0', day7: '0', day30: '0' });
-  const [activationStats, setActivationStats] = useState({ activados: 0, abandono: 0 }); const [validationData, setValidationData] = useState<any[]>([]);
+  const [activationStats, setActivationStats] = useState({ activados: 0, abandono: 0 }); 
+  const [validationData, setValidationData] = useState<any[]>([]);
+  const [shadowbanData, setShadowbanData] = useState<any[]>([]);
+  const [aiConfidenceData, setAiConfidenceData] = useState<any[]>([]);
+  const [medalsData, setMedalsData] = useState<any[]>([]);
   const [monthlySessionsData, setMonthlySessionsData] = useState<any[]>([]);
   const [monthlyCapturesData, setMonthlyCapturesData] = useState<any[]>([]);
   const [genreData, setGenreData] = useState<any[]>([]);
@@ -42,8 +46,21 @@ export default function Analitica() {
   };
 
   const traducirCategoria = (cat: string) => {
-    const dict: Record<string, string> = { HYMENOPTERA: 'Abejas/Avispas', ARACHNIDA: 'Arácnidos', COLEOPTERA: 'Escarabajos', LEPIDOPTERA: 'Mariposas', DIPTERA: 'Moscas', BLATTODEA: 'Cucarachas', HEMIPTERA: 'Chinches', ORTHOPTERA: 'Grillos/Saltamontes', ODONATA: 'Libélulas', OTHER: 'Otro' };
+    const dict: Record<string, string> = { HYMENOPTERA: 'Abejas/Avispas', ARACHNIDA: 'Arácnidos', ARACHNID: 'Arácnidos', COLEOPTERA: 'Escarabajos', LEPIDOPTERA: 'Mariposas', DIPTERA: 'Moscas', BLATTODEA: 'Cucarachas', HEMIPTERA: 'Chinches', ORTHOPTERA: 'Grillos/Saltamontes', ODONATA: 'Libélulas', OTHER: 'Otro' };
     return dict[cat] || cat;
+  };
+
+  const traducirMedalla = (medalla: string) => {
+    const dict: Record<string, string> = { 
+      FIRST_CAPTURE: 'Primer Avistamiento',
+      NOVICE_RESEARCHER: 'Investigador Novato',
+      BRAVE_HUNTER: 'Cazador Valiente',
+      ARACHNOLOGIST: 'Aracnólogo',
+      LEPIDOPTEROLOGIST: 'Lepidopterólogo',
+      POLLINATOR_FRIEND: 'Amigo Polinizador',
+      COLEOPTEROLOGIST: 'Coleopterólogo'
+    };
+    return dict[medalla] || medalla.replace(/_/g, ' ');
   };
 
   const traducirPeligro = (danger: string) => {
@@ -103,7 +120,10 @@ export default function Analitica() {
         const userFirstSession: Record<string, Date> = {};
         const usersSnap = await getDocs(collection(db, 'users'));
         let totalUsers = 0;
+        let healthyUsers = 0;
+        let shadowbannedUsers = 0;
         const levelCounts: Record<string, number> = {};
+        const medalsCounts: Record<string, number> = {};
         const usersList: any[] = [];
         const regionsSet = new Set<string>();
 
@@ -113,8 +133,19 @@ export default function Analitica() {
           const level = traducirNivel(data.gamification?.level || 'CASUAL');
           levelCounts[level] = (levelCounts[level] || 0) + 1;
 
+          // Conteo de Medallas
+          const medalsList = data.gamification?.medals || [];
+          if (Array.isArray(medalsList)) {
+            medalsList.forEach(m => {
+              const nombreMedalla = traducirMedalla(m);
+              medalsCounts[nombreMedalla] = (medalsCounts[nombreMedalla] || 0) + 1;
+            });
+          }
+
           usersList.push(data);
           if (data.region) regionsSet.add(data.region);
+          if (data.isShadowBanned) shadowbannedUsers++;
+          else healthyUsers++;
         });
 
         setRawUsers(usersList);
@@ -128,6 +159,7 @@ export default function Analitica() {
         const dangerCounts: Record<string, number> = {};
         const validationCounts: Record<string, number> = { 'Aprobadas': 0, 'Rechazadas': 0, 'Pendientes': 0 };
         const monthlyCapturesMap: Record<string, number> = {};
+        const aiConfidenceMap: Record<string, { totalProb: number, count: number }> = {};
 
         capturesSnap.forEach(doc => {
           totalCaptures++;
@@ -151,6 +183,13 @@ export default function Analitica() {
           // Agrupación por riesgo (Salud Pública)
           const danger = traducirPeligro(data.dangerLevel || 'UNKNOWN');
           dangerCounts[danger] = (dangerCounts[danger] || 0) + 1;
+
+          // Registro de confianza de la IA
+          if (data.probability !== undefined) {
+            if (!aiConfidenceMap[cat]) aiConfidenceMap[cat] = { totalProb: 0, count: 0 };
+            aiConfidenceMap[cat].totalProb += data.probability;
+            aiConfidenceMap[cat].count += 1;
+          }
 
           // Cálculo de Eficacia IA: Comparamos estado de validación (Incluyendo las ocultas/borradas lógicamente)
           if (currentStatus === 'REJECTED' || currentStatus === 'DELETED' || (data.probability || 0) < 0.40) {
@@ -278,18 +317,64 @@ export default function Analitica() {
         });
 
         const totalEvaluados = activadosCount + abandonoCount;
+        const activadosPorc = totalEvaluados > 0 ? Math.round((activadosCount / totalEvaluados) * 100) : 0;
         setActivationStats({
-          activados: totalEvaluados > 0 ? Math.round((activadosCount / totalEvaluados) * 100) : 0,
-          abandono: totalEvaluados > 0 ? Math.round((abandonoCount / totalEvaluados) * 100) : 0
+          activados: activadosPorc,
+          abandono: totalEvaluados > 0 ? 100 - activadosPorc : 0
         });
 
-        // --- PREPARACIÓN DE DATOS PARA RECHARTS ---
+        // --- ORDENAMIENTO LÓGICO Y ALFABÉTICO ---
+        
+        const levelOrder = ['Casual', 'Amateur', 'Explorador', 'Entomólogo', 'Maestro de Bichos'];
+        const levelArray = Object.entries(levelCounts).map(([name, value]) => ({ name, value }));
+        levelArray.sort((a, b) => {
+          const idxA = levelOrder.indexOf(a.name);
+          const idxB = levelOrder.indexOf(b.name);
+          return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+        });
+
+        const categoryArray = Object.entries(catCounts).map(([name, value]) => ({ name, value }));
+        categoryArray.sort((a, b) => {
+          if (a.name === 'Otro') return 1;
+          if (b.name === 'Otro') return -1;
+          return a.name.localeCompare(b.name);
+        });
+
+        const dangerOrder = ['Inofensivo', 'Precaución', 'Venenoso', 'Desconocido'];
+        const dangerArray = Object.entries(dangerCounts).map(([name, value]) => ({ name, value }));
+        dangerArray.sort((a, b) => {
+          const idxA = dangerOrder.indexOf(a.name);
+          const idxB = dangerOrder.indexOf(b.name);
+          return (idxA === -1 ? 99 : idxA) - (idxB === -1 ? 99 : idxB);
+        });
+
+        const aiArray = Object.entries(aiConfidenceMap).map(([name, stats]) => ({
+          name,
+          value: Math.round((stats.totalProb / stats.count) * 100)
+        }));
+        aiArray.sort((a, b) => {
+          if (a.name === 'Otro') return 1;
+          if (b.name === 'Otro') return -1;
+          return a.name.localeCompare(b.name);
+        });
+
+        // --- ASIGNACIÓN DE ESTADOS ---
 
         setStats({ totalUsers, totalCaptures, pendingReview, totalSessions, totalMinutes });
-        setLevelData(Object.entries(levelCounts).map(([name, value]) => ({ name, value })));
-        setCategoryData(Object.entries(catCounts).map(([name, value]) => ({ name, value })));
-        setDangerData(Object.entries(dangerCounts).map(([name, value]) => ({ name, value })));
+        setLevelData(levelArray);
+        setCategoryData(categoryArray);
+        setDangerData(dangerArray);
         setValidationData(Object.entries(validationCounts).map(([name, value]) => ({ name, value })));
+        setShadowbanData([
+          { name: 'Sanos', value: healthyUsers },
+          { name: 'Penalizados', value: shadowbannedUsers }
+        ]);
+        setAiConfidenceData(aiArray);
+        setMedalsData(Object.entries(medalsCounts)
+          .map(([name, value]) => ({ name, value }))
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 5) // Top 5 medallas
+        );
         setSessionsData(sortedSessionsData);
         setMonthlySessionsData(Object.entries(monthlySessionsMap).map(([name, minutos]) => ({ name, minutos })));
         setMonthlyCapturesData(Object.entries(monthlyCapturesMap).map(([name, capturas]) => ({ name, capturas })));
@@ -338,7 +423,15 @@ export default function Analitica() {
       }
     });
 
-    setGenreData(Object.entries(genreCounts).map(([name, value]) => ({ name, value })));
+    const genreArray = Object.entries(genreCounts).map(([name, value]) => ({ name, value }));
+    genreArray.sort((a, b) => {
+      // Dejar 'No definido' o 'Reservado' al final, el resto alfabético
+      if (a.name.includes('definido') || a.name.includes('Reservado') || a.name === 'Otro') return 1;
+      if (b.name.includes('definido') || b.name.includes('Reservado') || b.name === 'Otro') return -1;
+      return a.name.localeCompare(b.name);
+    });
+
+    setGenreData(genreArray);
     setComunaData(Object.entries(comunaCounts).map(([name, value]) => ({ name, value }))
       .sort((a, b) => b.value - a.value).slice(0, 10)); // Top 10
     setAgeData(Object.entries(ageCounts).map(([name, value]) => ({ name, value }))
@@ -356,12 +449,127 @@ export default function Analitica() {
     );
   }
 
+  // --- FUNCIÓN PARA EXPORTAR REPORTE ---
+  const handleExportCSV = () => {
+    // Definimos el contenido del CSV
+    let csvContent = "data:text/csv;charset=utf-8,\n";
+    csvContent += "=== REPORTE DE INTELIGENCIA IBICHOS ===\n\n";
+    
+    // 1. Métricas Globales
+    csvContent += "METRICAS GLOBALES\n";
+    csvContent += `Usuarios Totales,${stats.totalUsers}\n`;
+    csvContent += `Capturas Totales,${stats.totalCaptures}\n`;
+    csvContent += `Capturas Pendientes de Revision,${stats.pendingReview}\n`;
+    csvContent += `Minutos de Uso Total,${stats.totalMinutes}\n`;
+    csvContent += `Sesiones Totales,${stats.totalSessions}\n\n`;
+
+    // 2. Retención y Activación
+    csvContent += "RETENCION Y ACTIVACION\n";
+    csvContent += `Tasa Activacion (Primeros 10 min),${activationStats.activados}%\n`;
+    csvContent += `Retencion Dia 1,${retentionStats.day1}%\n`;
+    csvContent += `Retencion Dia 7,${retentionStats.day7}%\n`;
+    csvContent += `Retencion Dia 30,${retentionStats.day30}%\n\n`;
+
+    // 3. Eficacia IA
+    csvContent += "EFICACIA INTELIGENCIA ARTIFICIAL\n";
+    csvContent += "Estado,Cantidad\n";
+    validationData.forEach(d => {
+      csvContent += `${d.name},${d.value}\n`;
+    });
+    csvContent += "\n";
+
+    // 4. Biodiversidad (Categorías)
+    csvContent += "BIODIVERSIDAD (ESPECIES IDENTIFICADAS)\n";
+    csvContent += "Categoria,Cantidad\n";
+    categoryData.forEach(d => {
+      csvContent += `${d.name},${d.value}\n`;
+    });
+    csvContent += "\n";
+
+    // 5. Salud Pública (Nivel Peligro)
+    csvContent += "SALUD PUBLICA (NIVEL DE RIESGO)\n";
+    csvContent += "Nivel,Cantidad\n";
+    dangerData.forEach(d => {
+      csvContent += `${d.name},${d.value}\n`;
+    });
+    csvContent += "\n";
+
+    // 6. Demografía (Filtro Actual)
+    csvContent += `DEMOGRAFIA (Filtro: ${selectedRegion})\n`;
+    csvContent += "Rango Etario,Cantidad\n";
+    ageData.forEach(d => {
+      csvContent += `${d.name},${d.value}\n`;
+    });
+
+    // Crear y descargar el archivo
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    const dateStr = new Date().toLocaleDateString('es-CL').replace(/\//g, '-');
+    link.setAttribute("download", `Reporte_iBichos_${dateStr}.csv`);
+    document.body.appendChild(link); // Requerido para Firefox
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // --- FUNCIÓN PARA GUARDAR SNAPSHOT EN FIRESTORE ---
+  const handleSaveSnapshot = async () => {
+    try {
+      const now = new Date();
+      // Formato YYYY-MM para que haya un documento único por mes
+      const monthStr = now.toISOString().slice(0, 7); 
+      
+      const snapshotData = {
+        fechaGuardado: now.toISOString(),
+        mes: monthStr,
+        metricasGlobales: stats,
+        retencion: retentionStats,
+        activacion: activationStats,
+        eficaciaIA: validationData,
+        biodiversidad: categoryData,
+        saludPublica: dangerData,
+        comunidadSana: shadowbanData
+      };
+
+      // Guardamos en una nueva colección llamada 'reportes_historicos'
+      // Usamos el mes (ej. "2026-04") como ID del documento para que se actualice si le dan click varias veces en el mismo mes
+      await setDoc(doc(db, 'reportes_historicos', monthStr), snapshotData);
+      
+      alert(`✅ ¡Éxito! La instantánea estadística de ${monthStr} se ha guardado en la nube (Firestore).`);
+    } catch (error) {
+      console.error("Error al guardar la instantánea en Firestore: ", error);
+      alert("❌ Hubo un error al guardar el reporte en la nube.");
+    }
+  };
+
   return (
     <div className="container-fluid py-4">
-      <h2 className="mb-4 fw-bold text-success">
-        <Activity className="me-2 mb-1" />
-        Panel de Inteligencia iBichos
-      </h2>
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <h2 className="mb-0 fw-bold text-success">
+          <Activity className="me-2 mb-1" />
+          Panel de Inteligencia iBichos
+        </h2>
+        <div className="d-flex gap-2 flex-wrap">
+          <button 
+            onClick={handleSaveSnapshot}
+            className="btn btn-success d-flex align-items-center fw-bold shadow-sm"
+            disabled={loading}
+            title="Guardar un registro histórico en la base de datos"
+          >
+            <Database size={18} className="me-2" />
+            Guardar en la Nube
+          </button>
+          <button 
+            onClick={handleExportCSV}
+            className="btn btn-outline-success d-flex align-items-center fw-bold shadow-sm"
+            disabled={loading}
+            title="Descargar datos en formato Excel/CSV"
+          >
+            <Download size={18} className="me-2" />
+            Exportar CSV
+          </button>
+        </div>
+      </div>
 
       {/* Tabs Responsivos */}
       <ul className="nav nav-pills mb-4 border-bottom pb-3 d-flex flex-column flex-md-row gap-2">
@@ -613,6 +821,42 @@ export default function Analitica() {
                       />
                     </AreaChart>
                   </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* NUEVO GRÁFICO: Top Medallas */}
+          <div className="row g-4 mt-1">
+            <div className="col-lg-12">
+              <div className="card ibichos-card p-4 shadow-sm border-0">
+                <h5 className="fw-bold mb-1 text-dark">Logros Desbloqueados por la Comunidad</h5>
+                <p className="text-muted small mb-4">Top 5 medallas más obtenidas según historial de Gamificación</p>
+                <div style={{ height: 280 }}>
+                  {medalsData.length > 0 ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={medalsData} layout="vertical" margin={{ top: 0, right: 40, left: 20, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.2} />
+                        <XAxis type="number" hide />
+                        <YAxis dataKey="name" type="category" width={150} tick={{ fontSize: 11, fill: '#475569', fontWeight: 600 }} axisLine={false} tickLine={false} />
+                        <Tooltip
+                          cursor={{ fill: '#F1F5F9' }}
+                          contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
+                          formatter={(value) => [`${value} usuarios`, 'Obtenida por']}
+                        />
+                        <Bar dataKey="value" radius={[0, 6, 6, 0]} barSize={25}>
+                          {medalsData.map((_entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                          <LabelList dataKey="value" position="right" fill="#64748B" fontSize={13} fontWeight="bold" />
+                        </Bar>
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : (
+                     <div className="h-100 d-flex align-items-center justify-content-center text-muted fw-semibold bg-light rounded-3">
+                       No hay medallas registradas aún
+                     </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -969,6 +1213,67 @@ export default function Analitica() {
                   );
                 })()}
 
+              </div>
+            </div>
+          </div>
+
+          {/* NUEVOS GRÁFICOS: SHADOWBAN Y CONFIANZA IA */}
+          <div className="row g-4 mt-1">
+            {/* Gráfico de Shadowban (PieChart) */}
+            <div className="col-lg-6">
+              <div className="card ibichos-card h-100 p-4 shadow-sm border-0">
+                <h5 className="fw-bold mb-1 text-dark">Salud de la Comunidad</h5>
+                <p className="text-muted small mb-4">Usuarios activos vs penalizados (Shadowban)</p>
+                <div style={{ height: 250 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={shadowbanData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={60}
+                        outerRadius={90}
+                        paddingAngle={5}
+                        dataKey="value"
+                      >
+                        <Cell fill="#3DDC84" /> {/* Sanos */}
+                        <Cell fill="#DB4437" /> {/* Penalizados */}
+                      </Pie>
+                      <Tooltip 
+                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
+                        formatter={(value) => [`${value} usuarios`, 'Cantidad']}
+                      />
+                      <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+
+            {/* Gráfico de Confianza IA (BarChart) */}
+            <div className="col-lg-6">
+              <div className="card ibichos-card h-100 p-4 shadow-sm border-0">
+                <h5 className="fw-bold mb-1 text-dark">Eficacia de IA por Especie</h5>
+                <p className="text-muted small mb-4">Porcentaje de confianza promedio del modelo</p>
+                <div style={{ height: 250 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={aiConfidenceData} margin={{ top: 20, right: 0, left: -20, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.2} />
+                      <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#475569' }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fontSize: 11, fill: '#475569' }} axisLine={false} tickLine={false} domain={[0, 100]} />
+                      <Tooltip 
+                        cursor={{ fill: '#F1F5F9' }}
+                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
+                        formatter={(value) => [`${value}%`, 'Confianza Promedio']}
+                      />
+                      <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={30}>
+                        {aiConfidenceData.map((_entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
             </div>
           </div>
