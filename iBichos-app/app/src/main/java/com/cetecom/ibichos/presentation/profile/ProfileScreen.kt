@@ -305,9 +305,13 @@ private fun ProfileHeader(
         label = "worm_y"
     )
 
+    val configuration = androidx.compose.ui.platform.LocalConfiguration.current
+    val headerHeight = (configuration.screenHeightDp * 0.42).dp
+
     Box(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .height(headerHeight),
         contentAlignment = Alignment.TopCenter
     ) {
         FloatingParticle(
