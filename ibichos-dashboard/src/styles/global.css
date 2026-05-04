@@ -1,0 +1,107 @@
+#root {
+  background-color: ghostwhite !important;
+  min-height: 100vh;
+  display: block !important;
+}
+
+.ibichos-dashboard-bg {
+  background-color: #f1f8f3;
+  /* Subtle leaf/topographic vector pattern using SVG */
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.627 0l.83.83-26.68 26.68-2.617-2.616L54.627 0zm-14.15 0L60 19.523v3.748L37.288 0h3.188zm10.743 0L60 8.78v3.748L48.032 0h3.188zM60 30.266L42.502 12.768l2.618-2.617L60 27.648v2.618zm0-21.485L47.53 0h3.187L60 9.266v-.485zM0 48.032L11.968 60h-3.188L0 51.22v-3.188zm0-10.743L22.712 60h-3.188L0 41.037v-3.748zm0-10.744L33.456 60h-3.188L0 30.293v-3.748zm0-10.743L44.2 60h-3.188L0 19.55v-3.748zm0-10.744L54.944 60h-3.188L0 8.806V5.058zm0-4.05L60 58.99v-2.02L2.02 0H0v1.008z' fill='%233ddc84' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.sidebar-ibichos .nav-link {
+  transition: all 0.2s ease;
+  border-radius: 0.5rem;
+}
+
+.sidebar-ibichos .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(3px);
+}
+
+.sidebar-ibichos .nav-link.active {
+  background-color: #3DDC84 !important;
+  color: #0b2e13 !important;
+  font-weight: 700;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* --- Sistema de Diseño iBichos --- */
+
+/* Tarjetas Premium */
+.ibichos-card {
+  border: none !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: white;
+  overflow: hidden;
+}
+
+.ibichos-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+/* Modales Personalizados */
+.ibichos-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(8px);
+  z-index: 1040;
+}
+
+.ibichos-modal-content {
+  border: none !important;
+  border-radius: 1.2rem !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2) !important;
+  overflow: hidden;
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+/* Tipografía y Botones */
+.fw-heavy { font-weight: 800; }
+
+.btn-rounded {
+  border-radius: 0.75rem !important;
+}
+
+/* Imágenes de Capturas */
+.ibichos-img-container {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+/* Banner de Sospecha (Fraude) */
+.suspicion-banner {
+  background: rgba(255, 193, 7, 0.95);
+  backdrop-filter: blur(4px);
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: 800;
+  padding: 6px 0;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  letter-spacing: 0.5px;
+}
+
+.fs-custom { font-size: 0.75rem !important; }
+
+/* Animaciones suaves */
+.fade-in-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

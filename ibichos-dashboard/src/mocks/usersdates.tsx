@@ -2,7 +2,7 @@ import type { Usuario } from "../types/usuario";
 
 export const MOCK_USUARIOS: Usuario[] = [
   {
-    rut: "12.345.678-9",
+    id: "12.345.678-9",
     username: "BichoHunter99",
     genre: "Masculino",
     email: "felipe.admin@ibichos.cl",
@@ -13,7 +13,7 @@ export const MOCK_USUARIOS: Usuario[] = [
     xp: 2500
   },
   {
-    rut: "15.678.901-2",
+    id: "15.678.901-2",
     username: "Coleccionista_Nativa",
     genre: "Femenino",
     email: "carla.entomologa@gmail.com",
@@ -24,7 +24,7 @@ export const MOCK_USUARIOS: Usuario[] = [
     xp: 8900
   },
   {
-    rut: "18.234.567-K",
+    id: "18.234.567-K",
     username: "EcoSocio",
     genre: "Otro",
     email: "estudiante.bio@duoc.cl",
@@ -35,7 +35,7 @@ export const MOCK_USUARIOS: Usuario[] = [
     xp: 450
   },
   {
-    rut: "10.111.222-3",
+    id: "10.111.222-3",
     username: "DonBicho",
     genre: "Masculino",
     email: "pedro.v@yahoo.es",
@@ -46,7 +46,7 @@ export const MOCK_USUARIOS: Usuario[] = [
     xp: 12000
   },
   {
-    rut: "20.444.555-6",
+    id: "20.444.555-6",
     username: "Nati_Naturaleza",
     genre: "Femenino",
     email: "natalia.insectos@gmail.com",
@@ -57,7 +57,7 @@ export const MOCK_USUARIOS: Usuario[] = [
     xp: 1850
   },
   {
-    rut: "14.777.888-9",
+    id: "14.777.888-9",
     username: "Pitre_Bass",
     genre: "Masculino",
     email: "musico.analista@ibichos.com",
@@ -68,7 +68,7 @@ export const MOCK_USUARIOS: Usuario[] = [
     xp: 3200
   },
   {
-    rut: "19.333.444-5",
+    id: "19.333.444-5",
     username: "Insects_Lover",
     genre: "Femenino",
     email: "javiera.perez@outlook.com",

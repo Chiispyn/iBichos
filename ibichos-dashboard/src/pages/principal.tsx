@@ -39,8 +39,14 @@ export default function Principal() {
           if (data.timestamp) {
             const fechaCap = new Date(data.timestamp.toMillis()).toLocaleDateString('es-CL');
             if (fechaCap === hoyString) {
-              capturasHoy++;
-              if (data.needsReview || data.status === 'PENDING') {
+              // Solo contamos como "Capturas Hoy" las que ya están aprobadas (auto o manual)
+              const status = data.validationStatus || data.status;
+              if (status === 'APPROVED') {
+                capturasHoy++;
+              }
+              
+              // El contador de "Atención Requerida" sigue captando las que necesitan revisión
+              if (data.needsReview || status === 'PENDING_REVIEW' || status === 'PENDING') {
                 pendientesHoy++;
               }
             }
@@ -78,13 +84,12 @@ export default function Principal() {
           </div>
         </div>
       ) : (
-        <div className="row g-4">
+        <div className="row g-4 fade-in-up">
+          {/* Card: Nuevos Usuarios */}
           <div className="col-md-4">
             <div 
-              className="card border-0 shadow-sm rounded-4 h-100 p-2 border-start border-4 border-primary"
-              style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
-              onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-              onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              className="card ibichos-card h-100 p-2 border-start border-4 border-primary"
+              style={{ cursor: 'pointer' }}
               onClick={() => navigate('/usuarios')}
             >
               <div className="card-body">
@@ -103,17 +108,16 @@ export default function Principal() {
             </div>
           </div>
 
+          {/* Card: Aprobadas Hoy */}
           <div className="col-md-4">
             <div 
-              className="card border-0 shadow-sm rounded-4 h-100 p-2 border-start border-4 border-success"
-              style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
-              onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-              onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              className="card ibichos-card h-100 p-2 border-start border-4 border-success"
+              style={{ cursor: 'pointer' }}
               onClick={() => navigate('/capturas')}
             >
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h6 className="text-muted fw-bold text-uppercase mb-0">Capturas Hoy</h6>
+                  <h6 className="text-muted fw-bold text-uppercase mb-0">Aprobadas Hoy</h6>
                   <div className="bg-success bg-opacity-10 p-2 rounded">
                     <ImagePlus size={24} className="text-success" />
                   </div>
@@ -127,12 +131,11 @@ export default function Principal() {
             </div>
           </div>
 
+          {/* Card: Atención Requerida */}
           <div className="col-md-4">
             <div 
-              className="card border-0 shadow-sm rounded-4 h-100 p-2 border-start border-4 border-warning"
-              style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
-              onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-              onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              className="card ibichos-card h-100 p-2 border-start border-4 border-warning"
+              style={{ cursor: 'pointer' }}
               onClick={() => navigate('/capturas')}
             >
               <div className="card-body">

@@ -33,6 +33,7 @@ import java.util.UUID
 sealed interface CameraUiState {
     object Idle : CameraUiState
     object Loading : CameraUiState
+    data class Preview(val bitmap: Bitmap, val lat: Double?, val lon: Double?) : CameraUiState
     data class Success(val message: String) : CameraUiState
     data class Error(val message: String) : CameraUiState
 }
@@ -50,11 +51,23 @@ class CameraViewModel : ViewModel() {
     private val uploadPreset = "IBichos"
 
     // ── MODO EMULADOR ─────────────────────────────────────────────────────────
-    private val isEmulatorMode = true
+    private val isEmulatorMode = false
     // ─────────────────────────────────────────────────────────────────────────
 
     private val _uiState = MutableStateFlow<CameraUiState>(CameraUiState.Idle)
     val uiState: StateFlow<CameraUiState> = _uiState.asStateFlow()
+
+    fun setLoading() {
+        _uiState.value = CameraUiState.Loading
+    }
+
+    fun setPreview(bitmap: Bitmap, lat: Double?, lon: Double?) {
+        _uiState.value = CameraUiState.Preview(bitmap, lat, lon)
+    }
+
+    fun setError(message: String) {
+        _uiState.value = CameraUiState.Error(message)
+    }
 
     fun processCapture(bitmap: Bitmap, lat: Double?, lon: Double?, context: Context) {
         val uid = auth.currentUser?.uid ?: run {
@@ -75,30 +88,10 @@ class CameraViewModel : ViewModel() {
                     fos.flush()
                 }
 
-                // 2. Subir archivo a Cloudinary
-                val requestFile = file.asRequestBody("image/*".toMediaType())
-
-                val filePart = MultipartBody.Part.createFormData(
-                    "file",
-                    file.name,
-                    requestFile
-                )
-
-                val presetBody = uploadPreset.toRequestBody("text/plain".toMediaType())
-
-                val cloudinaryResponse = CloudinaryModule.api.uploadImage(
-                    cloudName = cloudName,
-                    file = filePart,
-                    uploadPreset = presetBody
-                )
-
-                val cloudinaryImageUrl = cloudinaryResponse.secure_url
-                    ?: throw Exception("Cloudinary no devolvió una URL válida")
-
                 if (isEmulatorMode) {
                     saveCaptureData(
                         uid = uid,
-                        imageUrl = cloudinaryImageUrl,
+                        imageUrl = "https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg", // URL falsa de prueba
                         insectName = "ABEJA",
                         scientificName = "Apis mellifera",
                         category = InsectCategory.HYMENOPTERA,
@@ -109,6 +102,26 @@ class CameraViewModel : ViewModel() {
                         description = "La abeja europea (Apis mellifera) es una especie de himenóptero apócrito de la familia Apidae. Es la especie de abeja con mayor distribución en el mundo. Son insectos polinizadores cruciales para la supervivencia de ecosistemas y para la polinización cruzada de la agricultura mundial."
                     )
                 } else {
+                    // 2. Subir archivo a Cloudinary
+                    val requestFile = file.asRequestBody("image/*".toMediaType())
+
+                    val filePart = MultipartBody.Part.createFormData(
+                        "file",
+                        file.name,
+                        requestFile
+                    )
+
+                    val presetBody = uploadPreset.toRequestBody("text/plain".toMediaType())
+
+                    val cloudinaryResponse = CloudinaryModule.api.uploadImage(
+                        cloudName = cloudName,
+                        file = filePart,
+                        uploadPreset = presetBody
+                    )
+
+                    val cloudinaryImageUrl = cloudinaryResponse.secure_url
+                        ?: throw Exception("Cloudinary no devolvió una URL válida")
+
                     // 3. Convertir bitmap a Base64 para Kindwise
                     val baos = ByteArrayOutputStream()
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos)
@@ -148,11 +161,14 @@ class CameraViewModel : ViewModel() {
                     //    (En el futuro se puede usar el campo 'taxon' de la respuesta de Kindwise)
                     val category = inferCategoryFromName(scientificName)
 
-                    // 6. Peligro: Randomizado en esta versión demo.
-                    //    En el futuro se puede obtener de una base de datos de especies.
-                    val dangerLevel = listOf(
-                        DangerLevel.HARMLESS, DangerLevel.CAUTION, DangerLevel.VENOMOUS
-                    ).random()
+                    // 6. Peligro: Matriz de riesgo real basada en categoría taxonómica
+                    val dangerLevel = when (category) {
+                        InsectCategory.ARACHNID -> DangerLevel.VENOMOUS // Arañas/Escorpiones
+                        InsectCategory.LEPIDOPTERA -> DangerLevel.HARMLESS // Mariposas
+                        InsectCategory.COLEOPTERA -> DangerLevel.HARMLESS // Escarabajos
+                        InsectCategory.HYMENOPTERA -> DangerLevel.CAUTION  // Abejas/Avispas/Hormigas
+                        else -> DangerLevel.UNKNOWN
+                    }
 
                     saveCaptureData(
                         uid = uid,

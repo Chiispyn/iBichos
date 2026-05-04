@@ -24,7 +24,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.cetecom.ibichos.data.OnboardingPreferences
+import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.presentation.auth.AuthViewModel
+import com.cetecom.ibichos.presentation.auth.CompleteProfileScreen
 import com.cetecom.ibichos.presentation.auth.LoginScreen
 import com.cetecom.ibichos.presentation.auth.RegisterScreen
 import com.cetecom.ibichos.presentation.camera.CameraScreen
@@ -38,6 +40,11 @@ import com.cetecom.ibichos.presentation.profile.ProfileScreen
 import com.cetecom.ibichos.presentation.ranking.RankingScreen
 import com.cetecom.ibichos.presentation.splash.SplashScreen
 import com.cetecom.ibichos.ui.theme.*
+import kotlinx.coroutines.launch
+
+object NavigationState {
+    var captureForDetail: CaptureItem? = null
+}
 
 private data class BottomNavItem(
     val label: String,
@@ -73,16 +80,17 @@ fun AppNavigation() {
         composable(Screen.Splash.route) {
             SplashScreen(
                 onSplashFinished = {
-
-                    val nextRoute =
-                        if (authViewModel.isLoggedIn()) {
-                            Screen.Main.route
-                        } else {
-                            Screen.Login.route
+                    if (authViewModel.isLoggedIn()) {
+                        authViewModel.checkProfileCompletion { isComplete ->
+                            val nextRoute = if (isComplete) Screen.Main.route else Screen.CompleteProfile.route
+                            navController.navigate(nextRoute) {
+                                popUpTo(Screen.Splash.route) { inclusive = true }
+                            }
                         }
-
-                    navController.navigate(nextRoute) {
-                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    } else {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(Screen.Splash.route) { inclusive = true }
+                        }
                     }
                 }
             )
@@ -92,17 +100,18 @@ fun AppNavigation() {
         composable(Screen.Login.route) {
             LoginScreen(
                 viewModel = authViewModel,
-
                 onLoginSuccess = {
-
-                    val nextRoute =
-                        if (onboardingPrefs.isOnboardingSeen())
+                    authViewModel.checkProfileCompletion { isComplete ->
+                        val nextRoute = if (!isComplete) {
+                            Screen.CompleteProfile.route
+                        } else if (onboardingPrefs.isOnboardingSeen()) {
                             Screen.Main.route
-                        else
+                        } else {
                             Screen.OnboardingOne.route
-
-                    navController.navigate(nextRoute) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
+                        }
+                        navController.navigate(nextRoute) {
+                            popUpTo(Screen.Login.route) { inclusive = true }
+                        }
                     }
                 },
 
@@ -129,13 +138,13 @@ fun AppNavigation() {
         /*──────── Main ────────*/
         composable(Screen.Main.route) {
             MainScreenWithBottomNav(
-                onNavigateToDetail = { index ->
-                    navController.navigate(Screen.CaptureDetail.createRoute(index))
+                onNavigateToDetail = { capture ->
+                    NavigationState.captureForDetail = capture
+                    navController.navigate(Screen.CaptureDetail.route)
                 },
-                onNavigateToMap = {
-                    navController.navigate(Screen.Map.route)
-                },
-                onLogout = {
+                onNavigateToMap    = { navController.navigate(Screen.Map.route) },
+                onLogout           = {
+                    authViewModel.signOut()
                     navController.navigate(Screen.Login.route) {
                         popUpTo(Screen.Main.route) { inclusive = true }
                     }
@@ -143,42 +152,50 @@ fun AppNavigation() {
             )
         }
 
-        /*──────── Detail ────────*/
-        composable(
-            route = Screen.CaptureDetail.route,
-            arguments = listOf(navArgument("captureIndex") {
-                type = NavType.IntType
-            })
-        ) { backStackEntry ->
-
-            val index = backStackEntry.arguments?.getInt("captureIndex") ?: 0
-
-            val catalogViewModel: CatalogViewModel = viewModel(
-                viewModelStoreOwner = navController.getBackStackEntry(Screen.Main.route)
-            )
-
-            val state by catalogViewModel.uiState.collectAsState()
-            val capture = state.captures.getOrNull(index)
+        // ── Detalle de captura ────────────────────────────────────────────
+        composable(Screen.CaptureDetail.route) {
+            val capture = NavigationState.captureForDetail
 
             if (capture != null) {
+                val scope = androidx.compose.runtime.rememberCoroutineScope()
+
                 CaptureDetailScreen(
-                    capture = capture,
-                    onNavigateBack = { navController.popBackStack() }
+                    capture        = capture,
+                    onNavigateBack = { navController.popBackStack() },
+                    onDelete = { id ->
+                        scope.launch {
+                            com.cetecom.ibichos.data.repository.CaptureRepositoryImpl().deleteCapture(id)
+                            navController.popBackStack()
+                        }
+                    },
+                    onNavigateToMap = { lat, lng ->
+                        navController.navigate(Screen.Map.createRoute(lat, lng))
+                    }
                 )
             } else {
-                androidx.compose.foundation.layout.Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = androidx.compose.ui.Alignment.Center
-                ) {
-                    CircularProgressIndicator(color = IBichosGreen)
-                }
+                navController.popBackStack()
             }
         }
 
-        /*──────── Map ────────*/
-        composable(Screen.Map.route) {
+        // ── Mapa ─────────────────────────────────────────────────────────
+        composable(
+            route = Screen.Map.route,
+            arguments = listOf(
+                navArgument("lat") { type = NavType.StringType; nullable = true },
+                navArgument("lng") { type = NavType.StringType; nullable = true }
+            )
+        ) { backStackEntry ->
+            val lat = backStackEntry.arguments?.getString("lat")?.toDoubleOrNull()
+            val lng = backStackEntry.arguments?.getString("lng")?.toDoubleOrNull()
+            
             MapScreen(
-                onNavigateBack = { navController.popBackStack() }
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToDetail = { capture ->
+                    NavigationState.captureForDetail = capture
+                    navController.navigate(Screen.CaptureDetail.route)
+                },
+                initialLat = lat,
+                initialLng = lng
             )
         }
 
@@ -195,15 +212,25 @@ fun AppNavigation() {
         composable(Screen.OnboardingTwo.route) {
             IBichosWelcomeTwoScreen(
                 onStartClick = {
-
                     onboardingPrefs.setOnboardingSeen()
-
-                    navController.navigate(Screen.Main.route) {
-                        popUpTo(Screen.OnboardingOne.route) {
-                            inclusive = true
+                    authViewModel.checkProfileCompletion { isComplete ->
+                        val nextRoute = if (isComplete) Screen.Main.route else Screen.CompleteProfile.route
+                        navController.navigate(nextRoute) {
+                            popUpTo(Screen.OnboardingTwo.route) { inclusive = true }
                         }
                     }
                 }
+            )
+        }
+
+        composable(Screen.CompleteProfile.route) {
+            CompleteProfileScreen(
+                onSuccess = {
+                    navController.navigate(Screen.Main.route) {
+                        popUpTo(Screen.CompleteProfile.route) { inclusive = true }
+                    }
+                },
+                viewModel = authViewModel
             )
         }
     }
@@ -212,7 +239,7 @@ fun AppNavigation() {
 /*──────────────── MainScreenWithBottomNav ────────────────*/
 @Composable
 fun MainScreenWithBottomNav(
-    onNavigateToDetail: (Int) -> Unit,
+    onNavigateToDetail: (CaptureItem) -> Unit,
     onNavigateToMap: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -293,10 +320,7 @@ fun MainScreenWithBottomNav(
                     viewModel = catalogViewModel,
                     onNavigateToMap = onNavigateToMap,
                     onNavigateToDetail = { capture ->
-                        val index =
-                            catalogViewModel.uiState.value.captures.indexOf(capture)
-
-                        if (index >= 0) onNavigateToDetail(index)
+                        onNavigateToDetail(capture)
                     }
                 )
             }
