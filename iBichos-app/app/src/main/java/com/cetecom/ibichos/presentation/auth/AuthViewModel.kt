@@ -219,6 +219,19 @@ class AuthViewModel : ViewModel() {
     fun setError(message: String) {
         _uiState.value = _uiState.value.copy(error = message)
     }
+
+
+    fun resetPassword(email: String) {
+        FirebaseAuth.getInstance()
+            .sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    // correo enviado
+                } else {
+                    // error
+                }
+            }
+    }
 }
 
 

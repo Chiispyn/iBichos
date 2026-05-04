@@ -17,11 +17,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import com.cetecom.ibichos.data.OnboardingPreferences
 import com.cetecom.ibichos.presentation.auth.AuthViewModel
 import com.cetecom.ibichos.presentation.auth.LoginScreen
 import com.cetecom.ibichos.presentation.auth.RegisterScreen
@@ -37,7 +39,6 @@ import com.cetecom.ibichos.presentation.ranking.RankingScreen
 import com.cetecom.ibichos.presentation.splash.SplashScreen
 import com.cetecom.ibichos.ui.theme.*
 
-// ── Ítems del BottomNav ───────────────────────────────────────────────────────
 private data class BottomNavItem(
     val label: String,
     val route: String,
@@ -46,33 +47,40 @@ private data class BottomNavItem(
 )
 
 private val bottomNavItems = listOf(
-    BottomNavItem("Cámara",   "camera",  Icons.Filled.Camera,               Icons.Outlined.Camera),
-    BottomNavItem("Álbum",    "catalog", Icons.Filled.CollectionsBookmark,   Icons.Outlined.CollectionsBookmark),
+    BottomNavItem("Cámara", "camera", Icons.Filled.Camera, Icons.Outlined.Camera),
+    BottomNavItem("Álbum", "catalog", Icons.Filled.CollectionsBookmark, Icons.Outlined.CollectionsBookmark),
     BottomNavItem("Ranking", "ranking", Icons.Filled.EmojiEvents, Icons.Outlined.EmojiEvents),
-    BottomNavItem("Perfil",   "profile", Icons.Filled.Person,               Icons.Outlined.Person)
+    BottomNavItem("Perfil", "profile", Icons.Filled.Person, Icons.Outlined.Person)
 )
 
-/**
- * NavHost raíz de la aplicación.
- * Maneja: Login → Register → Main (con BottomNav) → CaptureDetail → Map
- */
+/*──────────────── AppNavigation ────────────────*/
 @Composable
 fun AppNavigation() {
-    val navController     = rememberNavController()
+
+    val navController = rememberNavController()
     val authViewModel: AuthViewModel = viewModel()
-    val startDestination  = Screen.Splash.route
+    val context = LocalContext.current
+    val onboardingPrefs = remember { OnboardingPreferences(context) }
 
     NavHost(
-        navController    = navController,
-        startDestination = startDestination,
-        enterTransition  = { fadeIn() },
-        exitTransition   = { fadeOut() }
+        navController = navController,
+        startDestination = Screen.Splash.route,
+        enterTransition = { fadeIn() },
+        exitTransition = { fadeOut() }
     ) {
-        // ── Splash ────────────────────────────────────────────────────────
+
+        /*──────── Splash ────────*/
         composable(Screen.Splash.route) {
             SplashScreen(
                 onSplashFinished = {
-                    val nextRoute = if (authViewModel.isLoggedIn()) Screen.Main.route else Screen.Login.route
+
+                    val nextRoute =
+                        if (authViewModel.isLoggedIn()) {
+                            Screen.Main.route
+                        } else {
+                            Screen.Login.route
+                        }
+
                     navController.navigate(nextRoute) {
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
@@ -80,35 +88,54 @@ fun AppNavigation() {
             )
         }
 
-        // ── Auth ──────────────────────────────────────────────────────────
+        /*──────── Login ────────*/
         composable(Screen.Login.route) {
             LoginScreen(
-                viewModel        = authViewModel,
-                onLoginSuccess   = {
-                    navController.navigate(Screen.OnboardingOne.route) {
+                viewModel = authViewModel,
+
+                onLoginSuccess = {
+
+                    val nextRoute =
+                        if (onboardingPrefs.isOnboardingSeen())
+                            Screen.Main.route
+                        else
+                            Screen.OnboardingOne.route
+
+                    navController.navigate(nextRoute) {
                         popUpTo(Screen.Login.route) { inclusive = true }
                     }
                 },
-                onNavigateToRegister = { navController.navigate(Screen.Register.route) }
+
+                onNavigateToRegister = {
+                    navController.navigate(Screen.Register.route)
+                }
             )
         }
 
+        /*──────── Register ────────*/
         composable(Screen.Register.route) {
-            // Cada pantalla de registro tiene su propio ViewModel para estado separado
             RegisterScreen(
-                onRegisterSuccess = { navController.popBackStack() },
-                onNavigateBack    = { navController.popBackStack() }
+                onRegisterSuccess = {
+                    navController.navigate(Screen.OnboardingOne.route) {
+                        popUpTo(Screen.Register.route) { inclusive = true }
+                    }
+                },
+                onNavigateBack = {
+                    navController.popBackStack()
+                }
             )
         }
 
-        // ── Main (BottomNav) ──────────────────────────────────────────────
+        /*──────── Main ────────*/
         composable(Screen.Main.route) {
             MainScreenWithBottomNav(
-                onNavigateToDetail = { index: Int ->
+                onNavigateToDetail = { index ->
                     navController.navigate(Screen.CaptureDetail.createRoute(index))
                 },
-                onNavigateToMap    = { navController.navigate(Screen.Map.route) },
-                onLogout           = {
+                onNavigateToMap = {
+                    navController.navigate(Screen.Map.route)
+                },
+                onLogout = {
                     navController.navigate(Screen.Login.route) {
                         popUpTo(Screen.Main.route) { inclusive = true }
                     }
@@ -116,103 +143,126 @@ fun AppNavigation() {
             )
         }
 
-        // ── Detalle de captura ────────────────────────────────────────────
-        // El ViewModel de catálogo es compartido (misma instancia en Main y Detail)
+        /*──────── Detail ────────*/
         composable(
-            route     = Screen.CaptureDetail.route,
-            arguments = listOf(navArgument("captureIndex") { type = NavType.IntType })
+            route = Screen.CaptureDetail.route,
+            arguments = listOf(navArgument("captureIndex") {
+                type = NavType.IntType
+            })
         ) { backStackEntry ->
+
             val index = backStackEntry.arguments?.getInt("captureIndex") ?: 0
+
             val catalogViewModel: CatalogViewModel = viewModel(
                 viewModelStoreOwner = navController.getBackStackEntry(Screen.Main.route)
             )
+
             val state by catalogViewModel.uiState.collectAsState()
             val capture = state.captures.getOrNull(index)
 
             if (capture != null) {
                 CaptureDetailScreen(
-                    capture        = capture,
+                    capture = capture,
                     onNavigateBack = { navController.popBackStack() }
                 )
             } else {
-                // Si la lista aún no cargó, mostrar loading
                 androidx.compose.foundation.layout.Box(
-                    modifier            = androidx.compose.ui.Modifier.fillMaxSize(),
-                    contentAlignment    = androidx.compose.ui.Alignment.Center
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = androidx.compose.ui.Alignment.Center
                 ) {
                     CircularProgressIndicator(color = IBichosGreen)
                 }
             }
         }
 
-        // ── Mapa ─────────────────────────────────────────────────────────
+        /*──────── Map ────────*/
         composable(Screen.Map.route) {
-            MapScreen(onNavigateBack = { navController.popBackStack() })
+            MapScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
 
-        composable(route = Screen.OnboardingOne.route){
+        /*──────── Onboarding 1 ────────*/
+        composable(Screen.OnboardingOne.route) {
             IBichosWelcomeScreen(
                 onStartClick = {
-                 navController.navigate(Screen.OnboardingTwo.route)
+                    navController.navigate(Screen.OnboardingTwo.route)
                 }
             )
-
         }
-        composable(route = Screen.OnboardingTwo.route){
+
+        /*──────── Onboarding 2 ────────*/
+        composable(Screen.OnboardingTwo.route) {
             IBichosWelcomeTwoScreen(
                 onStartClick = {
-                    navController.navigate(Screen.Main.route)
+
+                    onboardingPrefs.setOnboardingSeen()
+
+                    navController.navigate(Screen.Main.route) {
+                        popUpTo(Screen.OnboardingOne.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
     }
 }
-/**
- * Pantalla principal con NavigationBar inferior y sub-NavHost para las 3 tabs.
- */
+
+/*──────────────── MainScreenWithBottomNav ────────────────*/
 @Composable
 fun MainScreenWithBottomNav(
     onNavigateToDetail: (Int) -> Unit,
     onNavigateToMap: () -> Unit,
     onLogout: () -> Unit
 ) {
+
     val bottomNavController = rememberNavController()
-    val navBackStackEntry   by bottomNavController.currentBackStackEntryAsState()
-    val currentRoute        = navBackStackEntry?.destination?.route
+    val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
+
         bottomBar = {
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.surface,
                 tonalElevation = 0.dp
             ) {
+
                 bottomNavItems.forEach { item ->
+
                     val selected = currentRoute == item.route
+
                     NavigationBarItem(
                         selected = selected,
-                        onClick  = {
+
+                        onClick = {
                             if (!selected) {
                                 bottomNavController.navigate(item.route) {
                                     launchSingleTop = true
-                                    restoreState    = true
+                                    restoreState = true
                                     popUpTo(bottomNavController.graph.startDestinationId) {
                                         saveState = true
                                     }
                                 }
                             }
                         },
-                        icon     = {
+
+                        icon = {
                             Icon(
-                                if (selected) item.selectedIcon else item.unselectedIcon,
+                                if (selected) item.selectedIcon
+                                else item.unselectedIcon,
                                 contentDescription = item.label
                             )
                         },
-                        label    = { Text(item.label) },
-                        colors   = NavigationBarItemDefaults.colors(
-                            selectedIconColor   = IBichosGreen,
-                            selectedTextColor   = IBichosGreen,
-                            indicatorColor      = IBichosGreenDim,
+
+                        label = { Text(item.label) },
+
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = IBichosGreen,
+                            selectedTextColor = IBichosGreen,
+                            indicatorColor = IBichosGreenDim,
                             unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -220,37 +270,44 @@ fun MainScreenWithBottomNav(
                 }
             }
         }
+
     ) { paddingValues ->
+
         NavHost(
-            navController    = bottomNavController,
+            navController = bottomNavController,
             startDestination = "camera",
-            modifier         = Modifier.padding(paddingValues),
-            enterTransition  = { fadeIn() },
-            exitTransition   = { fadeOut() }
+            modifier = Modifier.padding(paddingValues),
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() }
         ) {
+
             composable("camera") {
                 CameraScreen()
             }
+
             composable("catalog") {
-                // viewModel() aquí usa el ViewModelStoreOwner de este NavBackStackEntry
+
                 val catalogViewModel: CatalogViewModel = viewModel()
+
                 CatalogScreen(
-                    viewModel          = catalogViewModel,
-                    onNavigateToMap    = onNavigateToMap,
+                    viewModel = catalogViewModel,
+                    onNavigateToMap = onNavigateToMap,
                     onNavigateToDetail = { capture ->
-                        val index = catalogViewModel.uiState.value.captures.indexOf(capture)
+                        val index =
+                            catalogViewModel.uiState.value.captures.indexOf(capture)
+
                         if (index >= 0) onNavigateToDetail(index)
                     }
                 )
             }
+
             composable("profile") {
                 ProfileScreen(onLogout = onLogout)
             }
+
             composable("ranking") {
-                RankingScreen(
-                )
+                RankingScreen()
             }
         }
     }
 }
-

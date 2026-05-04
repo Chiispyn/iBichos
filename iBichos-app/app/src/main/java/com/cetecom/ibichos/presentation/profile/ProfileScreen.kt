@@ -32,6 +32,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -72,7 +74,7 @@ fun ProfileScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxHeight()
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
@@ -305,8 +307,7 @@ private fun ProfileHeader(
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(355.dp),
+            .fillMaxWidth(),
         contentAlignment = Alignment.TopCenter
     ) {
         FloatingParticle(
@@ -822,4 +823,93 @@ private fun ProfileStat(
             textAlign = TextAlign.Center
         )
     }
+}
+
+/* =======================================================
+   PREVIEWS PROFILE SCREEN
+======================================================= */
+
+@Preview(
+    name = "Profile - Small Phone",
+    widthDp = 320,
+    heightDp = 640,
+    showBackground = true,
+    showSystemUi = true
+)
+@Composable
+fun ProfilePreviewSmall() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        LightGreen.copy(alpha = 0.75f),
+                        SoftGreen,
+                        Color.White
+                    )
+                )
+            )
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = 24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        ProfileHeader(
+            avatarUrl = null,
+            isUploading = false,
+            name = "Valesca",
+            email = "valesca@email.com",
+            onAvatarClick = {}
+        )
+
+        ProfileStatsCard(
+            xp = 1250,
+            level = "Explorador",
+            captures = 47
+        )
+
+        ProfileProgressCard(
+            xp = 1250,
+            nextLevelXp = 2000,
+            progress = 0.62f,
+            level = "Explorador"
+        )
+
+        AchievementsCard(
+            medals = listOf("first_capture", "ten_captures"),
+            medalsEarnedAt = mapOf(
+                "first_capture" to System.currentTimeMillis(),
+                "ten_captures" to System.currentTimeMillis()
+            ),
+            onMedalClick = {}
+        )
+
+        Spacer(Modifier.height(24.dp))
+
+        LogoutButton {}
+    }
+}
+
+@Preview(
+    name = "Profile - Medium Phone",
+    widthDp = 411,
+    heightDp = 891,
+    showBackground = true,
+    showSystemUi = true
+)
+@Composable
+fun ProfilePreviewMedium() {
+    ProfilePreviewSmall()
+}
+
+@Preview(
+    name = "Profile - Large Phone",
+    widthDp = 480,
+    heightDp = 960,
+    showBackground = true,
+    showSystemUi = true
+)
+@Composable
+fun ProfilePreviewLarge() {
+    ProfilePreviewSmall()
 }
