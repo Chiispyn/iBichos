@@ -248,7 +248,7 @@ private fun CaptureCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(132.dp)
-            .clickable(enabled = !isRejected, onClick = onClick),
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(26.dp),
         colors = CardDefaults.cardColors(
             containerColor = if (isRejected) Color(0xFFFDE8E8) else Color.White.copy(alpha = 0.96f)

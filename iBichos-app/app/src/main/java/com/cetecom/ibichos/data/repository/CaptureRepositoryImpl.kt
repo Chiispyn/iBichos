@@ -137,4 +137,16 @@ class CaptureRepositoryImpl(
             .update("status", "DELETED")
             .await()
     }
+
+    override suspend fun appealCapture(id: String) {
+        db.collection("captures")
+            .document(id)
+            .update(
+                mapOf(
+                    "status" to "PENDING_REVIEW",
+                    "needsReview" to true
+                )
+            )
+            .await()
+    }
 }

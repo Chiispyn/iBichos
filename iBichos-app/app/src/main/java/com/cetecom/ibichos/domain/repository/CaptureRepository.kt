@@ -37,4 +37,7 @@ interface CaptureRepository {
 
     /** Elimina una captura (Borrado lógico o físico según implementación) */
     suspend fun deleteCapture(id: String)
+
+    /** Envía una captura a apelación manual */
+    suspend fun appealCapture(id: String)
 }
