@@ -25,6 +25,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import com.cetecom.ibichos.domain.model.CaptureItem
 import androidx.compose.material.icons.filled.Close
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import androidx.compose.material.icons.filled.MyLocation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,6 +43,10 @@ fun MapScreen(
     val captures by viewModel.captures.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val isGlobalMap by viewModel.isGlobalMap.collectAsStateWithLifecycle()
+    // Referencias para que el botón pueda mover el mapa
+    var mapViewRef by remember { mutableStateOf<MapView?>(null) }
+    var locationOverlayRef by remember { mutableStateOf<MyLocationNewOverlay?>(null) }
+
     
     // Estado para la captura seleccionada en el mapa
     var selectedCapture by remember { mutableStateOf<CaptureItem?>(null) }
@@ -64,6 +71,8 @@ fun MapScreen(
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Box(
+
+
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
@@ -72,43 +81,53 @@ fun MapScreen(
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
                 factory  = { ctx ->
-                    // OSMDroid requiere configurar el User Agent antes de usar el mapa
                     Configuration.getInstance().userAgentValue = ctx.packageName
-
+                    Configuration.getInstance().userAgentValue = ctx.packageName
                     MapView(ctx).apply {
                         setTileSource(TileSourceFactory.MAPNIK)
                         setMultiTouchControls(true)
                         setBuiltInZoomControls(true)
                         controller.setZoom(10.0)
-                        controller.setCenter(GeoPoint(-33.4489, -70.6693)) // Santiago default
+                        controller.setCenter(GeoPoint(-33.4489, -70.6693))
+
+                        mapViewRef = this
+
+                        // 1. --- CREAR LA CAPA DE UBICACIÓN AQUÍ (UNA SOLA VEZ) ---
+                        val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(ctx), this)
+                        locationOverlay.enableMyLocation()
+
+                        locationOverlayRef = locationOverlay
+                        this.overlays.add(locationOverlay)
                     }
                 },
                 update = { mapView ->
                     mapView.overlays.clear()
 
+                    // Mantenemos la capa viva sin volver a instanciarla
+                    locationOverlayRef?.let { mapView.overlays.add(it) }
+
+                    // 2. --- CAPA DE LOS PINES DE LOS INSECTOS ---
                     for (capture in captures) {
                         if (capture.latitude != null && capture.longitude != null) {
                             val marker = Marker(mapView).apply {
                                 position = GeoPoint(capture.latitude, capture.longitude)
                                 title    = capture.insectName
                                 setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-                                
-                                // Al tocar el marcador, mostramos nuestra tarjeta personalizada
+
                                 setOnMarkerClickListener { _, _ ->
                                     selectedCapture = capture
                                     mapView.controller.animateTo(GeoPoint(capture.latitude, capture.longitude))
-                                    true // Consumimos el click para no mostrar el globo nativo
+                                    true
                                 }
                             }
                             mapView.overlays.add(marker)
                         }
                     }
 
-                    // Centrar mapa: Prioridad 1: Coordenadas iniciales, Prioridad 2: Reciente
                     if (!hasCentered && captures.isNotEmpty()) {
                         val targetLat: Double? = initialLat ?: captures.firstOrNull { it.latitude != null }?.latitude
                         val targetLng: Double? = initialLng ?: captures.firstOrNull { it.longitude != null }?.longitude
-                        
+
                         if (targetLat != null && targetLng != null) {
                             mapView.controller.animateTo(GeoPoint(targetLat, targetLng))
                             mapView.controller.setZoom(16.0)
@@ -159,6 +178,25 @@ fun MapScreen(
                         Text("Comunidad")
                     }
                 }
+            }
+
+            // ── BOTÓN DE "MI UBICACIÓN" ──────────────────────────────
+            FloatingActionButton(
+                onClick = {
+                    locationOverlayRef?.myLocation?.let { location ->
+                        // Usamos setCenter para un salto directo, sin la animación de viaje
+                        mapViewRef?.controller?.setCenter(location)
+                        mapViewRef?.controller?.setZoom(18.0)
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 16.dp, bottom = 140.dp)
+                    .offset(y = 100.dp),
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = IBichosGreen
+            ) {
+                Icon(Icons.Default.MyLocation, contentDescription = "Centrar en mi ubicación")
             }
 
             // ── TARJETA DE DETALLE (EL PING CON FOTO) ───────────────────────
