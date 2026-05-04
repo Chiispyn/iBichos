@@ -25,4 +25,3 @@ sealed class Screen(val route: String) {
     object CaptureDetail : Screen("captureDetail")
 
 }
-

@@ -31,6 +31,7 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.domain.model.enums.DangerLevel
@@ -71,7 +73,12 @@ fun CatalogScreen(
     onNavigateToDetail: (CaptureItem) -> Unit,
     viewModel: CatalogViewModel
 ) {
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadCaptures()
+    }
 
     CatalogContent(
         captures = uiState.captures,
@@ -96,11 +103,6 @@ private fun CatalogContent(
     onNavigateToMap: () -> Unit,
     onNavigateToDetail: (CaptureItem) -> Unit
 ) {
-    // Recarga automática al entrar a la pantalla
-    LaunchedEffect(Unit) {
-        viewModel.loadCaptures()
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()

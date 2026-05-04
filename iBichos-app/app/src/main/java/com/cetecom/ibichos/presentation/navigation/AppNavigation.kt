@@ -100,7 +100,6 @@ fun AppNavigation() {
         composable(Screen.Login.route) {
             LoginScreen(
                 viewModel = authViewModel,
-
                 onLoginSuccess = {
 
                     val nextRoute =
@@ -137,13 +136,13 @@ fun AppNavigation() {
         /*──────── Main ────────*/
         composable(Screen.Main.route) {
             MainScreenWithBottomNav(
-                onNavigateToDetail = { index ->
-                    navController.navigate(Screen.CaptureDetail.createRoute(index))
+                onNavigateToDetail = { capture ->
+                    NavigationState.captureForDetail = capture
+                    navController.navigate(Screen.CaptureDetail.route)
                 },
-                onNavigateToMap = {
-                    navController.navigate(Screen.Map.route)
-                },
-                onLogout = {
+                onNavigateToMap    = { navController.navigate(Screen.Map.route) },
+                onLogout           = {
+                    authViewModel.signOut()
                     navController.navigate(Screen.Login.route) {
                         popUpTo(Screen.Main.route) { inclusive = true }
                     }
@@ -220,7 +219,7 @@ fun AppNavigation() {
 /*──────────────── MainScreenWithBottomNav ────────────────*/
 @Composable
 fun MainScreenWithBottomNav(
-    onNavigateToDetail: (Int) -> Unit,
+    onNavigateToDetail: (CaptureItem) -> Unit,
     onNavigateToMap: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -294,17 +293,13 @@ fun MainScreenWithBottomNav(
             }
 
             composable("catalog") {
-
                 val catalogViewModel: CatalogViewModel = viewModel()
 
                 CatalogScreen(
                     viewModel = catalogViewModel,
                     onNavigateToMap = onNavigateToMap,
                     onNavigateToDetail = { capture ->
-                        val index =
-                            catalogViewModel.uiState.value.captures.indexOf(capture)
-
-                        if (index >= 0) onNavigateToDetail(index)
+                        onNavigateToDetail(capture)
                     }
                 )
             }
