@@ -369,3 +369,39 @@ private fun DeleteConfirmDialog(
         }
     )
 }
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone", widthDp = 320, heightDp = 640, showBackground = true)
+@Composable
+fun CaptureDetailPreviewSmall() {
+    com.cetecom.ibichos.ui.theme.IBichosTheme {
+        CaptureDetailScreen(
+            capture = com.cetecom.ibichos.domain.model.CaptureItem(
+                id = "1",
+                imageUrl = "",
+                insectName = "Araña de Rincón",
+                scientificName = "Loxosceles laeta",
+                category = com.cetecom.ibichos.domain.model.enums.InsectCategory.ARACHNID,
+                dangerLevel = com.cetecom.ibichos.domain.model.enums.DangerLevel.VENOMOUS,
+                probability = 0.95,
+                userId = "user1",
+                capturedAt = System.currentTimeMillis(),
+                description = "Araña muy venenosa.",
+                status = "APPROVED"
+            ),
+            currentUserId = "user1",
+            onNavigateBack = {}
+        )
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Medium Phone", widthDp = 411, heightDp = 891, showBackground = true)
+@Composable
+fun CaptureDetailPreviewMedium() {
+    CaptureDetailPreviewSmall()
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone", widthDp = 480, heightDp = 960, showBackground = true)
+@Composable
+fun CaptureDetailPreviewLarge() {
+    CaptureDetailPreviewSmall()
+}

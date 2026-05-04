@@ -57,12 +57,27 @@ fun RankingScreen(
     viewModel: RankingViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var showInfoDialog by remember { mutableStateOf(false) }
 
     // Recarga automática al entrar a la pantalla
     LaunchedEffect(Unit) {
         viewModel.loadRanking()
     }
+
+    RankingContent(
+        uiState = uiState,
+        onRefresh = { viewModel.loadRanking() },
+        onTypeSelected = { viewModel.loadRanking(it) }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RankingContent(
+    uiState: RankingUiState,
+    onRefresh: () -> Unit,
+    onTypeSelected: (RankingType) -> Unit
+) {
+    var showInfoDialog by remember { mutableStateOf(false) }
 
     if (showInfoDialog) {
         RankingInfoDialog(
@@ -75,7 +90,7 @@ fun RankingScreen(
             AnimatedRankingTopBar(
                 selectedType = uiState.currentType,
                 onRulesClick = { showInfoDialog = true },
-                onTypeSelected = { viewModel.loadRanking(it) }
+                onTypeSelected = onTypeSelected
             )
         },
         containerColor = MaterialTheme.colorScheme.background
@@ -129,7 +144,7 @@ fun RankingScreen(
                             Spacer(modifier = Modifier.height(16.dp))
 
                             Button(
-                                onClick = { viewModel.loadRanking() },
+                                onClick = onRefresh,
                                 colors = ButtonDefaults.buttonColors(containerColor = LightGreenDark)
                             ) {
                                 Text(
@@ -674,4 +689,36 @@ fun RankingItem(
             }
         }
     }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Small Phone", widthDp = 320, heightDp = 640, showBackground = true)
+@Composable
+fun RankingPreviewSmall() {
+    com.cetecom.ibichos.ui.theme.IBichosTheme {
+        RankingContent(
+            uiState = RankingUiState(
+                users = listOf(
+                    com.cetecom.ibichos.domain.model.UserProfile(uid = "1", displayName = "Usuario Alfa", avatarUrl = "https://i.pravatar.cc/150?u=1", city = "Santiago", gamification = com.cetecom.ibichos.domain.model.GamificationData(xp = 1500, uniqueInsectsCount = 10, medals = listOf("A", "B"))),
+                    com.cetecom.ibichos.domain.model.UserProfile(uid = "2", displayName = "Beta Tester", avatarUrl = "https://i.pravatar.cc/150?u=2", city = "Valparaíso", gamification = com.cetecom.ibichos.domain.model.GamificationData(xp = 1200, uniqueInsectsCount = 8, medals = listOf("A"))),
+                    com.cetecom.ibichos.domain.model.UserProfile(uid = "3", displayName = "Charlie", avatarUrl = "https://i.pravatar.cc/150?u=3", city = "Concepción", gamification = com.cetecom.ibichos.domain.model.GamificationData(xp = 900, uniqueInsectsCount = 5, medals = emptyList()))
+                ),
+                isLoading = false,
+                error = null
+            ),
+            onRefresh = {},
+            onTypeSelected = {}
+        )
+    }
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Medium Phone", widthDp = 411, heightDp = 891, showBackground = true)
+@Composable
+fun RankingPreviewMedium() {
+    RankingPreviewSmall()
+}
+
+@androidx.compose.ui.tooling.preview.Preview(name = "Large Phone", widthDp = 480, heightDp = 960, showBackground = true)
+@Composable
+fun RankingPreviewLarge() {
+    RankingPreviewSmall()
 }
