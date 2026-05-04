@@ -12,6 +12,8 @@ interface Captura {
   needsReview: boolean;
   status: string; // 'PENDING_REVIEW', 'APPROVED', 'REJECTED'
   userId: string;
+  insectName?: string;
+  scientificName?: string;
   lat?: number;
   lng?: number;
 }
@@ -40,6 +42,8 @@ export default function Capturas() {
             needsReview: d.needsReview || false,
             status: d.status || d.validationStatus || (d.needsReview ? 'PENDING_REVIEW' : (d.probability < 0.40 ? 'REJECTED' : 'APPROVED')),
             userId: d.userId || 'Anónimo',
+            insectName: d.insectName,
+            scientificName: d.scientificName,
             lat: d.latitude,
             lng: d.longitude
           };
@@ -243,6 +247,12 @@ export default function Capturas() {
                   </div>
 
                   <div className="card-body">
+                    {/* INFO DE LA IA */}
+                    <div className="mb-3">
+                      <h6 className="mb-0 fw-bold">{cap.insectName || 'Insecto Desconocido'}</h6>
+                      <small className="text-muted fst-italic">{cap.scientificName || 'Especie no identificada'}</small>
+                    </div>
+
                     {/* SELECTOR DE CATEGORÍA (CORRECCIÓN DE IA) */}
                     <div className="mb-3">
                       <label className="small text-muted mb-1 d-block">Categoría (Corregir si es necesario):</label>
