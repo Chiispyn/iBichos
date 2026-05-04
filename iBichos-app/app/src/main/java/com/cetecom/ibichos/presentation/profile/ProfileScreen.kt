@@ -525,7 +525,7 @@ private fun ProfileStatsCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 22.dp),
+            .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(8.dp)
@@ -566,12 +566,12 @@ private fun ProfileProgressCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 22.dp, vertical = 18.dp),
+            .padding(horizontal = 16.dp, vertical = 16.dp),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
-        Column(modifier = Modifier.padding(20.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Surface(
                     modifier = Modifier.size(54.dp),
@@ -601,18 +601,6 @@ private fun ProfileProgressCard(
                         text = "Sigue explorando para subir de nivel",
                         fontSize = 14.sp,
                         color = Color(0xFF5C6770)
-                    )
-                }
-
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = Color(0xFFE8F8EF)
-                ) {
-                    Text(
-                        text = "$xp / $nextLevelXp XP",
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
-                        color = DarkGreen,
-                        fontWeight = FontWeight.Bold
                     )
                 }
             }
@@ -660,12 +648,12 @@ private fun AchievementsCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 22.dp),
+            .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
-        Column(modifier = Modifier.padding(20.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Surface(
                     modifier = Modifier.size(52.dp),
