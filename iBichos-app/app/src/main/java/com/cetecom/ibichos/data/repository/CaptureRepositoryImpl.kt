@@ -47,6 +47,7 @@ class CaptureRepositoryImpl(
                     status         = doc.getString("status") ?: "APPROVED"
                 )
             }
+            .filter { it.status != "DELETED" && it.status != "REJECTED" }
             .sortedByDescending { it.capturedAt }
     }
 
@@ -81,6 +82,7 @@ class CaptureRepositoryImpl(
                     status         = doc.getString("status") ?: "APPROVED"
                 )
             }
+            .filter { it.status != "DELETED" && it.status != "REJECTED" }
     }
 
     override suspend fun saveCapture(
@@ -127,5 +129,12 @@ class CaptureRepositoryImpl(
             .get()
             .await()
         return !result.isEmpty
+    }
+
+    override suspend fun deleteCapture(id: String) {
+        db.collection("captures")
+            .document(id)
+            .update("status", "DELETED")
+            .await()
     }
 }

@@ -24,7 +24,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.cetecom.ibichos.data.OnboardingPreferences
+import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.presentation.auth.AuthViewModel
+import com.cetecom.ibichos.presentation.auth.CompleteProfileScreen
 import com.cetecom.ibichos.presentation.auth.LoginScreen
 import com.cetecom.ibichos.presentation.auth.RegisterScreen
 import com.cetecom.ibichos.presentation.camera.CameraScreen
@@ -38,7 +40,13 @@ import com.cetecom.ibichos.presentation.profile.ProfileScreen
 import com.cetecom.ibichos.presentation.ranking.RankingScreen
 import com.cetecom.ibichos.presentation.splash.SplashScreen
 import com.cetecom.ibichos.ui.theme.*
+import kotlinx.coroutines.launch
 
+object NavigationState {
+    var captureForDetail: CaptureItem? = null
+}
+
+// ── Ítems del BottomNav ───────────────────────────────────────────────────────
 private data class BottomNavItem(
     val label: String,
     val route: String,

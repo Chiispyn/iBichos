@@ -96,6 +96,11 @@ private fun CatalogContent(
     onNavigateToMap: () -> Unit,
     onNavigateToDetail: (CaptureItem) -> Unit
 ) {
+    // Recarga automática al entrar a la pantalla
+    LaunchedEffect(Unit) {
+        viewModel.loadCaptures()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

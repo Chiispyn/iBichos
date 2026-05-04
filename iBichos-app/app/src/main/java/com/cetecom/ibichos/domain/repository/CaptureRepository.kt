@@ -34,4 +34,7 @@ interface CaptureRepository {
 
     /** Verifica si el usuario ya ha capturado esta especie antes */
     suspend fun hasCaughtInsect(userId: String, scientificName: String): Boolean
+
+    /** Elimina una captura (Borrado lógico o físico según implementación) */
+    suspend fun deleteCapture(id: String)
 }
