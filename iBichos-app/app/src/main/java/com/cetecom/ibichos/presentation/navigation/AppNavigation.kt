@@ -168,6 +168,12 @@ fun AppNavigation() {
                             navController.popBackStack()
                         }
                     },
+                    onAppeal = { id ->
+                        scope.launch {
+                            com.cetecom.ibichos.data.repository.CaptureRepositoryImpl().appealCapture(id)
+                            navController.popBackStack()
+                        }
+                    },
                     onNavigateToMap = { lat, lng ->
                         navController.navigate(Screen.Map.createRoute(lat, lng))
                     }

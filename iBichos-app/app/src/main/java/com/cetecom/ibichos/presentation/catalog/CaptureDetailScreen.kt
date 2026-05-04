@@ -48,6 +48,7 @@ fun CaptureDetailScreen(
     currentUserId: String = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "",
     onNavigateBack: () -> Unit,
     onDelete: (String) -> Unit = {},
+    onAppeal: (String) -> Unit = {},
     onNavigateToMap: (Double, Double) -> Unit = { _, _ -> }
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
@@ -243,6 +244,21 @@ fun CaptureDetailScreen(
 
             if (capture.description.isNotEmpty()) {
                 InfoCard(Icons.Default.Eco, "Información Biológica", capture.description)
+            }
+
+            if (capture.status == "REJECTED" && currentUserId == capture.userId) {
+                Button(
+                    onClick = { onAppeal(capture.id) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFC81E1E)),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Icon(Icons.Default.Warning, contentDescription = null, tint = Color.White)
+                    Spacer(Modifier.width(8.dp))
+                    Text("Apelar Decisión", fontWeight = FontWeight.Bold, color = Color.White)
+                }
             }
             
             if (showDeleteDialog) {

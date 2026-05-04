@@ -10,6 +10,8 @@ interface Captura {
   dangerLevel: string;
   confidence: number;
   userId: string;
+  insectName?: string;
+  scientificName?: string;
   status?: string;
   timestamp?: any;
 }
@@ -45,6 +47,8 @@ export default function Catalogo() {
           dangerLevel: cap.dangerLevel || 'UNKNOWN',
           confidence: cap.probability || 0,
           userId: cap.userId || 'Anónimo',
+          insectName: cap.insectName,
+          scientificName: cap.scientificName,
           status: cap.status || 'APPROVED',
           timestamp: cap.timestamp
         }));
@@ -181,6 +185,12 @@ export default function Catalogo() {
 
                 {/* Detalles */}
                 <div className="card-body">
+                  {/* INFO DE LA IA */}
+                  <div className="mb-3">
+                    <h6 className="mb-0 fw-bold">{cap.insectName || 'Insecto Desconocido'}</h6>
+                    <small className="text-muted fst-italic">{cap.scientificName || 'Especie no identificada'}</small>
+                  </div>
+
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <div className="flex-grow-1 me-2">
                       <select 

@@ -22,20 +22,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Map
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Shield
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -233,19 +227,22 @@ private fun CaptureCard(
         ).format(Date(capture.capturedAt))
     }
 
+    val isRejected = capture.status == "REJECTED"
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick() },
-        shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(6.dp)
+            .height(132.dp)
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(26.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isRejected) Color(0xFFFDE8E8) else Color.White.copy(alpha = 0.96f)
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = if (isRejected) 2.dp else 8.dp)
     ) {
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
+            modifier = Modifier.fillMaxSize().let { if (isRejected) it.alpha(0.6f) else it },
             verticalAlignment = Alignment.CenterVertically
         ) {
 
@@ -293,20 +290,56 @@ private fun CaptureCard(
 
                 Spacer(Modifier.height(8.dp))
 
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = Color(0xFFFFF3CD)
-                ) {
-                    Text(
-                        text = capture.dangerLevel.displayName(),
-                        modifier = Modifier.padding(
-                            horizontal = 10.dp,
-                            vertical = 4.dp
-                        ),
-                        color = IBichosAmber,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp
-                    )
+                if (isRejected) {
+                    Surface(
+                        shape = RoundedCornerShape(50),
+                        color = Color(0xFFFBD5D5)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Warning,
+                                contentDescription = null,
+                                tint = Color(0xFFC81E1E),
+                                modifier = Modifier.size(13.dp)
+                            )
+                            Spacer(Modifier.width(5.dp))
+                            Text(
+                                text = "RECHAZADA",
+                                color = Color(0xFFC81E1E),
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                } else {
+                    Surface(
+                        shape = RoundedCornerShape(50),
+                        color = Color(0xFFFFF3CD)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Shield,
+                                contentDescription = null,
+                                tint = Color(0xFFFFA000),
+                                modifier = Modifier.size(13.dp)
+                            )
+    
+                            Spacer(Modifier.width(5.dp))
+    
+                            Text(
+                                text = capture.dangerLevel.displayName(),
+                                color = Color(0xFFFFA000),
+                                fontSize = 13.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
                 }
 
                 Spacer(Modifier.height(6.dp))
