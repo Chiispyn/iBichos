@@ -19,17 +19,42 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import coil.compose.AsyncImage
+import androidx.compose.animation.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.cetecom.ibichos.domain.model.CaptureItem
+import androidx.compose.material.icons.filled.Close
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import androidx.compose.material.icons.filled.MyLocation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MapScreen(
     onNavigateBack: () -> Unit,
+    onNavigateToDetail: (CaptureItem) -> Unit = {},
+    initialLat: Double? = null,
+    initialLng: Double? = null,
     viewModel: MapViewModel = viewModel()
 ) {
+    var hasCentered by remember { mutableStateOf(false) }
     val context  = LocalContext.current
     val captures by viewModel.captures.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val isGlobalMap by viewModel.isGlobalMap.collectAsStateWithLifecycle()
+    // Referencias para que el botón pueda mover el mapa
+    var mapViewRef by remember { mutableStateOf<MapView?>(null) }
+    var locationOverlayRef by remember { mutableStateOf<MyLocationNewOverlay?>(null) }
+
+    
+    // Estado para la captura seleccionada en el mapa
+    var selectedCapture by remember { mutableStateOf<CaptureItem?>(null) }
+
+    // Recarga automática de pines
+    LaunchedEffect(Unit) {
+        viewModel.loadCaptures()
+    }
 
     Scaffold(
         topBar = {
@@ -46,6 +71,8 @@ fun MapScreen(
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Box(
+
+
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
@@ -54,37 +81,58 @@ fun MapScreen(
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
                 factory  = { ctx ->
-                    // OSMDroid requiere configurar el User Agent antes de usar el mapa
                     Configuration.getInstance().userAgentValue = ctx.packageName
-
+                    Configuration.getInstance().userAgentValue = ctx.packageName
                     MapView(ctx).apply {
                         setTileSource(TileSourceFactory.MAPNIK)
                         setMultiTouchControls(true)
                         setBuiltInZoomControls(true)
                         controller.setZoom(10.0)
-                        controller.setCenter(GeoPoint(-33.4489, -70.6693)) // Santiago default
+                        controller.setCenter(GeoPoint(-33.4489, -70.6693))
+
+                        mapViewRef = this
+
+                        // 1. --- CREAR LA CAPA DE UBICACIÓN AQUÍ (UNA SOLA VEZ) ---
+                        val locationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(ctx), this)
+                        locationOverlay.enableMyLocation()
+
+                        locationOverlayRef = locationOverlay
+                        this.overlays.add(locationOverlay)
                     }
                 },
                 update = { mapView ->
                     mapView.overlays.clear()
 
+                    // Mantenemos la capa viva sin volver a instanciarla
+                    locationOverlayRef?.let { mapView.overlays.add(it) }
+
+                    // 2. --- CAPA DE LOS PINES DE LOS INSECTOS ---
                     for (capture in captures) {
                         if (capture.latitude != null && capture.longitude != null) {
                             val marker = Marker(mapView).apply {
                                 position = GeoPoint(capture.latitude, capture.longitude)
                                 title    = capture.insectName
-                                snippet  = "Precisión: ${(capture.probability * 100).toInt()}% • ${capture.dangerLevel}"
                                 setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+
+                                setOnMarkerClickListener { _, _ ->
+                                    selectedCapture = capture
+                                    mapView.controller.animateTo(GeoPoint(capture.latitude, capture.longitude))
+                                    true
+                                }
                             }
                             mapView.overlays.add(marker)
                         }
                     }
 
-                    // Centrar en la última captura si hay alguna con ubicación
-                    val last = captures.lastOrNull { it.latitude != null }
-                    if (last?.latitude != null && last.longitude != null) {
-                        mapView.controller.animateTo(GeoPoint(last.latitude, last.longitude))
-                        mapView.controller.setZoom(15.0)
+                    if (!hasCentered && captures.isNotEmpty()) {
+                        val targetLat: Double? = initialLat ?: captures.firstOrNull { it.latitude != null }?.latitude
+                        val targetLng: Double? = initialLng ?: captures.firstOrNull { it.longitude != null }?.longitude
+
+                        if (targetLat != null && targetLng != null) {
+                            mapView.controller.animateTo(GeoPoint(targetLat, targetLng))
+                            mapView.controller.setZoom(16.0)
+                            hasCentered = true
+                        }
                     }
 
                     mapView.invalidate()
@@ -132,22 +180,102 @@ fun MapScreen(
                 }
             }
 
-            // Contador de pines
-            if (!isLoading && captures.isNotEmpty()) {
-                Surface(
-                    modifier      = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(16.dp),
-                    shape         = MaterialTheme.shapes.medium,
-                    color         = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f),
-                    tonalElevation = 4.dp
-                ) {
-                    Text(
-                        text     = "🗺️ ${captures.count { it.latitude != null }} pines en el mapa",
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
-                        style    = MaterialTheme.typography.labelLarge,
-                        color    = MaterialTheme.colorScheme.onBackground
-                    )
+            // ── BOTÓN DE "MI UBICACIÓN" ──────────────────────────────
+            FloatingActionButton(
+                onClick = {
+                    locationOverlayRef?.myLocation?.let { location ->
+                        // Usamos setCenter para un salto directo, sin la animación de viaje
+                        mapViewRef?.controller?.setCenter(location)
+                        mapViewRef?.controller?.setZoom(18.0)
+                    }
+                },
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 16.dp, bottom = 140.dp)
+                    .offset(y = 100.dp),
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = IBichosGreen
+            ) {
+                Icon(Icons.Default.MyLocation, contentDescription = "Centrar en mi ubicación")
+            }
+
+            // ── TARJETA DE DETALLE (EL PING CON FOTO) ───────────────────────
+            AnimatedVisibility(
+                visible = selectedCapture != null,
+                enter = slideInVertically(initialOffsetY = { it }) + fadeIn(),
+                exit = slideOutVertically(targetOffsetY = { it }) + fadeOut(),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp)
+                    .padding(bottom = 60.dp) // Espacio para el contador de pines
+            ) {
+                selectedCapture?.let { capture ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(120.dp)
+                            .clickable { onNavigateToDetail(capture) },
+
+                        shape = RoundedCornerShape(20.dp),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            // Miniatura de la foto
+                            Card(
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .aspectRatio(1f),
+                                shape = RoundedCornerShape(12.dp)
+                            ) {
+                                AsyncImage(
+                                    model = capture.imageUrl,
+                                    contentDescription = capture.insectName,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.width(12.dp))
+
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(
+                                    text = capture.insectName,
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                    color = IBichosGreen
+                                )
+                                Text(
+                                    text = "Precisión: ${(capture.probability * 100).toInt()}%",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = androidx.compose.ui.graphics.Color.Gray
+                                )
+                                
+                                val dangerColor = when (capture.dangerLevel.name) {
+                                    "VENOMOUS" -> androidx.compose.ui.graphics.Color(0xFFEF4444)
+                                    "CAUTION" -> androidx.compose.ui.graphics.Color(0xFFFFB300)
+                                    else -> IBichosGreen
+                                }
+                                
+                                Badge(
+                                    containerColor = dangerColor.copy(alpha = 0.1f),
+                                    contentColor = dangerColor,
+                                    modifier = Modifier.padding(top = 4.dp)
+                                ) {
+                                    Text(capture.dangerLevel.name, modifier = Modifier.padding(4.dp))
+                                }
+                            }
+
+                            IconButton(onClick = { selectedCapture = null }) {
+                                Icon(Icons.Default.Close, contentDescription = "Cerrar", tint = androidx.compose.ui.graphics.Color.LightGray)
+                            }
+                        }
+                    }
                 }
             }
         }

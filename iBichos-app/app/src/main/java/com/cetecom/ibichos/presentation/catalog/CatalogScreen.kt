@@ -31,6 +31,7 @@ import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -72,6 +73,11 @@ fun CatalogScreen(
     viewModel: CatalogViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    // Recarga automática al entrar a la pantalla
+    LaunchedEffect(Unit) {
+        viewModel.loadCaptures()
+    }
 
     CatalogContent(
         captures = uiState.captures,

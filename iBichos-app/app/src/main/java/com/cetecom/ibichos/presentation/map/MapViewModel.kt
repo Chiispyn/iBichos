@@ -1,4 +1,4 @@
-﻿package com.cetecom.ibichos.presentation.map
+package com.cetecom.ibichos.presentation.map
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -34,7 +34,7 @@ class MapViewModel : ViewModel() {
         loadCaptures()
     }
 
-    private fun loadCaptures() {
+    fun loadCaptures() {
         val uid = auth.currentUser?.uid ?: return
 
         viewModelScope.launch {
