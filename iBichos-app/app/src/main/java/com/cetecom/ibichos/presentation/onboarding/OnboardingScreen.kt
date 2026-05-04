@@ -235,7 +235,8 @@ fun IBichosWelcomeScreen(
                             )
                         )
                     )
-                    .clickable { onStartClick() },
+                    .clickable {
+                        onStartClick() },
                 contentAlignment = Alignment.Center
             ) {
                 Text(

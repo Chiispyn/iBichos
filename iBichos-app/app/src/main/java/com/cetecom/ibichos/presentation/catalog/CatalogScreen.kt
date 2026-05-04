@@ -1,17 +1,25 @@
-
 package com.cetecom.ibichos.presentation.catalog
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material.icons.filled.Warning
@@ -29,13 +37,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.CaptureItem
+import com.cetecom.ibichos.domain.model.enums.DangerLevel
 import com.cetecom.ibichos.ui.theme.IBichosAmber
-import com.cetecom.ibichos.ui.theme.IBichosOrange
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -47,11 +56,15 @@ private val DarkGreen = Color(0xFF0FA958)
 private val TextDark = Color(0xFF092E24)
 private val TextGray = Color(0xFF667570)
 
+/* =======================================================
+   SCREEN REAL (NO TOCADA)
+======================================================= */
+
 @Composable
 fun CatalogScreen(
     onNavigateToMap: () -> Unit,
     onNavigateToDetail: (CaptureItem) -> Unit,
-    viewModel: CatalogViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: CatalogViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -60,6 +73,29 @@ fun CatalogScreen(
         viewModel.loadCaptures()
     }
 
+    CatalogContent(
+        captures = uiState.captures,
+        isLoading = uiState.isLoading,
+        error = uiState.error,
+        onRefresh = { viewModel.loadCaptures() },
+        onNavigateToMap = onNavigateToMap,
+        onNavigateToDetail = onNavigateToDetail
+    )
+}
+
+/* =======================================================
+   CONTENT REUTILIZABLE
+======================================================= */
+
+@Composable
+private fun CatalogContent(
+    captures: List<CaptureItem>,
+    isLoading: Boolean,
+    error: String?,
+    onRefresh: () -> Unit,
+    onNavigateToMap: () -> Unit,
+    onNavigateToDetail: (CaptureItem) -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,22 +109,24 @@ fun CatalogScreen(
                 )
             )
     ) {
+
         AlbumHeader(
-            count = uiState.captures.size,
-            onRefresh = { viewModel.loadCaptures() },
+            count = captures.size,
+            onRefresh = onRefresh,
             onMapClick = onNavigateToMap
         )
 
         Box(modifier = Modifier.fillMaxSize()) {
+
             when {
-                uiState.isLoading -> {
+                isLoading -> {
                     CircularProgressIndicator(
                         modifier = Modifier.align(Alignment.Center),
                         color = DarkGreen
                     )
                 }
 
-                uiState.captures.isEmpty() -> {
+                captures.isEmpty() -> {
                     EmptyAlbumState(
                         modifier = Modifier.align(Alignment.Center)
                     )
@@ -98,14 +136,14 @@ fun CatalogScreen(
                     LazyColumn(
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(
-                            start = 18.dp,
-                            end = 18.dp,
+                            start = 12.dp,
+                            end = 12.dp,
                             top = 4.dp,
-                            bottom = 110.dp
+                            bottom = 100.dp
                         ),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        items(uiState.captures, key = { it.id }) { capture ->
+                        items(captures, key = { it.id }) { capture ->
                             CaptureCard(
                                 capture = capture,
                                 onClick = { onNavigateToDetail(capture) }
@@ -115,20 +153,22 @@ fun CatalogScreen(
                 }
             }
 
-            uiState.error?.let { error ->
+            error?.let {
                 Snackbar(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
-                        .padding(16.dp),
-                    containerColor = MaterialTheme.colorScheme.errorContainer,
-                    contentColor = MaterialTheme.colorScheme.onErrorContainer
+                        .padding(16.dp)
                 ) {
-                    Text(error)
+                    Text(it)
                 }
             }
         }
     }
 }
+
+/* =======================================================
+   HEADER
+======================================================= */
 
 @Composable
 private fun AlbumHeader(
@@ -136,97 +176,44 @@ private fun AlbumHeader(
     onRefresh: () -> Unit,
     onMapClick: () -> Unit
 ) {
-    Box(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 28.dp, bottom = 22.dp)
+            .padding(horizontal = 18.dp, vertical = 18.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = "🍃",
-            fontSize = 42.sp,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .padding(start = 62.dp, top = 4.dp)
-        )
 
-        Text(
-            text = "🌿",
-            fontSize = 46.sp,
-            modifier = Modifier
-                .align(Alignment.CenterEnd)
-                .padding(end = 0.dp, top = 20.dp)
-        )
+        Column(modifier = Modifier.weight(1f)) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 22.dp),
-            verticalAlignment = Alignment.CenterVertically
+            Text(
+                text = "Mi Álbum",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = TextDark
+            )
+
+            Text(
+                text = "$count insectos capturados",
+                fontSize = 15.sp,
+                color = TextGray
+            )
+        }
+
+        OutlinedButton(
+            onClick = onMapClick,
+            shape = RoundedCornerShape(14.dp),
+            border = BorderStroke(1.dp, DarkGreen)
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = "Mi Álbum",
-                    fontSize = 34.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = TextDark
-                )
-
-                Text(
-                    text = "$count insectos capturados",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = TextGray
-                )
-            }
-
-            Surface(
-                onClick = onRefresh,
-                modifier = Modifier.size(56.dp),
-                shape = CircleShape,
-                color = Color.White,
-                shadowElevation = 6.dp
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = "Recargar",
-                    tint = DarkGreen,
-                    modifier = Modifier.padding(15.dp)
-                )
-            }
-
-            Spacer(Modifier.width(12.dp))
-
-            Surface(
-                onClick = onMapClick,
-                shape = RoundedCornerShape(50),
-                color = Color.White,
-                border = BorderStroke(1.5.dp, DarkGreen),
-                shadowElevation = 4.dp
-            ) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 18.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Map,
-                        contentDescription = null,
-                        tint = DarkGreen,
-                        modifier = Modifier.size(22.dp)
-                    )
-
-                    Spacer(Modifier.width(8.dp))
-
-                    Text(
-                        text = "Mapa",
-                        color = DarkGreen,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 18.sp
-                    )
-                }
-            }
+            Icon(Icons.Default.Map, null, tint = DarkGreen)
+            Spacer(Modifier.width(6.dp))
+            Text("Mapa", color = DarkGreen)
         }
     }
 }
+
+/* =======================================================
+   CARD
+======================================================= */
 
 @Composable
 private fun CaptureCard(
@@ -234,12 +221,10 @@ private fun CaptureCard(
     onClick: () -> Unit
 ) {
     val dateStr = remember(capture.capturedAt) {
-        if (capture.capturedAt > 0) {
-            SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
-                .format(Date(capture.capturedAt))
-        } else {
-            "Fecha desconocida"
-        }
+        SimpleDateFormat(
+            "dd MMM yyyy",
+            Locale.getDefault()
+        ).format(Date(capture.capturedAt))
     }
 
     val isRejected = capture.status == "REJECTED"
@@ -255,78 +240,52 @@ private fun CaptureCard(
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = if (isRejected) 2.dp else 8.dp)
     ) {
+
         Row(
             modifier = Modifier.fillMaxSize().let { if (isRejected) it.alpha(0.6f) else it },
             verticalAlignment = Alignment.CenterVertically
         ) {
+
             Box(
                 modifier = Modifier
-                    .width(126.dp)
-                    .fillMaxHeight()
-                    .padding(8.dp)
+                    .size(82.dp)
+                    .clip(RoundedCornerShape(18.dp))
+                    .background(LightGreen),
+                contentAlignment = Alignment.Center
             ) {
-                AsyncImage(
-                    model = if (capture.imageUrl.startsWith("/")) {
-                        File(capture.imageUrl)
-                    } else {
-                        capture.imageUrl
-                    },
-                    contentDescription = capture.insectName,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(20.dp)),
-                    contentScale = ContentScale.Crop
-                )
 
-                Surface(
-                    modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(8.dp),
-                    shape = RoundedCornerShape(50),
-                    color = Color.Black.copy(alpha = 0.58f)
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 9.dp, vertical = 5.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.CameraAlt,
-                            contentDescription = null,
-                            tint = Color.White,
-                            modifier = Modifier.size(15.dp)
-                        )
-
-                        Spacer(Modifier.width(5.dp))
-
-                        Text(
-                            text = "1",
-                            color = Color.White,
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
+                if (capture.imageUrl.isNotEmpty()) {
+                    AsyncImage(
+                        model = if (capture.imageUrl.startsWith("/"))
+                            File(capture.imageUrl)
+                        else capture.imageUrl,
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+                } else {
+                    Text("🐞", fontSize = 28.sp)
                 }
             }
 
+            Spacer(Modifier.width(12.dp))
+
             Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 8.dp, end = 8.dp, top = 18.dp, bottom = 14.dp)
+                modifier = Modifier.weight(1f)
             ) {
+
                 Text(
-                    text = capture.insectName.uppercase(),
-                    fontSize = 22.sp,
+                    text = capture.insectName,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = TextDark,
-                    maxLines = 1
+                    color = TextDark
                 )
 
                 Text(
                     text = capture.scientificName,
-                    fontSize = 16.sp,
-                    fontStyle = FontStyle.Italic,
+                    fontSize = 13.sp,
                     color = TextGray,
-                    maxLines = 1
+                    fontStyle = FontStyle.Italic
                 )
 
                 Spacer(Modifier.height(8.dp))
@@ -383,94 +342,139 @@ private fun CaptureCard(
                     }
                 }
 
-                Spacer(Modifier.weight(1f))
+                Spacer(Modifier.height(6.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        imageVector = Icons.Default.CalendarMonth,
-                        contentDescription = null,
+                        Icons.Default.CalendarMonth,
+                        null,
                         tint = DarkGreen,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(14.dp)
                     )
-
-                    Spacer(Modifier.width(7.dp))
-
+                    Spacer(Modifier.width(4.dp))
                     Text(
                         text = dateStr,
-                        fontSize = 13.sp,
-                        color = TextGray,
-                        maxLines = 1
+                        fontSize = 12.sp,
+                        color = TextGray
                     )
                 }
             }
 
-            Row(
-                modifier = Modifier.padding(end = 14.dp),
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                horizontalAlignment = Alignment.End
             ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = Color(0xFFF0FAEC)
-                ) {
-                    Text(
-                        text = "${(capture.probability * 100).toInt()}% IA",
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 11.dp),
-                        color = DarkGreen,
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.ExtraBold
-                    )
-                }
 
-                Spacer(Modifier.width(6.dp))
+                Text(
+                    text = "${(capture.probability * 100).toInt()}%",
+                    fontWeight = FontWeight.Bold,
+                    color = DarkGreen,
+                    fontSize = 16.sp
+                )
 
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = Color(0xFFF0FAEC)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.KeyboardArrowRight,
-                        contentDescription = null,
-                        tint = DarkGreen,
-                        modifier = Modifier
-                            .size(42.dp)
-                            .padding(8.dp)
-                    )
-                }
+                Icon(
+                    Icons.Default.KeyboardArrowRight,
+                    null,
+                    tint = DarkGreen
+                )
             }
         }
     }
 }
+
+/* =======================================================
+   EMPTY STATE
+======================================================= */
 
 @Composable
 private fun EmptyAlbumState(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 28.dp),
+        modifier = modifier.padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "🦗",
-            fontSize = 66.sp
-        )
+        Text("🦗", fontSize = 62.sp)
 
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(8.dp))
 
         Text(
             text = "Aún no capturaste ningún insecto",
-            fontSize = 20.sp,
+            textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
-            color = TextDark,
-            textAlign = TextAlign.Center
+            color = TextDark
         )
 
         Spacer(Modifier.height(6.dp))
 
         Text(
             text = "Usa la cámara para atrapar tu primer bicho.",
-            fontSize = 15.sp,
-            color = TextGray,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = TextGray
         )
     }
+}
+
+/* =======================================================
+   PREVIEWS
+======================================================= */
+
+private fun fakeCaptures() = listOf(
+    CaptureItem(
+        id = "1",
+        insectName = "Abeja",
+        scientificName = "Apis Mellifera",
+        imageUrl = "",
+        capturedAt = System.currentTimeMillis(),
+        probability = 0.94,
+        dangerLevel = DangerLevel.CAUTION
+    ),
+    CaptureItem(
+        id = "2",
+        insectName = "Araña",
+        scientificName = "Latrodectus",
+        imageUrl = "",
+        capturedAt = System.currentTimeMillis(),
+        probability = 0.88,
+        dangerLevel = DangerLevel.CAUTION
+    )
+)
+
+@Preview(
+    name = "Small Phone",
+    widthDp = 320,
+    heightDp = 640,
+    showBackground = true
+)
+@Composable
+fun CatalogPreviewSmall() {
+    CatalogContent(
+        captures = fakeCaptures(),
+        isLoading = false,
+        error = null,
+        onRefresh = {},
+        onNavigateToMap = {},
+        onNavigateToDetail = {}
+    )
+}
+
+@Preview(
+    name = "Medium Phone",
+    widthDp = 411,
+    heightDp = 891,
+    showBackground = true
+)
+@Composable
+fun CatalogPreviewMedium() {
+    CatalogPreviewSmall()
+}
+
+@Preview(
+    name = "Large Phone",
+    widthDp = 480,
+    heightDp = 960,
+    showBackground = true
+)
+@Composable
+fun CatalogPreviewLarge() {
+    CatalogPreviewSmall()
 }
