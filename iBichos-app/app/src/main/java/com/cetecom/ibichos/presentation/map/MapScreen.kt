@@ -13,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import com.cetecom.ibichos.ui.theme.*
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -46,6 +49,31 @@ fun MapScreen(
     // Referencias para que el botón pueda mover el mapa
     var mapViewRef by remember { mutableStateOf<MapView?>(null) }
     var locationOverlayRef by remember { mutableStateOf<MyLocationNewOverlay?>(null) }
+
+    // --- NUEVO CÓDIGO: CICLO DE VIDA ---
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                // Cuando la app vuelve a estar activa (ej. al prender el GPS y volver)
+                Lifecycle.Event.ON_RESUME -> {
+                    mapViewRef?.onResume() // Despierta el mapa
+                    locationOverlayRef?.enableMyLocation() // Obliga a buscar el GPS de nuevo
+                }
+                // Cuando la app se va a segundo plano
+                Lifecycle.Event.ON_PAUSE -> {
+                    mapViewRef?.onPause() // Pausa el mapa para ahorrar batería
+                    locationOverlayRef?.disableMyLocation() // Apaga el rastreo en 2do plano
+                }
+                else -> {}
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 
     
     // Estado para la captura seleccionada en el mapa
@@ -183,10 +211,30 @@ fun MapScreen(
             // ── BOTÓN DE "MI UBICACIÓN" ──────────────────────────────
             FloatingActionButton(
                 onClick = {
-                    locationOverlayRef?.myLocation?.let { location ->
-                        // Usamos setCenter para un salto directo, sin la animación de viaje
-                        mapViewRef?.controller?.setCenter(location)
-                        mapViewRef?.controller?.setZoom(18.0)
+                    val overlay = locationOverlayRef
+                    val mapCtrl = mapViewRef?.controller
+
+                    if (overlay != null && mapCtrl != null) {
+                        // 1. Forzamos el encendido por si el ciclo de vida falló al detectarlo
+                        overlay.enableMyLocation()
+
+                        // 2. Revisamos si ya tenemos las coordenadas
+                        val currentLocation = overlay.myLocation
+
+                        if (currentLocation != null) {
+                            // Si ya hay señal, hacemos el salto instantáneo
+                            mapCtrl.setCenter(currentLocation)
+                            mapCtrl.setZoom(18.0)
+                        } else {
+                            // 3. Si aún no hay señal (GPS buscando), le pedimos que espere.
+                            // runOnFirstFix se ejecutará automáticamente apenas el celular consiga señal.
+                            overlay.runOnFirstFix {
+                                mapViewRef?.post {
+                                    mapCtrl.setCenter(overlay.myLocation)
+                                    mapCtrl.setZoom(18.0)
+                                }
+                            }
+                        }
                     }
                 },
                 modifier = Modifier
