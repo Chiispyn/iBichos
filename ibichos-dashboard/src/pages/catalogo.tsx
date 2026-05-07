@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { collection, onSnapshot, doc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot, doc, updateDoc, setDoc } from 'firebase/firestore';
 import { db } from '../config/firebaseConfig';
 import { Search, Bug, MapPin, ShieldCheck, Trash2, Edit3, ShieldAlert } from 'lucide-react';
+import { useAuth } from '../context/authcontext';
 
 interface Captura {
   id: string;
@@ -17,6 +18,7 @@ interface Captura {
 }
 
 export default function Catalogo() {
+  const { user } = useAuth();
   const [capturas, setCapturas] = useState<Captura[]>([]);
   const [cargando, setCargando] = useState(true);
   const [busqueda, setBusqueda] = useState('');
@@ -75,7 +77,28 @@ export default function Catalogo() {
   const handleUpdate = async (id: string, updates: any) => {
     try {
       const docRef = doc(db, 'captures', id);
-      await updateDoc(docRef, updates);
+      await updateDoc(docRef, {
+        ...updates,
+        moderatedBy: user?.uid || 'ADMIN',
+        moderatorEmail: user?.email || 'Admin',
+        moderatedAt: new Date()
+      });
+
+      try {
+        const actionType = updates.category ? 'UPDATE_CATEGORY' : (updates.dangerLevel ? 'UPDATE_DANGER_LEVEL' : 'UPDATE_CAPTURE');
+        const logRef = doc(collection(db, 'moderation_logs'));
+        await setDoc(logRef, {
+          adminId: user?.uid || 'unknown',
+          adminEmail: user?.email || 'Admin',
+          action: actionType,
+          targetId: id,
+          targetType: 'CAPTURE',
+          timestamp: new Date()
+        });
+      } catch (e) {
+        console.warn("No se pudo guardar el log en Catálogo:", e);
+      }
+
       setCapturas(prev => prev.map(cap => cap.id === id ? { ...cap, ...updates } : cap));
     } catch (error) {
       console.error("Error al actualizar especie:", error);
@@ -88,8 +111,26 @@ export default function Catalogo() {
       const docRef = doc(db, 'captures', targetId);
       await updateDoc(docRef, { 
         status: 'REJECTED',
-        needsReview: false
+        needsReview: false,
+        moderatedBy: user?.uid || 'ADMIN',
+        moderatorEmail: user?.email || 'Admin',
+        moderatedAt: new Date()
       });
+
+      try {
+        const logRef = doc(collection(db, 'moderation_logs'));
+        await setDoc(logRef, {
+          adminId: user?.uid || 'unknown',
+          adminEmail: user?.email || 'Admin',
+          action: 'REJECT_CAPTURE', // O 'HIDE_CAPTURE' según convenga
+          targetId: targetId,
+          targetType: 'CAPTURE',
+          timestamp: new Date()
+        });
+      } catch (e) {
+        console.warn("No se pudo guardar el log en Catálogo:", e);
+      }
+
       setCapturas(prev => prev.filter(cap => cap.id !== targetId));
       setShowModal(false);
       setTargetId(null);

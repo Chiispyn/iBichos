@@ -37,7 +37,7 @@ export function Login() {
         const data = adminDoc.data();
 
         // 3. Verificar si está activo
-        if (data.estado === 'activo') {
+        if (data.status === 'active') {
           console.log("¡Bienvenido, Admin!");
           navigate('/analitica'); // Redirigir al panel de analítica
         } else {
