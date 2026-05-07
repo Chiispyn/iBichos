@@ -526,15 +526,15 @@ export default function Analitica() {
       const monthStr = now.toISOString().slice(0, 7); 
       
       const snapshotData = {
-        fechaGuardado: now.toISOString(),
-        mes: monthStr,
-        metricasGlobales: stats,
-        retencion: retentionStats,
-        activacion: activationStats,
-        eficaciaIA: validationData,
-        biodiversidad: categoryData,
-        saludPublica: dangerData,
-        comunidadSana: shadowbanData
+        saveDate: now.toISOString(),
+        month: monthStr,
+        globalMetrics: stats,
+        retention: retentionStats,
+        activation: activationStats,
+        aiEfficacy: validationData,
+        biodiversity: categoryData,
+        publicHealth: dangerData,
+        communityHealth: shadowbanData
       };
 
       // Guardamos en la colección 'historical_reports' usando el mes como ID
