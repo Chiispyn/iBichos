@@ -14,6 +14,7 @@ export default function Geografia() {
   const [loading, setLoading] = useState(true);
   const [regionData, setRegionData] = useState<any[]>([]);
   const [comunaData, setComunaData] = useState<any[]>([]);
+  const [topComunasLimit, setTopComunasLimit] = useState<number>(5);
   const [stats, setStats] = useState({ topRegion: '...', topComuna: '...', totalLocs: 0 });
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function Geografia() {
           .sort((a, b) => b.value - a.value);
 
         setRegionData(sortedRegions);
-        setComunaData(sortedComunas.slice(0, 20)); // Top 20 para no saturar tanto
+        setComunaData(sortedComunas); // Guardar todas, el slice se hace en el render
 
         setStats({
           topRegion: sortedRegions[0]?.name || 'N/A',
@@ -170,14 +171,28 @@ export default function Geografia() {
           <div className="card ibichos-card p-4 shadow-sm border-0 mt-2">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <div>
-                <h5 className="fw-bold mb-1 text-dark">Top 20 Comunas con más Usuarios</h5>
+                <h5 className="fw-bold mb-1 text-dark">Ranking de Comunas</h5>
                 <p className="text-muted small mb-0">Concentración local de la comunidad iBichos</p>
+              </div>
+              <div className="btn-group shadow-sm">
+                <button
+                  className={`btn btn-sm fw-bold px-3 ${topComunasLimit === 5 ? 'btn-primary' : 'btn-outline-secondary bg-white'}`}
+                  onClick={() => setTopComunasLimit(5)}
+                >
+                  Top 5
+                </button>
+                <button
+                  className={`btn btn-sm fw-bold px-3 ${topComunasLimit === 10 ? 'btn-primary' : 'btn-outline-secondary bg-white'}`}
+                  onClick={() => setTopComunasLimit(10)}
+                >
+                  Top 10
+                </button>
               </div>
             </div>
 
-            <div style={{ height: 600 }}>
+            <div style={{ height: topComunasLimit === 5 ? 220 : 380, transition: 'height 0.3s ease' }}>
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={comunaData} layout="vertical" margin={{ top: 10, right: 50, left: 20, bottom: 0 }}>
+                <BarChart data={comunaData.slice(0, topComunasLimit)} layout="vertical" margin={{ top: 10, right: 50, left: 20, bottom: 0 }}>
                   <CartesianGrid strokeDasharray="3 3" horizontal={false} opacity={0.1} />
                   <XAxis type="number" hide />
                   <YAxis

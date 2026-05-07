@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { collection, onSnapshot, doc, updateDoc, deleteDoc, increment } from 'firebase/firestore';
+import { collection, onSnapshot, doc, updateDoc, deleteDoc, increment, setDoc } from 'firebase/firestore';
 import { db } from '../config/firebaseConfig';
 import { CheckCircle, XCircle, Clock, ShieldAlert, Trash2 } from 'lucide-react';
+import { useAuth } from '../context/authcontext';
 
 interface Captura {
   id: string;
@@ -16,9 +17,12 @@ interface Captura {
   scientificName?: string;
   lat?: number;
   lng?: number;
+  moderatedBy?: string;
+  moderatorEmail?: string;
 }
 
 export default function Capturas() {
+  const { user } = useAuth();
   const [capturas, setCapturas] = useState<Captura[]>([]);
   const [filtro, setFiltro] = useState<'PENDING_REVIEW' | 'REJECTED'>('PENDING_REVIEW');
   const [cargando, setCargando] = useState(true);
@@ -45,7 +49,9 @@ export default function Capturas() {
             insectName: d.insectName,
             scientificName: d.scientificName,
             lat: d.latitude,
-            lng: d.longitude
+            lng: d.longitude,
+            moderatedBy: d.moderatedBy,
+            moderatorEmail: d.moderatorEmail
           };
         })
         .filter(cap => cap.status !== 'DELETED');
@@ -73,30 +79,41 @@ export default function Capturas() {
       const capturaRef = doc(db, 'captures', id);
       const updates: any = {
         status: nuevoEstado,
-        needsReview: false
+        needsReview: false,
+        moderatedBy: user?.uid || 'ADMIN',
+        moderatorEmail: user?.email || 'Admin',
+        moderatedAt: new Date()
       };
 
-      // Si el moderador corrigió la categoría (ej: de Other a Arácnido)
       if (nuevaCat) updates.category = nuevaCat;
 
       await updateDoc(capturaRef, updates);
 
-      // Lógica de Strikes: Si se detecta fraude (foto de pantalla/libro)
+      try {
+        const logRef = doc(collection(db, 'moderation_logs'));
+        await setDoc(logRef, {
+          adminId: user?.uid || 'unknown',
+          adminEmail: user?.email || 'Admin',
+          action: penalizar ? 'STRIKE_AND_REJECT' : (nuevoEstado === 'APPROVED' ? 'APPROVE_CAPTURE' : 'REJECT_CAPTURE'),
+          targetId: id,
+          targetType: 'CAPTURE',
+          timestamp: new Date()
+        });
+      } catch (e) {
+        console.warn("No se pudo guardar el log (¿Faltan reglas en Firestore?):", e);
+      }
+
       if (penalizar) {
         const cap = capturas.find(c => c.id === id);
         if (cap && cap.userId && cap.userId !== 'Anónimo') {
           const userRef = doc(db, 'users', cap.userId);
-          // Incrementamos strikes +1 en Firestore
-          await updateDoc(userRef, {
-            strikes: increment(1)
-          });
+          await updateDoc(userRef, { strikes: increment(1) });
           alert("¡Strike aplicado! El usuario ha sido penalizado por fraude.");
         }
       }
 
-      // Actualizamos el estado local para que la UI se refresque al instante
       setCapturas(prev => prev.map(cap =>
-        cap.id === id ? { ...cap, status: nuevoEstado, needsReview: false, category: nuevaCat || cap.category } : cap
+        cap.id === id ? { ...cap, status: nuevoEstado, needsReview: false, category: nuevaCat || cap.category, moderatedBy: updates.moderatedBy, moderatorEmail: updates.moderatorEmail } : cap
       ));
     } catch (error) {
       console.error("Error al moderar la captura:", error);
@@ -107,14 +124,29 @@ export default function Capturas() {
   const handleEliminar = async () => {
     if (!selectedId) return;
     try {
-      // En lugar de deleteDoc, usamos updateDoc para marcarla como DELETED
       const capturaRef = doc(db, 'captures', selectedId);
       await updateDoc(capturaRef, {
         status: 'DELETED',
-        needsReview: false
+        needsReview: false,
+        moderatedBy: user?.uid || 'ADMIN',
+        moderatorEmail: user?.email || 'Admin',
+        moderatedAt: new Date()
       });
 
-      // La quitamos de la UI local
+      try {
+        const logRef = doc(collection(db, 'moderation_logs'));
+        await setDoc(logRef, {
+          adminId: user?.uid || 'unknown',
+          adminEmail: user?.email || 'Admin',
+          action: 'HIDE_CAPTURE',
+          targetId: selectedId,
+          targetType: 'CAPTURE',
+          timestamp: new Date()
+        });
+      } catch (e) {
+        console.warn("No se pudo guardar el log (¿Faltan reglas en Firestore?):", e);
+      }
+
       setCapturas(prev => prev.filter(cap => cap.id !== selectedId));
       setShowModal(false);
       setSelectedId(null);
@@ -220,14 +252,15 @@ export default function Capturas() {
                   <div className="position-relative" style={{ cursor: 'zoom-in' }} onClick={() => setSelectedImg(cap.imageUrl)}>
                     <div className="ibichos-img-container" style={{ backgroundImage: `url(${cap.imageUrl || 'https://via.placeholder.com/300x220?text=Sin+Imagen'})` }} />
 
-                    {/* Botones de acción y estado sobre la imagen */}
-                    <div className="position-absolute top-0 end-0 m-2 z-1">
+                    <div className="position-absolute top-0 end-0 m-2 z-1 d-flex flex-column gap-1 align-items-end">
                       {cap.status === 'PENDING_REVIEW' ? (
                         <span className="badge bg-warning text-dark shadow-sm"><Clock size={12} className="me-1" /> Revisión</span>
                       ) : cap.status === 'APPROVED' ? (
                         <span className="badge bg-success shadow-sm"><CheckCircle size={12} className="me-1" /> Aprobada</span>
                       ) : (
-                        <span className="badge bg-danger shadow-sm"><XCircle size={12} className="me-1" /> Rechazada</span>
+                        <>
+                          <span className="badge bg-danger shadow-sm"><XCircle size={12} className="me-1" /> Rechazada</span>
+                        </>
                       )}
                     </div>
 
@@ -267,7 +300,13 @@ export default function Capturas() {
                         <option value="HYMENOPTERA">Himenóptero 🐝</option>
                         <option value="OTHER">Otro ❓</option>
                       </select>
-                      <p className="small text-muted mt-2 mb-0">ID Usuario: <code>{cap.userId.substring(0, 8)}</code></p>
+                      <p className="small text-muted mt-2 mb-2">ID Usuario: <code>{cap.userId.substring(0, 8)}</code></p>
+                      
+                      {(cap.status === 'REJECTED' || cap.status === 'DELETED') && (
+                        <div className="p-2 mt-1 rounded text-center bg-dark text-white shadow-sm border border-secondary" style={{ fontSize: '0.75rem' }}>
+                          {cap.moderatedBy ? `👤 Mod. por: ${cap.moderatorEmail || 'Admin'}` : '🤖 Rechazado por IA'}
+                        </div>
+                      )}
                     </div>
 
                     <hr className="my-3 opacity-10" />
