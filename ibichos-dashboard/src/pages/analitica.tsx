@@ -537,9 +537,8 @@ export default function Analitica() {
         comunidadSana: shadowbanData
       };
 
-      // Guardamos en una nueva colección llamada 'reportes_historicos'
-      // Usamos el mes (ej. "2026-04") como ID del documento para que se actualice si le dan click varias veces en el mismo mes
-      await setDoc(doc(db, 'reportes_historicos', monthStr), snapshotData);
+      // Guardamos en la colección 'historical_reports' usando el mes como ID
+      await setDoc(doc(db, 'historical_reports', monthStr), snapshotData);
       
       alert(`✅ ¡Éxito! La instantánea estadística de ${monthStr} se ha guardado en la nube (Firestore).`);
     } catch (error) {
