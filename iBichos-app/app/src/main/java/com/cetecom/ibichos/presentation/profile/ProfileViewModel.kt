@@ -1,25 +1,23 @@
 package com.cetecom.ibichos.presentation.profile
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cetecom.ibichos.data.repository.UserRepositoryImpl
 import com.cetecom.ibichos.domain.model.UserProfile
-import com.google.firebase.auth.FirebaseAuth
+import com.cetecom.ibichos.domain.repository.AuthRepository
+import com.cetecom.ibichos.domain.usecase.profile.GetUserProfileUseCase
+import com.cetecom.ibichos.domain.usecase.profile.UploadAvatarUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import android.content.Context
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import com.cetecom.ibichos.data.repository.CloudinaryModule
+import javax.inject.Inject
 
 data class ProfileUiState(
     val profile: UserProfile? = null,
@@ -29,10 +27,12 @@ data class ProfileUiState(
     val successMessage: String? = null
 )
 
-class ProfileViewModel : ViewModel() {
-
-    private val auth       = FirebaseAuth.getInstance()
-    private val repository = UserRepositoryImpl()
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val uploadAvatarUseCase: UploadAvatarUseCase
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
@@ -42,77 +42,48 @@ class ProfileViewModel : ViewModel() {
     }
 
     fun loadProfile() {
-        val uid = auth.currentUser?.uid ?: return
-
+        val uid = authRepository.getCurrentUserId() ?: return
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            try {
-                val profile = repository.getUserProfile(uid)
-                _uiState.update { it.copy(profile = profile, isLoading = false) }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(isLoading = false, error = "Error al cargar perfil: ${e.message}")
+            runCatching { getUserProfileUseCase(uid) }
+                .onSuccess { profile ->
+                    _uiState.update { it.copy(profile = profile, isLoading = false) }
                 }
-            }
+                .onFailure { e ->
+                    _uiState.update { it.copy(isLoading = false, error = "Error al cargar perfil: ${e.message}") }
+                }
         }
     }
 
     fun uploadAvatar(uri: Uri, context: Context) {
-        val uid = auth.currentUser?.uid ?: return
-
+        val uid = authRepository.getCurrentUserId() ?: return
         viewModelScope.launch {
             _uiState.update { it.copy(isUploadingAvatar = true, error = null) }
-            try {
-                // 1. Copiar Uri a File temporal
-                val contentResolver = context.contentResolver
-                val inputStream = contentResolver.openInputStream(uri) 
+            runCatching {
+                // Copiar Uri a File temporal (operación Android-específica, permanece en el ViewModel)
+                val inputStream = context.contentResolver.openInputStream(uri)
                     ?: throw Exception("No se pudo abrir la imagen")
-                
-                val filename = UUID.randomUUID().toString() + ".jpg"
-                val tempFile = File(context.cacheDir, filename)
-                
-                FileOutputStream(tempFile).use { outputStream ->
-                    inputStream.copyTo(outputStream)
-                }
+                val tempFile = File(context.cacheDir, "${UUID.randomUUID()}.jpg")
+                FileOutputStream(tempFile).use { inputStream.copyTo(it) }
 
-                // 2. Subir a Cloudinary
-                val requestFile = tempFile.asRequestBody("image/*".toMediaType())
-                val filePart = MultipartBody.Part.createFormData("file", tempFile.name, requestFile)
-                val presetBody = "IBichos".toRequestBody("text/plain".toMediaType())
-
-                val cloudinaryResponse = CloudinaryModule.api.uploadImage(
-                    cloudName = "drubfka1z",
-                    file = filePart,
-                    uploadPreset = presetBody
-                )
-
-                val cloudinaryUrl = cloudinaryResponse.secure_url
-                    ?: throw Exception("Cloudinary no devolvió una URL válida")
-
-                // 3. Guardar la URL remota en Firestore
-                val finalUrl = repository.updateAvatar(uid, Uri.parse(cloudinaryUrl))
-                
-                _uiState.update { state ->
-                    state.copy(
-                        isUploadingAvatar = false,
-                        profile = state.profile?.copy(avatarUrl = finalUrl),
-                        successMessage = "¡Avatar actualizado en la nube!"
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(isUploadingAvatar = false, error = "Error al subir foto: ${e.message}")
-                }
+                uploadAvatarUseCase(uid, tempFile)
             }
+                .onSuccess { url ->
+                    _uiState.update { state ->
+                        state.copy(
+                            isUploadingAvatar = false,
+                            profile = state.profile?.copy(avatarUrl = url),
+                            successMessage = "¡Avatar actualizado en la nube!"
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _uiState.update { it.copy(isUploadingAvatar = false, error = "Error al subir foto: ${e.message}") }
+                }
         }
     }
 
-    fun logout() {
-        auth.signOut()
-    }
+    fun logout() = authRepository.signOut()
 
-    fun clearMessages() {
-        _uiState.update { it.copy(error = null, successMessage = null) }
-    }
+    fun clearMessages() = _uiState.update { it.copy(error = null, successMessage = null) }
 }
-

@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
@@ -65,7 +65,7 @@ private val bottomNavItems = listOf(
 fun AppNavigation() {
 
     val navController = rememberNavController()
-    val authViewModel: AuthViewModel = viewModel()
+    val authViewModel: AuthViewModel = hiltViewModel()
     val context = LocalContext.current
     val onboardingPrefs = remember { OnboardingPreferences(context) }
 
@@ -155,24 +155,19 @@ fun AppNavigation() {
         // ── Detalle de captura ────────────────────────────────────────────
         composable(Screen.CaptureDetail.route) {
             val capture = NavigationState.captureForDetail
+            val catalogViewModel: CatalogViewModel = hiltViewModel()
 
             if (capture != null) {
-                val scope = androidx.compose.runtime.rememberCoroutineScope()
-
                 CaptureDetailScreen(
                     capture        = capture,
                     onNavigateBack = { navController.popBackStack() },
                     onDelete = { id ->
-                        scope.launch {
-                            com.cetecom.ibichos.data.repository.CaptureRepositoryImpl().deleteCapture(id)
-                            navController.popBackStack()
-                        }
+                        catalogViewModel.deleteCapture(id)
+                        navController.popBackStack()
                     },
                     onAppeal = { id ->
-                        scope.launch {
-                            com.cetecom.ibichos.data.repository.CaptureRepositoryImpl().appealCapture(id)
-                            navController.popBackStack()
-                        }
+                        catalogViewModel.appealCapture(id)
+                        navController.popBackStack()
                     },
                     onNavigateToMap = { lat, lng ->
                         navController.navigate(Screen.Map.createRoute(lat, lng))
@@ -320,7 +315,7 @@ fun MainScreenWithBottomNav(
 
             composable("catalog") {
 
-                val catalogViewModel: CatalogViewModel = viewModel()
+                val catalogViewModel: CatalogViewModel = hiltViewModel()
 
                 CatalogScreen(
                     viewModel = catalogViewModel,

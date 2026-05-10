@@ -37,7 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.enums.MedalInfo
 import com.cetecom.ibichos.ui.theme.*
@@ -49,7 +49,7 @@ private val SoftGreen = Color(0xFFEFFFF6)
 @Composable
 fun ProfileScreen(
     onLogout: () -> Unit,
-    viewModel: ProfileViewModel = viewModel()
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var selectedMedal by remember { mutableStateOf<MedalInfo?>(null) }

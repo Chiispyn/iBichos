@@ -8,13 +8,14 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 /**
  * Implementación de [CaptureRepository] usando Firebase Firestore.
  * La extensión .await() convierte las Tasks de Firebase en coroutines.
  */
-class CaptureRepositoryImpl(
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+class CaptureRepositoryImpl @Inject constructor(
+    private val db: FirebaseFirestore
 ) : CaptureRepository {
 
     override suspend fun getCaptures(userId: String): List<CaptureItem> {

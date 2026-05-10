@@ -2,55 +2,54 @@ package com.cetecom.ibichos.presentation.map
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cetecom.ibichos.data.repository.CaptureRepositoryImpl
 import com.cetecom.ibichos.domain.model.CaptureItem
-import com.google.firebase.auth.FirebaseAuth
+import com.cetecom.ibichos.domain.repository.AuthRepository
+import com.cetecom.ibichos.domain.usecase.map.GetMapCapturesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MapViewModel : ViewModel() {
+data class MapUiState(
+    val captures: List<CaptureItem> = emptyList(),
+    val isLoading: Boolean = false,
+    val isGlobalMap: Boolean = false,
+    val error: String? = null
+)
 
-    private val auth       = FirebaseAuth.getInstance()
-    private val repository = CaptureRepositoryImpl()
+@HiltViewModel
+class MapViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val getMapCapturesUseCase: GetMapCapturesUseCase
+) : ViewModel() {
 
-    private val _captures = MutableStateFlow<List<CaptureItem>>(emptyList())
-    val captures: StateFlow<List<CaptureItem>> = _captures.asStateFlow()
-
-    private val _isLoading = MutableStateFlow(false)
-    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
-
-    private val _isGlobalMap = MutableStateFlow(false)
-    val isGlobalMap: StateFlow<Boolean> = _isGlobalMap.asStateFlow()
+    private val _uiState = MutableStateFlow(MapUiState())
+    val uiState: StateFlow<MapUiState> = _uiState.asStateFlow()
 
     init {
         loadCaptures()
     }
 
     fun setGlobalMode(isGlobal: Boolean) {
-        if (_isGlobalMap.value == isGlobal) return
-        _isGlobalMap.value = isGlobal
+        if (_uiState.value.isGlobalMap == isGlobal) return
+        _uiState.update { it.copy(isGlobalMap = isGlobal) }
         loadCaptures()
     }
 
     fun loadCaptures() {
-        val uid = auth.currentUser?.uid ?: return
-
+        val uid = authRepository.getCurrentUserId() ?: return
         viewModelScope.launch {
-            _isLoading.value = true
-            try {
-                if (_isGlobalMap.value) {
-                    _captures.value = repository.getGlobalCaptures(200)
-                } else {
-                    _captures.value = repository.getCaptures(uid)
+            _uiState.update { it.copy(isLoading = true, error = null) }
+            runCatching { getMapCapturesUseCase(uid, _uiState.value.isGlobalMap) }
+                .onSuccess { captures ->
+                    _uiState.update { it.copy(captures = captures, isLoading = false) }
                 }
-            } catch (e: Exception) {
-                // Silencioso — el mapa simplemente no muestra pines
-            } finally {
-                _isLoading.value = false
-            }
+                .onFailure {
+                    _uiState.update { it.copy(isLoading = false) }
+                }
         }
     }
 }
-

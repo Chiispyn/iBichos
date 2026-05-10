@@ -5,6 +5,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
+import javax.inject.Inject
 
 /**
  * Implementación de [SessionRepository] usando Firebase Firestore.
@@ -18,8 +19,8 @@ import java.util.UUID
  *   deviceOS:        "Android"
  * }
  */
-class SessionRepositoryImpl(
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+class SessionRepositoryImpl @Inject constructor(
+    private val db: FirebaseFirestore
 ) : SessionRepository {
 
     override suspend fun startSession(userId: String): String {

@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.cetecom.ibichos.ui.theme.*
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -59,7 +59,7 @@ fun isGpsEnabled(context: Context): Boolean {
 }
 
 @Composable
-fun CameraScreen(viewModel: CameraViewModel = viewModel()) {
+fun CameraScreen(viewModel: CameraViewModel = hiltViewModel()) {
     val context        = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val uiState        by viewModel.uiState.collectAsStateWithLifecycle()

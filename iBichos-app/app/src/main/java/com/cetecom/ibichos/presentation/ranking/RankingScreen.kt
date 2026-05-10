@@ -54,7 +54,7 @@ private val SoftGreenDark = Color(0xFF27AE60)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RankingScreen(
-    viewModel: RankingViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: RankingViewModel = androidx.hilt.navigation.compose.hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
