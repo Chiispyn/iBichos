@@ -3,6 +3,7 @@ package com.cetecom.ibichos.data.repository
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 /**
  * Escribe eventos de gamificación en la colección Firestore `events`.
@@ -11,8 +12,8 @@ import kotlinx.coroutines.tasks.await
  * El Dashboard puede consultarla con filtros de fecha y tipo para obtener
  * métricas históricas como nivel promedio, tasa de activación de logros, etc.
  */
-class EventRepositoryImpl(
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+class EventRepositoryImpl @Inject constructor(
+    private val db: FirebaseFirestore
 ) {
 
     /**

@@ -1,6 +1,5 @@
 package com.cetecom.ibichos.domain.repository
 
-import android.net.Uri
 import com.cetecom.ibichos.domain.model.UserProfile
 
 /**
@@ -10,8 +9,8 @@ interface UserRepository {
     /** Carga el perfil desde Firestore */
     suspend fun getUserProfile(uid: String): UserProfile
 
-    /** Sube el avatar a Firebase Storage y actualiza la URL en Firestore */
-    suspend fun updateAvatar(uid: String, uri: Uri): String
+    /** Actualiza la URL del avatar en Firestore y la devuelve */
+    suspend fun updateAvatar(uid: String, avatarUrl: String): String
 
     /** Incrementa el XP y actualiza el nivel si corresponde */
     suspend fun incrementXp(uid: String, xpGain: Long)

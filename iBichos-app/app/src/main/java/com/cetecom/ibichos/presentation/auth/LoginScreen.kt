@@ -37,7 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.cetecom.ibichos.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -46,7 +46,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     onNavigateToRegister: () -> Unit,
-    viewModel: AuthViewModel = viewModel()
+    viewModel: AuthViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -75,8 +75,8 @@ fun LoginScreen(
         viewModel.handleGoogleResult(it)
     }
 
-    LaunchedEffect(uiState.user) {
-        if (uiState.user != null) onLoginSuccess()
+    LaunchedEffect(uiState.userId) {
+        if (uiState.userId != null) onLoginSuccess()
     }
 
     val backgroundGradient = Brush.verticalGradient(
