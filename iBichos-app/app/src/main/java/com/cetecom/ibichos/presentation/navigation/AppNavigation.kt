@@ -26,7 +26,6 @@ import androidx.navigation.navArgument
 import com.cetecom.ibichos.data.OnboardingPreferences
 import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.presentation.auth.AuthViewModel
-import com.cetecom.ibichos.presentation.auth.CompleteProfileScreen
 import com.cetecom.ibichos.presentation.auth.LoginScreen
 import com.cetecom.ibichos.presentation.auth.RegisterScreen
 import com.cetecom.ibichos.presentation.camera.CameraScreen
@@ -218,25 +217,15 @@ fun AppNavigation() {
         composable(Screen.OnboardingTwo.route) {
             IBichosWelcomeTwoScreen(
                 onStartClick = {
+
                     onboardingPrefs.setOnboardingSeen()
-                    authViewModel.checkProfileCompletion { isComplete ->
-                        val nextRoute = if (isComplete) Screen.Main.route else Screen.CompleteProfile.route
-                        navController.navigate(nextRoute) {
-                            popUpTo(Screen.OnboardingTwo.route) { inclusive = true }
+
+                    navController.navigate(Screen.Main.route) {
+                        popUpTo(Screen.OnboardingOne.route) {
+                            inclusive = true
                         }
                     }
                 }
-            )
-        }
-
-        composable(Screen.CompleteProfile.route) {
-            CompleteProfileScreen(
-                onSuccess = {
-                    navController.navigate(Screen.Main.route) {
-                        popUpTo(Screen.CompleteProfile.route) { inclusive = true }
-                    }
-                },
-                viewModel = authViewModel
             )
         }
     }

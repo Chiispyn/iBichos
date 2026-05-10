@@ -18,6 +18,7 @@ import java.util.UUID
  *   deviceOS:        "Android"
  * }
  */
+
 class SessionRepositoryImpl(
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) : SessionRepository {
@@ -27,11 +28,11 @@ class SessionRepositoryImpl(
 
         db.collection("sessions").document(sessionId).set(
             hashMapOf(
-                "userId"          to userId,
-                "startedAt"       to Timestamp.now(),
-                "endedAt"         to null,
+                "userId" to userId,
+                "startedAt" to Timestamp.now(),
+                "endedAt" to null,
                 "durationMinutes" to 0,
-                "deviceOS"        to "Android"
+                "deviceOS" to "Android"
             )
         ).await()
 
@@ -48,7 +49,7 @@ class SessionRepositoryImpl(
 
         db.collection("sessions").document(sessionId).update(
             mapOf(
-                "endedAt"         to Timestamp.now(),
+                "endedAt" to Timestamp.now(),
                 "durationMinutes" to durationMinutes
             )
         ).await()
