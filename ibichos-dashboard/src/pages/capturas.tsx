@@ -302,10 +302,11 @@ export default function Capturas() {
                       </select>
                       <p className="small text-muted mt-2 mb-2">ID Usuario: <code>{cap.userId.substring(0, 8)}</code></p>
                       
-                      {(cap.status === 'REJECTED' || cap.status === 'DELETED') && (
-                        <div className="p-2 mt-1 rounded text-center bg-dark text-white shadow-sm border border-secondary" style={{ fontSize: '0.75rem' }}>
-                          {cap.moderatedBy ? `👤 Mod. por: ${cap.moderatorEmail || 'Admin'}` : '🤖 Rechazado por IA'}
-                        </div>
+                      {cap.status !== 'PENDING_REVIEW' && (
+                        <p className="small text-muted mt-1 mb-0 border-top pt-2">
+                          <span className="fw-bold">{cap.status === 'APPROVED' ? '✅ Moderado por: ' : '❌ Rechazado por: '}</span>
+                          {cap.moderatedBy ? (cap.moderatorEmail || 'Admin') : 'IA'}
+                        </p>
                       )}
                     </div>
 
