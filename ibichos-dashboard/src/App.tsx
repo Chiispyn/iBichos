@@ -10,6 +10,7 @@ import Usuarios from './pages/usuarios';
 import Capturas from './pages/capturas';
 import Geografia from './pages/geografia';
 import Catalogo from './pages/catalogo';
+import Auditoria from './pages/auditoria';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                     <Route path="geografia" element={<Geografia />} />
                     <Route path="catalogo" element={<Catalogo />} />
                     <Route path="capturas" element={<Capturas />} />
+                    <Route path="auditoria" element={<Auditoria />} />
                     <Route path="*" element={<Navigate to="/principal" />} />
                   </Routes>
                 </main>

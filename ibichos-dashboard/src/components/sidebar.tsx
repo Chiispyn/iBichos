@@ -96,6 +96,11 @@ export default function Sidebar() {
                   <ShieldAlert size={18} /> Moderación
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/auditoria" className={getLinkClasses('/auditoria')} onClick={closeNav}>
+                  <ShieldAlert size={18} className="text-warning" /> Auditoría
+                </Link>
+              </li>
             </ul>
 
             <hr className="text-white-50 my-3" />
@@ -162,6 +167,11 @@ export default function Sidebar() {
           <li className="nav-item">
             <Link to="/capturas" className={getLinkClasses('/capturas')}>
               <ShieldAlert size={20} /> Moderación
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="/auditoria" className={getLinkClasses('/auditoria')}>
+              <ShieldAlert size={20} className="text-warning" /> Auditoría
             </Link>
           </li>
         </ul>

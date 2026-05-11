@@ -113,7 +113,7 @@ export default function Principal() {
             <div 
               className="card ibichos-card h-100 p-2 border-start border-4 border-success"
               style={{ cursor: 'pointer' }}
-              onClick={() => navigate('/capturas')}
+              onClick={() => navigate('/catalogo')}
             >
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-3">

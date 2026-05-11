@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (currentUser) {
         // Escuchamos en TIEMPO REAL el documento del admin
         unsubscribeSnapshot = onSnapshot(doc(db, "admins", currentUser.uid), async (adminDoc) => {
-          if (adminDoc.exists() && adminDoc.data().estado === 'activo') {
+          if (adminDoc.exists() && adminDoc.data().status === 'active') {
             setIsAdminActive(true);
             
             // Obtenemos el username (esto puede ser una vez por sesión)

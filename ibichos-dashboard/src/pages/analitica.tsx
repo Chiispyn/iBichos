@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { db } from '../config/firebaseConfig';
-import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, getDoc } from 'firebase/firestore';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, LabelList
@@ -15,6 +15,7 @@ export default function Analitica() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('actividad');
   const [loading, setLoading] = useState(true);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // --- ESTADOS DE MÉTRICAS ---
   const [stats, setStats] = useState({ totalUsers: 0, totalCaptures: 0, pendingReview: 0, totalSessions: 0, totalMinutes: 0 });
@@ -157,7 +158,7 @@ export default function Analitica() {
         let pendingReview = 0;
         const catCounts: Record<string, number> = {};
         const dangerCounts: Record<string, number> = {};
-        const validationCounts: Record<string, number> = { 'Aprobadas': 0, 'Rechazadas': 0, 'Pendientes': 0 };
+        const validationCounts: Record<string, number> = { 'Aprobadas': 0, 'Rechazadas (IA)': 0, 'Rechazadas (Admin)': 0, 'Pendientes': 0 };
         const monthlyCapturesMap: Record<string, number> = {};
         const aiConfidenceMap: Record<string, { totalProb: number, count: number }> = {};
 
@@ -171,7 +172,6 @@ export default function Analitica() {
               userFirstCapture[data.userId] = capDate;
             }
           };
-
 
           const currentStatus = data.status || data.validationStatus;
           if (currentStatus === 'PENDING_REVIEW' || data.needsReview) pendingReview++;
@@ -191,9 +191,16 @@ export default function Analitica() {
             aiConfidenceMap[cat].count += 1;
           }
 
-          // Cálculo de Eficacia IA: Comparamos estado de validación (Incluyendo las ocultas/borradas lógicamente)
-          if (currentStatus === 'REJECTED' || currentStatus === 'DELETED' || (data.probability || 0) < 0.40) {
-            validationCounts['Rechazadas']++;
+          // Cálculo de Eficacia IA: Separando rechazos de la IA vs Humanos
+          if (currentStatus === 'REJECTED' || currentStatus === 'DELETED') {
+            if (data.moderatedBy) {
+              validationCounts['Rechazadas (Admin)']++;
+            } else {
+              validationCounts['Rechazadas (IA)']++;
+            }
+          } else if ((data.probability || 0) < 0.40 && !data.moderatedBy && currentStatus !== 'APPROVED') {
+            // Caso borde: fue subida, tiene prob < 40 pero sin status guardado aún
+            validationCounts['Rechazadas (IA)']++;
           } else if (currentStatus === 'PENDING_REVIEW' || data.needsReview) {
             validationCounts['Pendientes']++;
           } else {
@@ -513,34 +520,58 @@ export default function Analitica() {
   };
 
   // --- FUNCIÓN PARA GUARDAR SNAPSHOT EN FIRESTORE ---
-  const handleSaveSnapshot = async () => {
+  const handleSaveSnapshot = async (isAutoSave = false) => {
     try {
       const now = new Date();
       // Formato YYYY-MM para que haya un documento único por mes
       const monthStr = now.toISOString().slice(0, 7); 
       
       const snapshotData = {
-        fechaGuardado: now.toISOString(),
-        mes: monthStr,
-        metricasGlobales: stats,
-        retencion: retentionStats,
-        activacion: activationStats,
-        eficaciaIA: validationData,
-        biodiversidad: categoryData,
-        saludPublica: dangerData,
-        comunidadSana: shadowbanData
+        saveDate: now.toISOString(),
+        month: monthStr,
+        globalMetrics: stats,
+        retention: retentionStats,
+        activation: activationStats,
+        aiEfficacy: validationData,
+        biodiversity: categoryData,
+        publicHealth: dangerData,
+        communityHealth: shadowbanData
       };
 
-      // Guardamos en una nueva colección llamada 'reportes_historicos'
-      // Usamos el mes (ej. "2026-04") como ID del documento para que se actualice si le dan click varias veces en el mismo mes
-      await setDoc(doc(db, 'reportes_historicos', monthStr), snapshotData);
+      // Guardamos en la colección 'historical_reports' usando el mes como ID
+      await setDoc(doc(db, 'historical_reports', monthStr), snapshotData);
       
-      alert(`✅ ¡Éxito! La instantánea estadística de ${monthStr} se ha guardado en la nube (Firestore).`);
+      if (!isAutoSave) {
+        setShowSuccessModal(true);
+      } else {
+        console.log(`Auto-guardado de reporte mensual exitoso: ${monthStr}`);
+      }
     } catch (error) {
       console.error("Error al guardar la instantánea en Firestore: ", error);
-      alert("❌ Hubo un error al guardar el reporte en la nube.");
+      if (!isAutoSave) alert("❌ Hubo un error al guardar el reporte en la nube.");
     }
   };
+
+  // --- EFECTO DE AUTOGUARDADO MENSUAL ---
+  useEffect(() => {
+    const autoSaveMonthly = async () => {
+      // Solo intentar si ya cargaron los datos y hay al menos 1 usuario (para no guardar vacíos)
+      if (loading || stats.totalUsers === 0) return;
+      try {
+        const now = new Date();
+        const monthStr = now.toISOString().slice(0, 7);
+        const docRef = doc(db, 'historical_reports', monthStr);
+        const docSnap = await getDoc(docRef);
+        // Si no existe el reporte de este mes, lo creamos automáticamente
+        if (!docSnap.exists()) {
+          await handleSaveSnapshot(true);
+        }
+      } catch (e) {
+        console.error("Error en autoguardado:", e);
+      }
+    };
+    autoSaveMonthly();
+  }, [loading, stats]);
 
   return (
     <div className="container-fluid py-4">
@@ -551,7 +582,7 @@ export default function Analitica() {
         </h2>
         <div className="d-flex gap-2 flex-wrap">
           <button 
-            onClick={handleSaveSnapshot}
+            onClick={() => handleSaveSnapshot(false)}
             className="btn btn-success d-flex align-items-center fw-bold shadow-sm"
             disabled={loading}
             title="Guardar un registro histórico en la base de datos"
@@ -1112,12 +1143,14 @@ export default function Analitica() {
 
                 {(() => {
                   const aprobadas = validationData.find(d => d.name === 'Aprobadas')?.value || 0;
-                  const rechazadas = validationData.find(d => d.name === 'Rechazadas')?.value || 0;
+                  const rechazadasIA = validationData.find(d => d.name === 'Rechazadas (IA)')?.value || 0;
+                  const rechazadasAdmin = validationData.find(d => d.name === 'Rechazadas (Admin)')?.value || 0;
+                  const rechazadasTotal = rechazadasIA + rechazadasAdmin;
                   const pendientes = validationData.find(d => d.name === 'Pendientes')?.value || 0;
-                  const totalValidaciones = aprobadas + rechazadas + pendientes;
+                  const totalValidaciones = aprobadas + rechazadasTotal + pendientes;
 
                   const porc_aprobadas = totalValidaciones > 0 ? ((aprobadas / totalValidaciones) * 100).toFixed(1) : 0;
-                  const porc_rechazadas = totalValidaciones > 0 ? ((rechazadas / totalValidaciones) * 100).toFixed(1) : 0;
+                  const porc_rechazadas = totalValidaciones > 0 ? ((rechazadasTotal / totalValidaciones) * 100).toFixed(1) : 0;
                   const porc_pendientes = totalValidaciones > 0 ? ((pendientes / totalValidaciones) * 100).toFixed(1) : 0;
 
                   return (
@@ -1129,9 +1162,10 @@ export default function Analitica() {
                           <ResponsiveContainer width="100%" height="100%">
                             <BarChart
                               data={[
-                                { name: 'Éxito', value: aprobadas, fill: '#3DDC84' },
-                                { name: 'Revisión', value: pendientes, fill: '#F4B400' },
-                                { name: 'Fallo', value: rechazadas, fill: '#DB4437' }
+                                { name: 'Aprobadas (IA)', value: aprobadas, fill: '#3DDC84' },
+                                { name: 'Revisión Manual', value: pendientes, fill: '#F4B400' },
+                                { name: 'Rechazadas (IA)', value: rechazadasIA, fill: '#DB4437' },
+                                { name: 'Borradas por Admin', value: rechazadasAdmin, fill: '#64748B' }
                               ]}
                               layout="vertical"
                               margin={{ top: 10, right: 60, left: 20, bottom: 10 }}
@@ -1278,6 +1312,36 @@ export default function Analitica() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* MODAL DE ÉXITO AL GUARDAR REPORTE */}
+      {showSuccessModal && (
+        <>
+          <div className="modal-backdrop fade show ibichos-modal-overlay" />
+          <div className="modal d-block" tabIndex={-1} style={{ zIndex: 1050 }} onClick={() => setShowSuccessModal(false)}>
+            <div className="modal-dialog modal-dialog-centered" onClick={e => e.stopPropagation()}>
+              <div className="modal-content ibichos-modal-content bg-white border-0">
+                <div className="modal-header bg-success text-white border-0 py-3">
+                  <h5 className="modal-title fw-bold d-flex align-items-center">
+                    <CheckCircle2 className="me-2" />
+                    ¡Reporte Guardado!
+                  </h5>
+                  <button type="button" className="btn-close btn-close-white" onClick={() => setShowSuccessModal(false)}></button>
+                </div>
+                <div className="modal-body p-4 text-center">
+                  <div className="bg-success bg-opacity-10 p-4 rounded-circle d-inline-block mb-3">
+                    <Database size={48} className="text-success" />
+                  </div>
+                  <h4 className="fw-bold mb-2">Instantánea exitosa</h4>
+                  <p className="text-muted mb-0">Los datos estadísticos del mes actual se han respaldado correctamente en la base de datos histórica.</p>
+                </div>
+                <div className="modal-footer border-0 p-3 bg-light d-flex">
+                  <button type="button" className="btn btn-success rounded-3 flex-grow-1 fw-bold" onClick={() => setShowSuccessModal(false)}>Aceptar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
