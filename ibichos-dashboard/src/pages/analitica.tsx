@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { db } from '../config/firebaseConfig';
-import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, getDoc } from 'firebase/firestore';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, LabelList
@@ -15,6 +15,7 @@ export default function Analitica() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('actividad');
   const [loading, setLoading] = useState(true);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // --- ESTADOS DE MÉTRICAS ---
   const [stats, setStats] = useState({ totalUsers: 0, totalCaptures: 0, pendingReview: 0, totalSessions: 0, totalMinutes: 0 });
@@ -519,7 +520,7 @@ export default function Analitica() {
   };
 
   // --- FUNCIÓN PARA GUARDAR SNAPSHOT EN FIRESTORE ---
-  const handleSaveSnapshot = async () => {
+  const handleSaveSnapshot = async (isAutoSave = false) => {
     try {
       const now = new Date();
       // Formato YYYY-MM para que haya un documento único por mes
@@ -540,12 +541,37 @@ export default function Analitica() {
       // Guardamos en la colección 'historical_reports' usando el mes como ID
       await setDoc(doc(db, 'historical_reports', monthStr), snapshotData);
       
-      alert(`✅ ¡Éxito! La instantánea estadística de ${monthStr} se ha guardado en la nube (Firestore).`);
+      if (!isAutoSave) {
+        setShowSuccessModal(true);
+      } else {
+        console.log(`Auto-guardado de reporte mensual exitoso: ${monthStr}`);
+      }
     } catch (error) {
       console.error("Error al guardar la instantánea en Firestore: ", error);
-      alert("❌ Hubo un error al guardar el reporte en la nube.");
+      if (!isAutoSave) alert("❌ Hubo un error al guardar el reporte en la nube.");
     }
   };
+
+  // --- EFECTO DE AUTOGUARDADO MENSUAL ---
+  useEffect(() => {
+    const autoSaveMonthly = async () => {
+      // Solo intentar si ya cargaron los datos y hay al menos 1 usuario (para no guardar vacíos)
+      if (loading || stats.totalUsers === 0) return;
+      try {
+        const now = new Date();
+        const monthStr = now.toISOString().slice(0, 7);
+        const docRef = doc(db, 'historical_reports', monthStr);
+        const docSnap = await getDoc(docRef);
+        // Si no existe el reporte de este mes, lo creamos automáticamente
+        if (!docSnap.exists()) {
+          await handleSaveSnapshot(true);
+        }
+      } catch (e) {
+        console.error("Error en autoguardado:", e);
+      }
+    };
+    autoSaveMonthly();
+  }, [loading, stats]);
 
   return (
     <div className="container-fluid py-4">
@@ -556,7 +582,7 @@ export default function Analitica() {
         </h2>
         <div className="d-flex gap-2 flex-wrap">
           <button 
-            onClick={handleSaveSnapshot}
+            onClick={() => handleSaveSnapshot(false)}
             className="btn btn-success d-flex align-items-center fw-bold shadow-sm"
             disabled={loading}
             title="Guardar un registro histórico en la base de datos"
@@ -1286,6 +1312,36 @@ export default function Analitica() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* MODAL DE ÉXITO AL GUARDAR REPORTE */}
+      {showSuccessModal && (
+        <>
+          <div className="modal-backdrop fade show ibichos-modal-overlay" />
+          <div className="modal d-block" tabIndex={-1} style={{ zIndex: 1050 }} onClick={() => setShowSuccessModal(false)}>
+            <div className="modal-dialog modal-dialog-centered" onClick={e => e.stopPropagation()}>
+              <div className="modal-content ibichos-modal-content bg-white border-0">
+                <div className="modal-header bg-success text-white border-0 py-3">
+                  <h5 className="modal-title fw-bold d-flex align-items-center">
+                    <CheckCircle2 className="me-2" />
+                    ¡Reporte Guardado!
+                  </h5>
+                  <button type="button" className="btn-close btn-close-white" onClick={() => setShowSuccessModal(false)}></button>
+                </div>
+                <div className="modal-body p-4 text-center">
+                  <div className="bg-success bg-opacity-10 p-4 rounded-circle d-inline-block mb-3">
+                    <Database size={48} className="text-success" />
+                  </div>
+                  <h4 className="fw-bold mb-2">Instantánea exitosa</h4>
+                  <p className="text-muted mb-0">Los datos estadísticos del mes actual se han respaldado correctamente en la base de datos histórica.</p>
+                </div>
+                <div className="modal-footer border-0 p-3 bg-light d-flex">
+                  <button type="button" className="btn btn-success rounded-3 flex-grow-1 fw-bold" onClick={() => setShowSuccessModal(false)}>Aceptar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
