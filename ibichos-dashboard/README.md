@@ -12,19 +12,24 @@ Bienvenido al Centro de Comando de iBichos. Este panel de control web (SPA) perm
 ## 🔑 Acceso y Seguridad (Roles STAFF)
 El Dashboard posee una capa de seguridad estricta basada en roles:
 1. Ningún usuario de la app móvil puede ingresar por defecto.
-2. Para acceder, el identificador único (UID) del usuario debe existir en la colección `admins` de Firestore con el estado `activo`.
-3. Los administradores actuales pueden elevar privilegios a otros usuarios directamente desde el módulo **Gestión de Usuarios** haciendo clic en "Hacer Admin".
+2. Para acceder, el identificador único (UID) del usuario debe existir en la colección `admins` de Firestore con el estado `active`.
+3. Los administradores actuales pueden elevar privilegios a otros usuarios directamente desde el módulo **Gestión de Usuarios** haciendo clic en "Ascender".
+4. Cuenta con un sistema seguro de "Recordar sesión" local y recuperación de contraseña oficial vía Firebase.
 
 ## 🌟 Funcionalidades Principales
 
 *   **1. Inicio (Daily Active Usage):** Un resumen dinámico que filtra la base de datos para mostrarte lo que está ocurriendo **hoy**. (Nuevos registros, fotos subidas hoy y alertas).
 *   **2. Analítica Avanzada:**
-    *   Tarjetas KPI de totales acumulados.
-    *   **Gráfico de Barras:** Usuarios divididos por su Liga de Gamificación (Casual, Explorador, etc.).
-    *   **Gráfico Circular:** Distribución de niveles de peligrosidad (Inofensivo, Venenoso).
-    *   **Línea de Tiempo:** Gráfico de "Retención Diaria" que suma los minutos jugados en la app (Screen Time) por fecha.
-*   **3. Galería de Moderación:** Muestra el historial completo de fotografías subidas. Filtra por estado `PENDING` para que el equipo pueda "Aprobar" o "Rechazar" manualmente identificaciones de la IA.
-*   **4. Sistema de RRHH Automático:** Identifica visualmente (Insignia STAFF) a los trabajadores dentro de la tabla de usuarios y permite contratar/despedir moderadores en tiempo real.
+    *   **Autoguardado Histórico:** Mensualmente se realiza un *snapshot* automático de las estadísticas en la colección `historical_reports`.
+    *   **Exportación de Datos:** Botón para generar reportes en `.CSV` en un solo clic.
+    *   **Embudo de Activación:** Gráfico de conversión (Registro → Primer Avistamiento).
+    *   **Gráfico Circular:** Distribución de niveles de peligrosidad (Salud Comunitaria vs Salud Pública).
+    *   **Auditoría de Tiempo:** Rastreo de Sesiones Abiertas y Minutos de Retención.
+*   **3. Galería de Moderación:** Muestra el historial completo de fotografías. Permite realizar "Borrado Lógico" ocultando las fotos maliciosas y dejando un registro automático de auditoría de qué administrador ejecutó la acción en `moderation_logs`.
+*   **4. Sistema de Gestión de Usuarios y Sanciones:**
+    *   Filtros avanzados por roles y Ligas de Gamificación (Casual, Amateur, etc.).
+    *   Permite nombrar/revocar roles de Administrador.
+    *   Botón para aplicar **Shadowban** a usuarios tóxicos con un solo clic.
 
 ## ⚙️ Instalación y Uso Local
 
