@@ -22,6 +22,7 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
   const [ordenDireccion, setOrdenDireccion] = useState<'asc' | 'desc'>('desc');
   const [paginaActual, setPaginaActual] = useState(1);
   const [busqueda, setBusqueda] = useState('');
+  const [filtroNivel, setFiltroNivel] = useState('Todos');
   const ITEMS_POR_PAGINA = 10;
 
   const showModal = (title: string, message: string, onConfirm: (() => void) | null, confirmColor: string = 'btn-primary') => {
@@ -124,7 +125,12 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
       result = result.filter(u => !adminsIds.includes(u.id));
     }
 
-    // 2. Filtrar por Búsqueda
+    // 2. Filtrar por Nivel/Liga
+    if (filtroNivel !== 'Todos') {
+      result = result.filter(u => u.level && u.level.toUpperCase() === filtroNivel.toUpperCase());
+    }
+
+    // 3. Filtrar por Búsqueda
     if (busqueda.trim() !== '') {
       const b = busqueda.toLowerCase();
       result = result.filter(u => 
@@ -133,7 +139,7 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
       );
     }
 
-    // 3. Ordenamiento
+    // 4. Ordenamiento
     result.sort((a, b) => {
       let valA = a[ordenColumna] || '';
       let valB = b[ordenColumna] || '';
@@ -150,7 +156,7 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
     });
 
     return result;
-  }, [usuariosFiltrados, adminsIds, filtroTab, busqueda, ordenColumna, ordenDireccion]);
+  }, [usuariosFiltrados, adminsIds, filtroTab, filtroNivel, busqueda, ordenColumna, ordenDireccion]);
 
   // 4. Paginación
   const totalPaginas = Math.max(1, Math.ceil(usuariosProcesados.length / ITEMS_POR_PAGINA));
@@ -182,8 +188,8 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
 
   return (
     <div>
-      {/* Controles Superiores: Tabs y Buscador */}
-      <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+      {/* Controles Superiores: Tabs, Filtros y Buscador */}
+      <div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-3">
         {/* Pestañas de Roles */}
         <div className="nav nav-pills p-1 bg-light rounded-pill border" style={{ width: 'fit-content' }}>
           {(['Todos', 'Jugadores', 'Moderadores', 'Baneados'] as const).map(tab => (
@@ -197,16 +203,33 @@ const TablaUsuarios = ({ usuariosFiltrados, adminsIds }: TablaUsuariosProps) => 
           ))}
         </div>
 
-        {/* Buscador */}
-        <div className="position-relative" style={{ maxWidth: '300px', width: '100%' }}>
-          <Search className="position-absolute text-muted" size={18} style={{ left: '12px', top: '10px' }} />
-          <input 
-            type="text" 
-            className="form-control rounded-pill ps-5 bg-white border" 
-            placeholder="Buscar por nombre o correo..."
-            value={busqueda}
-            onChange={(e) => { setBusqueda(e.target.value); setPaginaActual(1); }}
-          />
+        <div className="d-flex flex-column flex-sm-row gap-2" style={{ width: '100%', maxWidth: '450px' }}>
+          {/* Selector de Nivel */}
+          <select 
+            className="form-select rounded-pill border bg-white text-secondary shadow-none" 
+            style={{ width: '100%', maxWidth: '160px' }}
+            value={filtroNivel}
+            onChange={(e) => { setFiltroNivel(e.target.value); setPaginaActual(1); }}
+          >
+            <option value="Todos">Todas las ligas</option>
+            <option value="Casual">Casual</option>
+            <option value="Amateur">Amateur</option>
+            <option value="Explorador">Explorador</option>
+            <option value="Entomólogo">Entomólogo</option>
+            <option value="Maestro de Bichos">M. de Bichos</option>
+          </select>
+
+          {/* Buscador */}
+          <div className="position-relative flex-grow-1">
+            <Search className="position-absolute text-muted" size={18} style={{ left: '12px', top: '10px' }} />
+            <input 
+              type="text" 
+              className="form-control rounded-pill ps-5 bg-white border shadow-none" 
+              placeholder="Buscar nombre o correo..."
+              value={busqueda}
+              onChange={(e) => { setBusqueda(e.target.value); setPaginaActual(1); }}
+            />
+          </div>
         </div>
       </div>
 
