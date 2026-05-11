@@ -446,16 +446,6 @@ export default function Analitica() {
 
   }, [selectedRegion, rawUsers]);
 
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
-        <div className="spinner-border text-success" role="status">
-          <span className="visually-hidden">Analizando datos...</span>
-        </div>
-      </div>
-    );
-  }
-
   // --- FUNCIÓN PARA EXPORTAR REPORTE ---
   const handleExportCSV = () => {
     // Definimos el contenido del CSV
@@ -572,6 +562,16 @@ export default function Analitica() {
     };
     autoSaveMonthly();
   }, [loading, stats]);
+
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
+        <div className="spinner-border text-success" role="status">
+          <span className="visually-hidden">Analizando datos...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container-fluid py-4">
@@ -704,7 +704,7 @@ export default function Analitica() {
                           margin={{ top: 20, right: 50, left: 20, bottom: 0 }}
                         >
                           <XAxis type="number" hide />
-                          <YAxis dataKey="name" type="category" hide />
+                          <YAxis dataKey="name" type="category" width={80} tick={{ fontSize: 13, fill: '#475569', fontWeight: 'bold' }} axisLine={false} tickLine={false} />
                           <Tooltip cursor={{ fill: 'transparent' }} />
                           <Bar dataKey="value" radius={[0, 10, 10, 0]} barSize={40}>
                             <LabelList dataKey="value" position="right" formatter={(v: any) => `${v}%`} fill="#334155" fontWeight="bold" />
