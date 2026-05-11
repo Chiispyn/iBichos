@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'; // 🟢 Agrega useEffect
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail, setPersistence, browserLocalPersistence, browserSessionPersistence } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../config/firebaseConfig';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,8 @@ export function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   
   const navigate = useNavigate();
   // 🟢 Traemos el usuario y su estado de admin
@@ -21,10 +23,30 @@ export function Login() {
     }
   }, [user, isAdminActive, navigate]);
 
+  const handleResetPassword = async () => {
+    if (!email) {
+      setError('Por favor, ingresa tu correo electrónico en el campo superior para restablecer tu contraseña.');
+      setSuccessMsg('');
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setSuccessMsg('Se ha enviado un enlace a tu correo para restablecer la contraseña.');
+      setError('');
+    } catch (err: any) {
+      setError('Error al intentar enviar el correo. Verifica que esté bien escrito.');
+      setSuccessMsg('');
+      console.error(err);
+    }
+  };
+
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
     try {
+      // Configurar la persistencia de la sesión según el checkbox
+      await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
+
       // 1. Intento de inicio de sesión en Auth
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -71,6 +93,11 @@ export function Login() {
                 {error}
               </div>
             )}
+            {successMsg && (
+              <div className="alert alert-success py-2 border-0 rounded-3 text-center small fw-bold mb-4" role="alert" style={{ backgroundColor: '#e8f5e9', color: '#2e7d32' }}>
+                {successMsg}
+              </div>
+            )}
             <div className="mb-3">
               <label className="form-label text-muted small fw-bold mb-1">Correo Electrónico</label>
               <input 
@@ -93,6 +120,21 @@ export function Login() {
                 style={{ fontSize: '15px', borderRadius: '0.8rem' }}
               />
             </div>
+            
+            <div className="form-check mb-4 d-flex align-items-center">
+              <input 
+                className="form-check-input me-2 shadow-none" 
+                type="checkbox" 
+                id="rememberMe" 
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                style={{ cursor: 'pointer', accentColor: '#3DDC84' }}
+              />
+              <label className="form-check-label text-muted small fw-medium mt-1" htmlFor="rememberMe" style={{ cursor: 'pointer' }}>
+                Mantener sesión iniciada
+              </label>
+            </div>
+
             <button 
               type="submit" 
               className="btn w-100 py-3 rounded-3 fw-bold text-white shadow"
@@ -108,6 +150,15 @@ export function Login() {
             >
               Entrar al Panel
             </button>
+            <div className="text-center mt-4">
+              <button 
+                type="button" 
+                className="btn btn-link text-success text-decoration-none small fw-bold shadow-none p-0"
+                onClick={handleResetPassword}
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
+            </div>
           </form>
         </div>
       </div>
