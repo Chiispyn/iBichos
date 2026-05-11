@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -39,13 +39,14 @@ fun MapScreen(
     onNavigateToDetail: (CaptureItem) -> Unit = {},
     initialLat: Double? = null,
     initialLng: Double? = null,
-    viewModel: MapViewModel = viewModel()
+    viewModel: MapViewModel = hiltViewModel()
 ) {
     var hasCentered by remember { mutableStateOf(false) }
     val context  = LocalContext.current
-    val captures by viewModel.captures.collectAsStateWithLifecycle()
-    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    val isGlobalMap by viewModel.isGlobalMap.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val captures  = uiState.captures
+    val isLoading = uiState.isLoading
+    val isGlobalMap = uiState.isGlobalMap
     // Referencias para que el botón pueda mover el mapa
     var mapViewRef by remember { mutableStateOf<MapView?>(null) }
     var locationOverlayRef by remember { mutableStateOf<MyLocationNewOverlay?>(null) }

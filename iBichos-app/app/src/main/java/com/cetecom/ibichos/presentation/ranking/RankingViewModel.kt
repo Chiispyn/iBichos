@@ -2,19 +2,19 @@ package com.cetecom.ibichos.presentation.ranking
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cetecom.ibichos.data.repository.UserRepositoryImpl
 import com.cetecom.ibichos.domain.model.UserProfile
-import com.cetecom.ibichos.domain.repository.UserRepository
+import com.cetecom.ibichos.domain.repository.AuthRepository
+import com.cetecom.ibichos.domain.usecase.profile.GetUserProfileUseCase
+import com.cetecom.ibichos.domain.usecase.ranking.GetRankingUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-enum class RankingType {
-    XP, UNIQUE, MEDALS
-}
+enum class RankingType { XP, UNIQUE, MEDALS }
 
 data class RankingUiState(
     val isLoading: Boolean = false,
@@ -26,11 +26,13 @@ data class RankingUiState(
     val currentUserRank: Int? = null
 )
 
-class RankingViewModel(
-    private val userRepository: UserRepository = UserRepositoryImpl()
+@HiltViewModel
+class RankingViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val getRankingUseCase: GetRankingUseCase,
+    private val getUserProfileUseCase: GetUserProfileUseCase
 ) : ViewModel() {
 
-    private val auth = FirebaseAuth.getInstance()
     private val _uiState = MutableStateFlow(RankingUiState())
     val uiState: StateFlow<RankingUiState> = _uiState.asStateFlow()
 
@@ -41,37 +43,31 @@ class RankingViewModel(
     fun loadRanking(type: RankingType = _uiState.value.currentType) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null, currentType = type) }
-            try {
-                val currentUid = auth.currentUser?.uid
-                val currentProfile = if (currentUid != null) {
-                    try { userRepository.getUserProfile(currentUid) } catch (e: Exception) { null }
-                } else null
-
-                val topUsers = when (type) {
-                    RankingType.XP -> userRepository.getTopUsersByXp(50)
-                    RankingType.UNIQUE -> userRepository.getTopUsersByUniqueInsects(50)
-                    RankingType.MEDALS -> userRepository.getTopUsersByMedals(50)
+            val currentUid = authRepository.getCurrentUserId()
+            runCatching {
+                val currentProfile = currentUid?.let {
+                    runCatching { getUserProfileUseCase(it) }.getOrNull()
                 }
-                
-                val currentRank = if (currentUid != null) {
-                    val index = topUsers.indexOfFirst { it.uid == currentUid }
-                    if (index >= 0) index + 1 else null
-                } else null
-
-                _uiState.update { it.copy(
-                    isLoading = false, 
-                    users = topUsers,
-                    currentUserId = currentUid,
-                    currentUserProfile = currentProfile,
-                    currentUserRank = currentRank
-                ) }
-            } catch (e: Exception) {
-                _uiState.update { it.copy(
-                    isLoading = false,
-                    error = "Error al cargar el ranking: ${e.message}"
-                )}
+                val topUsers = getRankingUseCase(type)
+                val currentRank = currentUid?.let { uid ->
+                    topUsers.indexOfFirst { it.uid == uid }.takeIf { it >= 0 }?.plus(1)
+                }
+                Triple(topUsers, currentProfile, currentRank)
             }
+                .onSuccess { (topUsers, currentProfile, currentRank) ->
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            users = topUsers,
+                            currentUserId = currentUid,
+                            currentUserProfile = currentProfile,
+                            currentUserRank = currentRank
+                        )
+                    }
+                }
+                .onFailure { e ->
+                    _uiState.update { it.copy(isLoading = false, error = "Error al cargar el ranking: ${e.message}") }
+                }
         }
     }
 }
-

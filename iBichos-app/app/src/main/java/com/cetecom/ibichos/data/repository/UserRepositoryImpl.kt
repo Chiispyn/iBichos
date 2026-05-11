@@ -1,18 +1,16 @@
 package com.cetecom.ibichos.data.repository
 
-import android.net.Uri
 import com.cetecom.ibichos.domain.model.GamificationData
 import com.cetecom.ibichos.domain.model.UserProfile
 import com.cetecom.ibichos.domain.model.enums.Gender
 import com.cetecom.ibichos.domain.model.enums.UserLevel
 import com.cetecom.ibichos.domain.repository.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.Query
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 /**
  * Implementación de [UserRepository] usando Firestore + Firebase Storage.
@@ -24,10 +22,9 @@ import kotlinx.coroutines.tasks.await
  *     gamification: { xp, level, uniqueInsectsCount, categoryCounts, medals, medalsEarnedAt, levelUpAt }
  *   }
  */
-class UserRepositoryImpl(
-    private val db: FirebaseFirestore = FirebaseFirestore.getInstance(),
-    private val storage: FirebaseStorage = FirebaseStorage.getInstance(),
-    private val eventRepo: EventRepositoryImpl = EventRepositoryImpl()
+class UserRepositoryImpl @Inject constructor(
+    private val db: FirebaseFirestore,
+    private val eventRepo: EventRepositoryImpl
 ) : UserRepository {
 
     override suspend fun getUserProfile(uid: String): UserProfile {
@@ -42,14 +39,11 @@ class UserRepositoryImpl(
         return mapDocumentToUserProfile(doc, captureCount = capturesResult.size())
     }
 
-    override suspend fun updateAvatar(uid: String, uri: Uri): String {
-        // Evitamos Firebase Storage para no incurrir en gastos GCP.
-        // Se guarda la URI local como String en Firestore.
-        val localUrl = uri.toString()
+    override suspend fun updateAvatar(uid: String, avatarUrl: String): String {
         db.collection("users").document(uid)
-            .update("avatarUrl", localUrl)
+            .update("avatarUrl", avatarUrl)
             .await()
-        return localUrl
+        return avatarUrl
     }
 
     override suspend fun incrementXp(uid: String, xpGain: Long) {

@@ -6,12 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.*
 import androidx.lifecycle.lifecycleScope
-import com.cetecom.ibichos.data.repository.SessionRepositoryImpl
+import com.cetecom.ibichos.domain.repository.SessionRepository
 import com.cetecom.ibichos.presentation.navigation.AppNavigation
 import com.cetecom.ibichos.ui.theme.IBichosTheme
 import com.cetecom.ibichos.utils.ThemePreferences
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 val LocalThemePreferences = staticCompositionLocalOf<ThemePreferences> {
     error("No ThemePreferences provided")
@@ -22,9 +24,10 @@ val LocalThemePreferences = staticCompositionLocalOf<ThemePreferences> {
  * Solo monta el NavHost dentro del tema. Toda la navegación ocurre en Compose.
  * También gestiona el ciclo de vida de las AppSessions para métricas del Dashboard.
  */
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val sessionRepository = SessionRepositoryImpl()
+    @Inject lateinit var sessionRepository: SessionRepository
     private val auth = FirebaseAuth.getInstance()
 
     /** ID de la sesión activa. Null si no hay sesión iniciada o el usuario no está logueado. */

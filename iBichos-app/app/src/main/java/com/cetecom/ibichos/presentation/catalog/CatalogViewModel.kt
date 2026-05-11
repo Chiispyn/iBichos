@@ -2,14 +2,18 @@ package com.cetecom.ibichos.presentation.catalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cetecom.ibichos.data.repository.CaptureRepositoryImpl
 import com.cetecom.ibichos.domain.model.CaptureItem
-import com.google.firebase.auth.FirebaseAuth
+import com.cetecom.ibichos.domain.repository.AuthRepository
+import com.cetecom.ibichos.domain.repository.CaptureRepository
+import com.cetecom.ibichos.domain.usecase.capture.DeleteCaptureUseCase
+import com.cetecom.ibichos.domain.usecase.capture.GetCapturesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class CatalogUiState(
     val captures: List<CaptureItem> = emptyList(),
@@ -17,10 +21,13 @@ data class CatalogUiState(
     val error: String? = null
 )
 
-class CatalogViewModel : ViewModel() {
-
-    private val auth       = FirebaseAuth.getInstance()
-    private val repository = CaptureRepositoryImpl()
+@HiltViewModel
+class CatalogViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val captureRepository: CaptureRepository,
+    private val getCapturesUseCase: GetCapturesUseCase,
+    private val deleteCaptureUseCase: DeleteCaptureUseCase
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CatalogUiState())
     val uiState: StateFlow<CatalogUiState> = _uiState.asStateFlow()
@@ -30,29 +37,36 @@ class CatalogViewModel : ViewModel() {
     }
 
     fun loadCaptures() {
-        val uid = auth.currentUser?.uid ?: return
-
+        val uid = authRepository.getCurrentUserId() ?: return
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            try {
-                val captures = repository.getCaptures(uid)
-                _uiState.update { it.copy(captures = captures, isLoading = false) }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(isLoading = false, error = "Error al cargar capturas: ${e.message}")
+            runCatching { getCapturesUseCase(uid) }
+                .onSuccess { captures ->
+                    _uiState.update { it.copy(captures = captures, isLoading = false) }
                 }
-            }
+                .onFailure { e ->
+                    _uiState.update { it.copy(isLoading = false, error = "Error al cargar capturas: ${e.message}") }
+                }
         }
     }
 
     fun deleteCapture(id: String) {
         viewModelScope.launch {
-            try {
-                repository.deleteCapture(id)
-                loadCaptures() // Refrescar lista local
-            } catch (e: Exception) {
-                _uiState.update { it.copy(error = "No se pudo eliminar: ${e.message}") }
-            }
+            runCatching { deleteCaptureUseCase(id) }
+                .onSuccess { loadCaptures() }
+                .onFailure { e ->
+                    _uiState.update { it.copy(error = "No se pudo eliminar: ${e.message}") }
+                }
+        }
+    }
+
+    fun appealCapture(id: String) {
+        viewModelScope.launch {
+            runCatching { captureRepository.appealCapture(id) }
+                .onSuccess { loadCaptures() }
+                .onFailure { e ->
+                    _uiState.update { it.copy(error = "No se pudo apelar: ${e.message}") }
+                }
         }
     }
 }
