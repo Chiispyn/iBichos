@@ -618,14 +618,3 @@ private fun outlinedTextFieldColors() = OutlinedTextFieldDefaults.colors(
     disabledTextColor = MaterialTheme.colorScheme.onBackground
 )
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun RegisterScreenPreviewFake() {
-    val fakeViewModel = AuthViewModel()
-
-    RegisterScreen(
-        onRegisterSuccess = {},
-        onNavigateBack = {},
-        viewModel = fakeViewModel
-    )
-}
