@@ -8,6 +8,7 @@ package com.cetecom.ibichos.presentation.catalog.viewdata
  */
 data class CaptureViewData(
     val id: String,
+    val userId: String,
     val imageUrl: String,
     val insectName: String,
     val scientificName: String,

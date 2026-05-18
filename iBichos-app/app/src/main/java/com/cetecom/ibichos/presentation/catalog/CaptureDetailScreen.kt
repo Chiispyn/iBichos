@@ -21,13 +21,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.cetecom.ibichos.domain.model.CaptureItem
-import com.cetecom.ibichos.domain.model.enums.DangerLevel
+import com.cetecom.ibichos.presentation.catalog.viewdata.CaptureViewData
 import com.cetecom.ibichos.presentation.theme.IBichosGreen
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 // 🎨 PALETA FINAL (verde suave + amarillo)
 private val GreenSoft = Color(0xFFE8F5E9)
@@ -44,7 +40,7 @@ private val TextSecondary = Color(0xFF6B7280)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CaptureDetailScreen(
-    capture: CaptureItem,
+    capture: CaptureViewData,
     currentUserId: String = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid ?: "",
     onNavigateBack: () -> Unit,
     onDelete: (String) -> Unit = {},
@@ -52,19 +48,11 @@ fun CaptureDetailScreen(
     onNavigateToMap: (Double, Double) -> Unit = { _, _ -> }
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
-    
-    val dateStr = remember(capture.capturedAt) {
-        if (capture.capturedAt > 0) {
-            SimpleDateFormat("dd 'de' MMMM yyyy, HH:mm", Locale("es"))
-                .format(Date(capture.capturedAt))
-        } else "Fecha desconocida"
-    }
 
-    val dangerColor = when (capture.dangerLevel) {
-        DangerLevel.HARMLESS -> GreenPrimary
-        DangerLevel.CAUTION -> YellowAccent
-        DangerLevel.VENOMOUS -> Color(0xFFEF4444)
-        DangerLevel.UNKNOWN -> Color(0xFF64748B)
+    val dangerColor = when {
+        capture.dangerLabel.contains("enom", ignoreCase = true) -> Color(0xFFEF4444)
+        capture.dangerLabel.contains("recauc", ignoreCase = true) -> YellowAccent
+        else -> GreenPrimary
     }
 
     Scaffold(
@@ -181,7 +169,7 @@ fun CaptureDetailScreen(
                             Icon(Icons.Default.Warning, null, tint = dangerColor, modifier = Modifier.size(18.dp))
                             Spacer(Modifier.width(4.dp))
                             Text(
-                                capture.dangerLevel.displayName(),
+                                capture.dangerLabel,
                                 color = dangerColor,
                                 fontWeight = FontWeight.Bold,
                                 style = MaterialTheme.typography.labelMedium
@@ -208,7 +196,7 @@ fun CaptureDetailScreen(
                     StatBox(
                         modifier = Modifier.weight(1f),
                         icon = Icons.Default.Verified,
-                        value = "${(capture.probability * 100).toInt()}%",
+                        value = capture.probabilityFormatted,
                         label = "Confianza IA",
                         color = GreenPrimary
                     )
@@ -228,7 +216,7 @@ fun CaptureDetailScreen(
                 }
             }
 
-            InfoCard(Icons.Default.CalendarMonth, "Fecha de captura", dateStr)
+            InfoCard(Icons.Default.CalendarMonth, "Fecha de captura", capture.dateFormatted)
 
             if (capture.latitude != null && capture.longitude != null) {
                 InfoCard(
@@ -375,18 +363,22 @@ private fun DeleteConfirmDialog(
 fun CaptureDetailPreviewSmall() {
     com.cetecom.ibichos.presentation.theme.IBichosTheme {
         CaptureDetailScreen(
-            capture = com.cetecom.ibichos.domain.model.CaptureItem(
+            capture = com.cetecom.ibichos.presentation.catalog.viewdata.CaptureViewData(
                 id = "1",
+                userId = "user1",
                 imageUrl = "",
                 insectName = "Araña de Rincón",
                 scientificName = "Loxosceles laeta",
-                category = com.cetecom.ibichos.domain.model.enums.InsectCategory.ARACHNID,
-                dangerLevel = com.cetecom.ibichos.domain.model.enums.DangerLevel.VENOMOUS,
-                probability = 0.95,
-                userId = "user1",
-                capturedAt = System.currentTimeMillis(),
+                categoryLabel = "Arácnido",
+                dangerLabel = "Venenoso",
+                probabilityFormatted = "95%",
+                dateFormatted = "12 may 2026",
+                xpAwarded = 100,
                 description = "Araña muy venenosa.",
-                status = "APPROVED"
+                status = "APPROVED",
+                needsReview = false,
+                latitude = null,
+                longitude = null
             ),
             currentUserId = "user1",
             onNavigateBack = {}

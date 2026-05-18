@@ -12,8 +12,11 @@ data class UserProfileViewData(
     val avatarUrl: String?,
     val region: String,
     val city: String,
-    val xpFormatted: String,            // "1.200 XP"
-    val levelLabel: String,             // "Explorador"
+    val xp: Long,                           // XP bruto para calcular progreso
+    val xpFormatted: String,                // "1.200 XP"
+    val levelLabel: String,                 // "Explorador"
+    val medals: List<String>,              // IDs de medallas para AchievementsCard
+    val medalsEarnedAt: Map<String, Long>, // timestamps de desbloqueo
     val medalsCount: Int,
     val uniqueInsectsCount: Int,
     val totalCaptures: Int,

@@ -92,7 +92,6 @@ fun ProfileScreen(
             avatarUrl = uiState.profile?.avatarUrl,
             isUploading = uiState.isUploadingAvatar,
             name = uiState.profile?.displayName ?: "Cazador",
-            email = uiState.profile?.email ?: "",
             onAvatarClick = { pickImageLauncher.launch("image/*") }
         )
 
@@ -101,11 +100,11 @@ fun ProfileScreen(
             CircularProgressIndicator(color = DarkGreen)
         } else {
             val profile = uiState.profile
-            val xp = profile?.gamification?.xp ?: 0L
+            val xp = profile?.xp ?: 0L
             val nextLevelXp =
                 com.cetecom.ibichos.domain.model.enums.GamificationConfig.getNextLevelXp(xp)
             val progress = (xp.toFloat() / nextLevelXp).coerceIn(0f, 1f)
-            val level = profile?.gamification?.level?.displayName() ?: "Casual"
+            val level = profile?.levelLabel ?: "Casual"
 
             ProfileStatsCard(
                 xp = xp,
@@ -120,10 +119,10 @@ fun ProfileScreen(
                 level = level
             )
 
-            if (profile?.gamification?.medals?.isNotEmpty() == true) {
+            if (profile?.medalsCount?.let { it > 0 } == true) {
                 AchievementsCard(
-                    medals = profile.gamification.medals,
-                    medalsEarnedAt = profile.gamification.medalsEarnedAt,
+                    medals = profile.medals,
+                    medalsEarnedAt = profile.medalsEarnedAt,
                     onMedalClick = { selectedMedal = it }
                 )
             }
@@ -190,7 +189,6 @@ private fun ProfileHeader(
     avatarUrl: String?,
     isUploading: Boolean,
     name: String,
-    email: String,
     onAvatarClick: () -> Unit
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "profile_header_animation")
@@ -482,16 +480,6 @@ private fun ProfileHeader(
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF162326),
-                textAlign = TextAlign.Center,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(horizontal = 24.dp)
-            )
-
-            Text(
-                text = email,
-                fontSize = 16.sp,
-                color = Color(0xFF5C6770),
                 textAlign = TextAlign.Center,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -850,7 +838,6 @@ fun ProfilePreviewSmall() {
             avatarUrl = null,
             isUploading = false,
             name = "Valesca",
-            email = "valesca@email.com",
             onAvatarClick = {}
         )
 

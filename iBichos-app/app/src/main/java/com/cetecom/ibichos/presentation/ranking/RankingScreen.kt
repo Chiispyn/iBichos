@@ -40,7 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.cetecom.ibichos.domain.model.UserProfile
+import com.cetecom.ibichos.presentation.ranking.viewdata.RankingItemViewData
 import com.cetecom.ibichos.presentation.theme.IBichosAmber
 import com.cetecom.ibichos.presentation.theme.IBichosGreen
 
@@ -155,7 +155,7 @@ fun RankingContent(
                         }
                     }
 
-                    uiState.users.isEmpty() -> {
+                    uiState.items.isEmpty() -> {
                         Text(
                             text = "Aún no hay exploradores en el ranking.",
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -175,27 +175,24 @@ fun RankingContent(
                             verticalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            itemsIndexed(uiState.users) { index, user ->
+                            itemsIndexed(uiState.items) { _, item ->
                                 RankingItem(
-                                    rank = index + 1,
-                                    user = user,
-                                    type = uiState.currentType,
-                                    isCurrentUser = user.uid == uiState.currentUserId
+                                    item = item,
+                                    type = uiState.currentType
                                 )
                             }
                         }
 
-                        uiState.currentUserProfile?.let { me ->
+                        // Tarjeta fija del usuario actual si está en la lista
+                        uiState.items.firstOrNull { it.isCurrentUser }?.let { me ->
                             Box(
                                 modifier = Modifier
                                     .align(Alignment.BottomCenter)
                                     .padding(16.dp)
                             ) {
                                 RankingItem(
-                                    rank = uiState.currentUserRank,
-                                    user = me,
-                                    type = uiState.currentType,
-                                    isCurrentUser = true
+                                    item = me,
+                                    type = uiState.currentType
                                 )
                             }
                         }
@@ -536,22 +533,13 @@ fun RankingInfoDialog(
 
 @Composable
 fun RankingItem(
-    rank: Int?,
-    user: UserProfile,
-    type: RankingType,
-    isCurrentUser: Boolean = false
+    item: RankingItemViewData,
+    type: RankingType
 ) {
-    val cardColor = if (isCurrentUser) {
-        Color(0xFFFFF8E1)
-    } else {
-        Color.White
-    }
+    val cardColor = if (item.isCurrentUser) Color(0xFFFFF8E1) else Color.White
+    val borderColor = if (item.isCurrentUser) LightGreenDark.copy(alpha = 0.65f) else Color.Transparent
 
-    val borderColor = if (isCurrentUser) {
-        LightGreenDark.copy(alpha = 0.65f)
-    } else {
-        Color.Transparent
-    }
+    val rank = item.rank
 
     val rankBg = when (rank) {
         1 -> Color(0xFFFFF3C4)
@@ -567,17 +555,17 @@ fun RankingItem(
         else -> Color(0xFF6B6B6B)
     }
 
-    val (icon, label, value) = when (type) {
-        RankingType.XP -> Triple(Icons.Default.Star, "XP Total", "${user.gamification.xp}")
-        RankingType.UNIQUE -> Triple(Icons.Default.Star, "Bichos", "${user.gamification.uniqueInsectsCount}")
-        RankingType.MEDALS -> Triple(Icons.Default.EmojiEvents, "Insignias", "${user.gamification.medals.size}")
+    val (icon, label) = when (type) {
+        RankingType.XP     -> Icons.Default.Star to "XP Total"
+        RankingType.UNIQUE -> Icons.Default.Star to "Bichos"
+        RankingType.MEDALS -> Icons.Default.EmojiEvents to "Insignias"
     }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .border(
-                width = if (isCurrentUser) 1.5.dp else 0.dp,
+                width = if (item.isCurrentUser) 1.5.dp else 0.dp,
                 color = borderColor,
                 shape = RoundedCornerShape(24.dp)
             ),
@@ -606,7 +594,7 @@ fun RankingItem(
                     )
                 } else {
                     Text(
-                        text = "${rank ?: "-"}",
+                        text = "$rank",
                         fontSize = 22.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = rankColor
@@ -623,9 +611,9 @@ fun RankingItem(
                     .background(Color(0xFFF1F1F1)),
                 contentAlignment = Alignment.Center
             ) {
-                if (!user.avatarUrl.isNullOrEmpty()) {
+                if (!item.avatarUrl.isNullOrEmpty()) {
                     AsyncImage(
-                        model = user.avatarUrl,
+                        model = item.avatarUrl,
                         contentDescription = "Avatar",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
@@ -644,7 +632,7 @@ fun RankingItem(
 
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = if (isCurrentUser) "Tú" else user.displayName,
+                    text = if (item.isCurrentUser) "Tú" else item.displayName,
                     fontSize = 19.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color(0xFF111111)
@@ -653,7 +641,7 @@ fun RankingItem(
                 Spacer(modifier = Modifier.height(3.dp))
 
                 Text(
-                    text = user.gamification.level.displayName(),
+                    text = item.levelLabel,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     color = LightGreenDark
@@ -672,7 +660,7 @@ fun RankingItem(
                     Spacer(modifier = Modifier.width(6.dp))
 
                     Text(
-                        text = value,
+                        text = item.valueFormatted,
                         fontSize = 23.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = IBichosAmber
@@ -697,10 +685,10 @@ fun RankingPreviewSmall() {
     com.cetecom.ibichos.presentation.theme.IBichosTheme {
         RankingContent(
             uiState = RankingUiState(
-                users = listOf(
-                    com.cetecom.ibichos.domain.model.UserProfile(uid = "1", displayName = "Usuario Alfa", avatarUrl = "https://i.pravatar.cc/150?u=1", city = "Santiago", gamification = com.cetecom.ibichos.domain.model.GamificationData(xp = 1500, uniqueInsectsCount = 10, medals = listOf("A", "B"))),
-                    com.cetecom.ibichos.domain.model.UserProfile(uid = "2", displayName = "Beta Tester", avatarUrl = "https://i.pravatar.cc/150?u=2", city = "Valparaíso", gamification = com.cetecom.ibichos.domain.model.GamificationData(xp = 1200, uniqueInsectsCount = 8, medals = listOf("A"))),
-                    com.cetecom.ibichos.domain.model.UserProfile(uid = "3", displayName = "Charlie", avatarUrl = "https://i.pravatar.cc/150?u=3", city = "Concepción", gamification = com.cetecom.ibichos.domain.model.GamificationData(xp = 900, uniqueInsectsCount = 5, medals = emptyList()))
+                items = listOf(
+                    RankingItemViewData(rank = 1, uid = "1", displayName = "Usuario Alfa", avatarUrl = null, levelLabel = "Bug Master", valueFormatted = "1.500 XP", isCurrentUser = false),
+                    RankingItemViewData(rank = 2, uid = "2", displayName = "Beta Tester",  avatarUrl = null, levelLabel = "Explorador",  valueFormatted = "1.200 XP", isCurrentUser = true),
+                    RankingItemViewData(rank = 3, uid = "3", displayName = "Charlie",       avatarUrl = null, levelLabel = "Casual",      valueFormatted = "900 XP",   isCurrentUser = false)
                 ),
                 isLoading = false,
                 error = null

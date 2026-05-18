@@ -8,6 +8,7 @@ import java.util.Locale
 
 fun CaptureItem.toViewData(): CaptureViewData = CaptureViewData(
     id                   = id,
+    userId               = userId,
     imageUrl             = imageUrl,
     insectName           = insectName,
     scientificName       = scientificName,

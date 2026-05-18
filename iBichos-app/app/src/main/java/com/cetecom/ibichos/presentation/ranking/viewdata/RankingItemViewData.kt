@@ -13,6 +13,7 @@ data class RankingItemViewData(
     val uid: String,
     val displayName: String,
     val avatarUrl: String?,
+    val levelLabel: String,
     val valueFormatted: String,
     val isCurrentUser: Boolean
 )

@@ -14,6 +14,7 @@ fun List<UserProfile>.toRankingViewData(
         uid            = profile.uid,
         displayName    = profile.displayName,
         avatarUrl      = profile.avatarUrl,
+        levelLabel     = profile.gamification.level.displayName(),
         valueFormatted = profile.formatValue(type),
         isCurrentUser  = profile.uid == currentUserId
     )
