@@ -2,9 +2,10 @@ package com.cetecom.ibichos.presentation.map
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.domain.repository.AuthRepository
 import com.cetecom.ibichos.domain.usecase.map.GetMapCapturesUseCase
+import com.cetecom.ibichos.presentation.map.mapper.toMapViewDataList
+import com.cetecom.ibichos.presentation.map.viewdata.MapCaptureViewData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class MapUiState(
-    val captures: List<CaptureItem> = emptyList(),
+    val captures: List<MapCaptureViewData> = emptyList(),
     val isLoading: Boolean = false,
     val isGlobalMap: Boolean = false,
     val error: String? = null
@@ -29,9 +30,7 @@ class MapViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MapUiState())
     val uiState: StateFlow<MapUiState> = _uiState.asStateFlow()
 
-    init {
-        loadCaptures()
-    }
+    init { loadCaptures() }
 
     fun setGlobalMode(isGlobal: Boolean) {
         if (_uiState.value.isGlobalMap == isGlobal) return
@@ -45,7 +44,7 @@ class MapViewModel @Inject constructor(
             _uiState.update { it.copy(isLoading = true, error = null) }
             runCatching { getMapCapturesUseCase(uid, _uiState.value.isGlobalMap) }
                 .onSuccess { captures ->
-                    _uiState.update { it.copy(captures = captures, isLoading = false) }
+                    _uiState.update { it.copy(captures = captures.toMapViewDataList(), isLoading = false) }
                 }
                 .onFailure {
                     _uiState.update { it.copy(isLoading = false) }

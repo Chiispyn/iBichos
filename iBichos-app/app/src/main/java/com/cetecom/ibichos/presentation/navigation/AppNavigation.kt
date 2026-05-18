@@ -23,9 +23,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
-import com.cetecom.ibichos.data.OnboardingPreferences
-import com.cetecom.ibichos.domain.model.CaptureItem
+import com.cetecom.ibichos.data.local.OnboardingPreferences
 import com.cetecom.ibichos.presentation.auth.AuthViewModel
+import com.cetecom.ibichos.presentation.catalog.viewdata.CaptureViewData
 import com.cetecom.ibichos.presentation.auth.CompleteProfileScreen
 import com.cetecom.ibichos.presentation.auth.LoginScreen
 import com.cetecom.ibichos.presentation.auth.RegisterScreen
@@ -39,11 +39,11 @@ import com.cetecom.ibichos.presentation.onboarding.IBichosWelcomeTwoScreen
 import com.cetecom.ibichos.presentation.profile.ProfileScreen
 import com.cetecom.ibichos.presentation.ranking.RankingScreen
 import com.cetecom.ibichos.presentation.splash.SplashScreen
-import com.cetecom.ibichos.ui.theme.*
+import com.cetecom.ibichos.presentation.theme.*
 import kotlinx.coroutines.launch
 
 object NavigationState {
-    var captureForDetail: CaptureItem? = null
+    var captureForDetail: CaptureViewData? = null
 }
 
 private data class BottomNavItem(
@@ -191,10 +191,7 @@ fun AppNavigation() {
             
             MapScreen(
                 onNavigateBack = { navController.popBackStack() },
-                onNavigateToDetail = { capture ->
-                    NavigationState.captureForDetail = capture
-                    navController.navigate(Screen.CaptureDetail.route)
-                },
+                onNavigateToDetail = { /* mapa solo muestra preview, sin navegar al detalle */ },
                 initialLat = lat,
                 initialLng = lng
             )
@@ -240,7 +237,7 @@ fun AppNavigation() {
 /*──────────────── MainScreenWithBottomNav ────────────────*/
 @Composable
 fun MainScreenWithBottomNav(
-    onNavigateToDetail: (CaptureItem) -> Unit,
+    onNavigateToDetail: (CaptureViewData) -> Unit,
     onNavigateToMap: () -> Unit,
     onLogout: () -> Unit
 ) {

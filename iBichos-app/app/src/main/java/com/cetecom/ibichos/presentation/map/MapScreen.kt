@@ -16,7 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import com.cetecom.ibichos.ui.theme.*
+import com.cetecom.ibichos.presentation.theme.*
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -26,7 +26,7 @@ import coil.compose.AsyncImage
 import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import com.cetecom.ibichos.domain.model.CaptureItem
+import com.cetecom.ibichos.presentation.map.viewdata.MapCaptureViewData
 import androidx.compose.material.icons.filled.Close
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
@@ -36,7 +36,7 @@ import androidx.compose.material.icons.filled.MyLocation
 @Composable
 fun MapScreen(
     onNavigateBack: () -> Unit,
-    onNavigateToDetail: (CaptureItem) -> Unit = {},
+    onNavigateToDetail: (MapCaptureViewData) -> Unit = {},
     initialLat: Double? = null,
     initialLng: Double? = null,
     viewModel: MapViewModel = hiltViewModel()
@@ -78,7 +78,7 @@ fun MapScreen(
 
     
     // Estado para la captura seleccionada en el mapa
-    var selectedCapture by remember { mutableStateOf<CaptureItem?>(null) }
+    var selectedCapture by remember { mutableStateOf<MapCaptureViewData?>(null) }
 
     // Recarga automática de pines
     LaunchedEffect(Unit) {
@@ -137,25 +137,23 @@ fun MapScreen(
 
                     // 2. --- CAPA DE LOS PINES DE LOS INSECTOS ---
                     for (capture in captures) {
-                        if (capture.latitude != null && capture.longitude != null) {
-                            val marker = Marker(mapView).apply {
-                                position = GeoPoint(capture.latitude, capture.longitude)
-                                title    = capture.insectName
-                                setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                        val marker = Marker(mapView).apply {
+                            position = GeoPoint(capture.latitude, capture.longitude)
+                            title    = capture.insectName
+                            setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
 
-                                setOnMarkerClickListener { _, _ ->
-                                    selectedCapture = capture
-                                    mapView.controller.animateTo(GeoPoint(capture.latitude, capture.longitude))
-                                    true
-                                }
+                            setOnMarkerClickListener { _, _ ->
+                                selectedCapture = capture
+                                mapView.controller.animateTo(GeoPoint(capture.latitude, capture.longitude))
+                                true
                             }
-                            mapView.overlays.add(marker)
                         }
+                        mapView.overlays.add(marker)
                     }
 
                     if (!hasCentered && captures.isNotEmpty()) {
-                        val targetLat: Double? = initialLat ?: captures.firstOrNull { it.latitude != null }?.latitude
-                        val targetLng: Double? = initialLng ?: captures.firstOrNull { it.longitude != null }?.longitude
+                        val targetLat: Double? = initialLat ?: captures.firstOrNull()?.latitude
+                        val targetLng: Double? = initialLng ?: captures.firstOrNull()?.longitude
 
                         if (targetLat != null && targetLng != null) {
                             mapView.controller.animateTo(GeoPoint(targetLat, targetLng))
@@ -300,24 +298,10 @@ fun MapScreen(
                                     color = IBichosGreen
                                 )
                                 Text(
-                                    text = "Precisión: ${(capture.probability * 100).toInt()}%",
+                                    text = capture.categoryLabel,
                                     style = MaterialTheme.typography.bodySmall,
                                     color = androidx.compose.ui.graphics.Color.Gray
                                 )
-                                
-                                val dangerColor = when (capture.dangerLevel.name) {
-                                    "VENOMOUS" -> androidx.compose.ui.graphics.Color(0xFFEF4444)
-                                    "CAUTION" -> androidx.compose.ui.graphics.Color(0xFFFFB300)
-                                    else -> IBichosGreen
-                                }
-                                
-                                Badge(
-                                    containerColor = dangerColor.copy(alpha = 0.1f),
-                                    contentColor = dangerColor,
-                                    modifier = Modifier.padding(top = 4.dp)
-                                ) {
-                                    Text(capture.dangerLevel.name, modifier = Modifier.padding(4.dp))
-                                }
                             }
 
                             IconButton(onClick = { selectedCapture = null }) {

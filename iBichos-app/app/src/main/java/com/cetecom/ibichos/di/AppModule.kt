@@ -1,8 +1,8 @@
 package com.cetecom.ibichos.di
 
-import com.cetecom.ibichos.data.api.KindwiseApi
-import com.cetecom.ibichos.data.repository.CloudinaryApi
-import com.cetecom.ibichos.data.repository.CloudinaryModule
+import com.cetecom.ibichos.data.remote.api.CloudinaryApi
+import com.cetecom.ibichos.data.remote.api.KindwiseApi
+import com.cetecom.ibichos.data.remote.CloudinaryModule
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module

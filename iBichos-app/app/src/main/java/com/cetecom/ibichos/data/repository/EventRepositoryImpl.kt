@@ -1,20 +1,14 @@
 package com.cetecom.ibichos.data.repository
 
+import com.cetecom.ibichos.domain.repository.EventRepository
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-/**
- * Escribe eventos de gamificación en la colección Firestore `events`.
- *
- * Es un log append-only: nunca se edita ni borra un documento.
- * El Dashboard puede consultarla con filtros de fecha y tipo para obtener
- * métricas históricas como nivel promedio, tasa de activación de logros, etc.
- */
 class EventRepositoryImpl @Inject constructor(
     private val db: FirebaseFirestore
-) {
+) : EventRepository {
 
     /**
      * Registra que un usuario subió de nivel.
@@ -22,7 +16,7 @@ class EventRepositoryImpl @Inject constructor(
      * @param newLevel      Nuevo nivel (nombre del enum, ej: "AMATEUR")
      * @param xpAtEvent     XP total del usuario en el momento del cambio
      */
-    suspend fun logLevelUp(
+    override suspend fun logLevelUp(
         userId: String,
         previousLevel: String,
         newLevel: String,
@@ -45,7 +39,7 @@ class EventRepositoryImpl @Inject constructor(
      * @param medalId   ID del logro (ej: "FIRST_CAPTURE", "ARACHNOLOGIST")
      * @param xpAtEvent XP total del usuario en ese momento
      */
-    suspend fun logMedalUnlocked(
+    override suspend fun logMedalUnlocked(
         userId: String,
         medalId: String,
         xpAtEvent: Long
@@ -68,7 +62,7 @@ class EventRepositoryImpl @Inject constructor(
      * @param category       Categoría taxonómica (nombre del enum, ej: "HYMENOPTERA")
      * @param xpAtEvent      XP total del usuario en ese momento
      */
-    suspend fun logSpeciesDiscovered(
+    override suspend fun logSpeciesDiscovered(
         userId: String,
         scientificName: String,
         insectName: String,
@@ -92,7 +86,7 @@ class EventRepositoryImpl @Inject constructor(
      * Registra que un nuevo usuario se registró en la app.
      * Se llama desde AuthViewModel al completar el registro.
      */
-    suspend fun logUserRegistered(userId: String) {
+    override suspend fun logUserRegistered(userId: String) {
         db.collection("events").add(
             hashMapOf(
                 "userId"     to userId,

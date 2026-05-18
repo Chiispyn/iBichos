@@ -1,12 +1,12 @@
 package com.cetecom.ibichos.domain.usecase.auth
 
-import com.cetecom.ibichos.data.repository.EventRepositoryImpl
 import com.cetecom.ibichos.domain.repository.AuthRepository
+import com.cetecom.ibichos.domain.repository.EventRepository
 import javax.inject.Inject
 
 class RegisterUseCase @Inject constructor(
     private val authRepository: AuthRepository,
-    private val eventRepository: EventRepositoryImpl
+    private val eventRepository: EventRepository
 ) {
     suspend operator fun invoke(
         email: String,

@@ -42,13 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import com.cetecom.ibichos.domain.model.CaptureItem
-import com.cetecom.ibichos.domain.model.enums.DangerLevel
-import com.cetecom.ibichos.ui.theme.IBichosAmber
+import com.cetecom.ibichos.presentation.catalog.viewdata.CaptureViewData
+import com.cetecom.ibichos.presentation.theme.IBichosAmber
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 private val LightGreen = Color(0xFFD8F8E9)
 private val SoftGreen = Color(0xFFEFFFF6)
@@ -63,7 +59,7 @@ private val TextGray = Color(0xFF667570)
 @Composable
 fun CatalogScreen(
     onNavigateToMap: () -> Unit,
-    onNavigateToDetail: (CaptureItem) -> Unit,
+    onNavigateToDetail: (CaptureViewData) -> Unit,
     viewModel: CatalogViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -89,12 +85,12 @@ fun CatalogScreen(
 
 @Composable
 private fun CatalogContent(
-    captures: List<CaptureItem>,
+    captures: List<CaptureViewData>,
     isLoading: Boolean,
     error: String?,
     onRefresh: () -> Unit,
     onNavigateToMap: () -> Unit,
-    onNavigateToDetail: (CaptureItem) -> Unit
+    onNavigateToDetail: (CaptureViewData) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -217,16 +213,9 @@ private fun AlbumHeader(
 
 @Composable
 private fun CaptureCard(
-    capture: CaptureItem,
+    capture: CaptureViewData,
     onClick: () -> Unit
 ) {
-    val dateStr = remember(capture.capturedAt) {
-        SimpleDateFormat(
-            "dd MMM yyyy",
-            Locale.getDefault()
-        ).format(Date(capture.capturedAt))
-    }
-
     val isRejected = capture.status == "REJECTED"
 
     Card(
@@ -333,7 +322,7 @@ private fun CaptureCard(
                             Spacer(Modifier.width(5.dp))
     
                             Text(
-                                text = capture.dangerLevel.displayName(),
+                                text = capture.dangerLabel,
                                 color = Color(0xFFFFA000),
                                 fontSize = 13.sp,
                                 fontWeight = FontWeight.Bold
@@ -353,7 +342,7 @@ private fun CaptureCard(
                     )
                     Spacer(Modifier.width(4.dp))
                     Text(
-                        text = dateStr,
+                        text = capture.dateFormatted,
                         fontSize = 12.sp,
                         color = TextGray
                     )
@@ -365,7 +354,7 @@ private fun CaptureCard(
             ) {
 
                 Text(
-                    text = "${(capture.probability * 100).toInt()}%",
+                    text = capture.probabilityFormatted,
                     fontWeight = FontWeight.Bold,
                     color = DarkGreen,
                     fontSize = 16.sp
@@ -419,23 +408,39 @@ private fun EmptyAlbumState(
 ======================================================= */
 
 private fun fakeCaptures() = listOf(
-    CaptureItem(
+    CaptureViewData(
         id = "1",
+        userId = "preview_user",
         insectName = "Abeja",
         scientificName = "Apis Mellifera",
         imageUrl = "",
-        capturedAt = System.currentTimeMillis(),
-        probability = 0.94,
-        dangerLevel = DangerLevel.CAUTION
+        categoryLabel = "Insecto",
+        dangerLabel = "Precaución",
+        probabilityFormatted = "94%",
+        dateFormatted = "01 Ene 2025",
+        xpAwarded = 50,
+        description = "",
+        status = "APPROVED",
+        needsReview = false,
+        latitude = null,
+        longitude = null
     ),
-    CaptureItem(
+    CaptureViewData(
         id = "2",
+        userId = "preview_user",
         insectName = "Araña",
         scientificName = "Latrodectus",
         imageUrl = "",
-        capturedAt = System.currentTimeMillis(),
-        probability = 0.88,
-        dangerLevel = DangerLevel.CAUTION
+        categoryLabel = "Arácnido",
+        dangerLabel = "Peligroso",
+        probabilityFormatted = "88%",
+        dateFormatted = "02 Feb 2025",
+        xpAwarded = 100,
+        description = "",
+        status = "APPROVED",
+        needsReview = false,
+        latitude = null,
+        longitude = null
     )
 )
 
@@ -453,7 +458,7 @@ fun CatalogPreviewSmall() {
         error = null,
         onRefresh = {},
         onNavigateToMap = {},
-        onNavigateToDetail = {}
+        onNavigateToDetail = { _ -> }
     )
 }
 

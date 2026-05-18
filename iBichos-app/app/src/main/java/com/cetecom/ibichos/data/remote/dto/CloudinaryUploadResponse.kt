@@ -1,4 +1,4 @@
-package com.cetecom.ibichos.domain.model
+package com.cetecom.ibichos.data.remote.dto
 
 data class CloudinaryUploadResponse(
     val secure_url: String? = null,

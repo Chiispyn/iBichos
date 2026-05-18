@@ -1,6 +1,6 @@
 package com.cetecom.ibichos.data.repository
 
-import com.cetecom.ibichos.domain.model.CloudinaryUploadResponse
+import com.cetecom.ibichos.data.remote.dto.CloudinaryUploadResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Multipart
