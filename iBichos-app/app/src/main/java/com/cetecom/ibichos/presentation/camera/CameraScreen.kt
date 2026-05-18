@@ -39,7 +39,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.cetecom.ibichos.ui.theme.*
+import com.cetecom.ibichos.presentation.theme.*
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
@@ -269,7 +269,7 @@ fun CameraScreen(viewModel: CameraViewModel = hiltViewModel()) {
                                         }
                                         Button(
                                             onClick = { 
-                                                viewModel.processCapture(state.bitmap, state.lat, state.lon, context) 
+                                                viewModel.processCapture(state.bitmap, state.lat, state.lon)
                                             },
                                             modifier = Modifier.weight(1f),
                                             colors = ButtonDefaults.buttonColors(containerColor = IBichosGreen)

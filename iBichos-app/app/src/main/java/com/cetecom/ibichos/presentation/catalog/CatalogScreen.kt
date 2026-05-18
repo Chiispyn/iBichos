@@ -44,7 +44,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.domain.model.enums.DangerLevel
-import com.cetecom.ibichos.ui.theme.IBichosAmber
+import com.cetecom.ibichos.presentation.theme.IBichosAmber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.domain.model.enums.DangerLevel
-import com.cetecom.ibichos.ui.theme.IBichosGreen
+import com.cetecom.ibichos.presentation.theme.IBichosGreen
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -373,7 +373,7 @@ private fun DeleteConfirmDialog(
 @androidx.compose.ui.tooling.preview.Preview(name = "Small Phone", widthDp = 320, heightDp = 640, showBackground = true)
 @Composable
 fun CaptureDetailPreviewSmall() {
-    com.cetecom.ibichos.ui.theme.IBichosTheme {
+    com.cetecom.ibichos.presentation.theme.IBichosTheme {
         CaptureDetailScreen(
             capture = com.cetecom.ibichos.domain.model.CaptureItem(
                 id = "1",

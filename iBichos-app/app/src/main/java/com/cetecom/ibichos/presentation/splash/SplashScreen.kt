@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.cetecom.ibichos.R
-import com.cetecom.ibichos.ui.theme.IBichosGreen
+import com.cetecom.ibichos.presentation.theme.IBichosGreen
 import kotlinx.coroutines.delay
 
 @Composable

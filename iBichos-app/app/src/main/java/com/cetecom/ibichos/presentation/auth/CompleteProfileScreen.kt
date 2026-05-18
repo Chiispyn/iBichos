@@ -24,7 +24,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cetecom.ibichos.R
 import com.cetecom.ibichos.domain.model.ChileanData
-import com.cetecom.ibichos.ui.theme.*
+import com.cetecom.ibichos.presentation.theme.*
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

@@ -8,8 +8,8 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.lifecycleScope
 import com.cetecom.ibichos.domain.repository.SessionRepository
 import com.cetecom.ibichos.presentation.navigation.AppNavigation
-import com.cetecom.ibichos.ui.theme.IBichosTheme
-import com.cetecom.ibichos.utils.ThemePreferences
+import com.cetecom.ibichos.data.local.ThemePreferences
+import com.cetecom.ibichos.presentation.theme.IBichosTheme
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

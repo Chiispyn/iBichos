@@ -1,5 +1,6 @@
 package com.cetecom.ibichos.data.repository
 
+import com.cetecom.ibichos.data.mapper.toCaptureItem
 import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.domain.model.enums.DangerLevel
 import com.cetecom.ibichos.domain.model.enums.InsectCategory
@@ -10,79 +11,29 @@ import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-/**
- * Implementación de [CaptureRepository] usando Firebase Firestore.
- * La extensión .await() convierte las Tasks de Firebase en coroutines.
- */
 class CaptureRepositoryImpl @Inject constructor(
     private val db: FirebaseFirestore
 ) : CaptureRepository {
 
     override suspend fun getCaptures(userId: String): List<CaptureItem> {
-        val result = db.collection("captures")
+        return db.collection("captures")
             .whereEqualTo("userId", userId)
             .get()
             .await()
-
-        return result.documents
-            .mapNotNull { doc ->
-                CaptureItem(
-                    id             = doc.id,
-                    userId         = doc.getString("userId") ?: "",
-                    imageUrl       = doc.getString("imageUrl") ?: "",
-                    insectName     = doc.getString("insectName") ?: "",
-                    scientificName = doc.getString("scientificName") ?: "",
-                    category       = runCatching {
-                        InsectCategory.valueOf(doc.getString("category") ?: InsectCategory.UNKNOWN.name)
-                    }.getOrDefault(InsectCategory.UNKNOWN),
-                    probability    = doc.getDouble("probability") ?: 0.0,
-                    dangerLevel    = runCatching {
-                        DangerLevel.valueOf(doc.getString("dangerLevel") ?: DangerLevel.UNKNOWN.name)
-                    }.getOrDefault(DangerLevel.UNKNOWN),
-                    latitude       = doc.getDouble("latitude"),
-                    longitude      = doc.getDouble("longitude"),
-                    capturedAt     = doc.getTimestamp("timestamp")?.toDate()?.time ?: 0L,
-                    xpAwarded      = doc.getLong("xpAwarded") ?: 50L,
-                    description    = doc.getString("description") ?: "Sin descripción adicional.",
-                    needsReview    = doc.getBoolean("needsReview") ?: false,
-                    status         = doc.getString("status") ?: "APPROVED"
-                )
-            }
+            .documents
+            .map { it.toCaptureItem() }
             .filter { it.status != "DELETED" }
             .sortedByDescending { it.capturedAt }
     }
 
     override suspend fun getGlobalCaptures(limit: Int): List<CaptureItem> {
-        val result = db.collection("captures")
+        return db.collection("captures")
             .orderBy("timestamp", Query.Direction.DESCENDING)
             .limit(limit.toLong())
             .get()
             .await()
-
-        return result.documents
-            .mapNotNull { doc ->
-                CaptureItem(
-                    id             = doc.id,
-                    userId         = doc.getString("userId") ?: "",
-                    imageUrl       = doc.getString("imageUrl") ?: "",
-                    insectName     = doc.getString("insectName") ?: "",
-                    scientificName = doc.getString("scientificName") ?: "",
-                    category       = runCatching {
-                        InsectCategory.valueOf(doc.getString("category") ?: InsectCategory.UNKNOWN.name)
-                    }.getOrDefault(InsectCategory.UNKNOWN),
-                    probability    = doc.getDouble("probability") ?: 0.0,
-                    dangerLevel    = runCatching {
-                        DangerLevel.valueOf(doc.getString("dangerLevel") ?: DangerLevel.UNKNOWN.name)
-                    }.getOrDefault(DangerLevel.UNKNOWN),
-                    latitude       = doc.getDouble("latitude"),
-                    longitude      = doc.getDouble("longitude"),
-                    capturedAt     = doc.getTimestamp("timestamp")?.toDate()?.time ?: 0L,
-                    xpAwarded      = doc.getLong("xpAwarded") ?: 50L,
-                    description    = doc.getString("description") ?: "Sin descripción adicional.",
-                    needsReview    = doc.getBoolean("needsReview") ?: false,
-                    status         = doc.getString("status") ?: "APPROVED"
-                )
-            }
+            .documents
+            .map { it.toCaptureItem() }
             .filter { it.status != "DELETED" }
     }
 
@@ -106,8 +57,8 @@ class CaptureRepositoryImpl @Inject constructor(
             "imageUrl"       to imageUrl,
             "insectName"     to insectName,
             "scientificName" to scientificName,
-            "category"       to category.name,      // Se guarda el nombre del enum en Firestore
-            "dangerLevel"    to dangerLevel.name,   // Se guarda el nombre del enum en Firestore
+            "category"       to category.name,
+            "dangerLevel"    to dangerLevel.name,
             "probability"    to probability,
             "latitude"       to latitude,
             "longitude"      to longitude,
@@ -117,37 +68,27 @@ class CaptureRepositoryImpl @Inject constructor(
             "needsReview"    to needsReview,
             "status"         to status
         )
-
-        val docRef = db.collection("captures").add(captureData).await()
-        return docRef.id
+        return db.collection("captures").add(captureData).await().id
     }
 
     override suspend fun hasCaughtInsect(userId: String, scientificName: String): Boolean {
-        val result = db.collection("captures")
+        return db.collection("captures")
             .whereEqualTo("userId", userId)
             .whereEqualTo("scientificName", scientificName)
             .limit(1)
             .get()
             .await()
-        return !result.isEmpty
+            .isEmpty
+            .not()
     }
 
     override suspend fun deleteCapture(id: String) {
-        db.collection("captures")
-            .document(id)
-            .update("status", "DELETED")
-            .await()
+        db.collection("captures").document(id).update("status", "DELETED").await()
     }
 
     override suspend fun appealCapture(id: String) {
-        db.collection("captures")
-            .document(id)
-            .update(
-                mapOf(
-                    "status" to "PENDING_REVIEW",
-                    "needsReview" to true
-                )
-            )
-            .await()
+        db.collection("captures").document(id).update(
+            mapOf("status" to "PENDING_REVIEW", "needsReview" to true)
+        ).await()
     }
 }

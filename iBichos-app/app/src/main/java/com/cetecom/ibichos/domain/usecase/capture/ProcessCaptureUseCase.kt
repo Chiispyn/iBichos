@@ -1,6 +1,6 @@
 package com.cetecom.ibichos.domain.usecase.capture
 
-import com.cetecom.ibichos.data.repository.EventRepositoryImpl
+import com.cetecom.ibichos.domain.repository.EventRepository
 import com.cetecom.ibichos.domain.model.enums.DangerLevel
 import com.cetecom.ibichos.domain.model.enums.GamificationConfig
 import com.cetecom.ibichos.domain.model.enums.InsectCategory
@@ -22,7 +22,7 @@ sealed class CaptureResult {
 class ProcessCaptureUseCase @Inject constructor(
     private val captureRepository: CaptureRepository,
     private val userRepository: UserRepository,
-    private val eventRepository: EventRepositoryImpl
+    private val eventRepository: EventRepository
 ) {
     suspend operator fun invoke(
         uid: String,

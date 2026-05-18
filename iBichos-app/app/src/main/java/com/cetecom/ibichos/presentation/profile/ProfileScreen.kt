@@ -40,7 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.enums.MedalInfo
-import com.cetecom.ibichos.ui.theme.*
+import com.cetecom.ibichos.presentation.theme.*
 
 private val LightGreen = Color(0xFF5EE6A1)
 private val DarkGreen = Color(0xFF0FA958)

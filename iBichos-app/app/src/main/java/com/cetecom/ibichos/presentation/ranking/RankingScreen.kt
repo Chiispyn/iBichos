@@ -41,8 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.domain.model.UserProfile
-import com.cetecom.ibichos.ui.theme.IBichosAmber
-import com.cetecom.ibichos.ui.theme.IBichosGreen
+import com.cetecom.ibichos.presentation.theme.IBichosAmber
+import com.cetecom.ibichos.presentation.theme.IBichosGreen
 
 private val LightGreen = Color(0xFF5EE6A1)
 private val LightGreenDark = Color(0xFF2ED47A)
@@ -694,7 +694,7 @@ fun RankingItem(
 @androidx.compose.ui.tooling.preview.Preview(name = "Small Phone", widthDp = 320, heightDp = 640, showBackground = true)
 @Composable
 fun RankingPreviewSmall() {
-    com.cetecom.ibichos.ui.theme.IBichosTheme {
+    com.cetecom.ibichos.presentation.theme.IBichosTheme {
         RankingContent(
             uiState = RankingUiState(
                 users = listOf(
