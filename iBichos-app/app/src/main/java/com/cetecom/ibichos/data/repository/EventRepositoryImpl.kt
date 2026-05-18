@@ -16,7 +16,7 @@ class EventRepositoryImpl @Inject constructor(
      * @param newLevel      Nuevo nivel (nombre del enum, ej: "AMATEUR")
      * @param xpAtEvent     XP total del usuario en el momento del cambio
      */
-    suspend fun logLevelUp(
+    override suspend fun logLevelUp(
         userId: String,
         previousLevel: String,
         newLevel: String,
@@ -39,7 +39,7 @@ class EventRepositoryImpl @Inject constructor(
      * @param medalId   ID del logro (ej: "FIRST_CAPTURE", "ARACHNOLOGIST")
      * @param xpAtEvent XP total del usuario en ese momento
      */
-    suspend fun logMedalUnlocked(
+    override suspend fun logMedalUnlocked(
         userId: String,
         medalId: String,
         xpAtEvent: Long
@@ -62,7 +62,7 @@ class EventRepositoryImpl @Inject constructor(
      * @param category       Categoría taxonómica (nombre del enum, ej: "HYMENOPTERA")
      * @param xpAtEvent      XP total del usuario en ese momento
      */
-    suspend fun logSpeciesDiscovered(
+    override suspend fun logSpeciesDiscovered(
         userId: String,
         scientificName: String,
         insectName: String,
@@ -86,7 +86,7 @@ class EventRepositoryImpl @Inject constructor(
      * Registra que un nuevo usuario se registró en la app.
      * Se llama desde AuthViewModel al completar el registro.
      */
-    suspend fun logUserRegistered(userId: String) {
+    override suspend fun logUserRegistered(userId: String) {
         db.collection("events").add(
             hashMapOf(
                 "userId"     to userId,
