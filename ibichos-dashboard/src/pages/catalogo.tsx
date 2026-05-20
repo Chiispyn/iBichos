@@ -25,6 +25,19 @@ export default function Catalogo() {
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [targetId, setTargetId] = useState<string | null>(null);
+  const [userMap, setUserMap] = useState<Record<string, { name: string; email: string }>>({});
+
+  useEffect(() => {
+    import('firebase/firestore').then(({ getDocs, collection: col }) => {
+      getDocs(col(db, 'users')).then(snap => {
+        const map: Record<string, { name: string; email: string }> = {};
+        snap.forEach(d => {
+          map[d.id] = { name: d.data().displayName || 'Sin nombre', email: d.data().email || '' };
+        });
+        setUserMap(map);
+      });
+    });
+  }, []);
 
   useEffect(() => {
     setCargando(true);
@@ -262,7 +275,12 @@ export default function Catalogo() {
                   
                   <div className="d-flex align-items-center text-muted small mb-3">
                     <MapPin size={14} className="me-1" />
-                    <span>ID: {cap.id.substring(0, 8)}</span>
+                    <span>
+                      {userMap[cap.userId]
+                        ? <><strong className="text-dark">{userMap[cap.userId].name}</strong> · <span>{userMap[cap.userId].email}</span></>
+                        : cap.userId !== 'Anónimo' ? cap.userId.substring(0, 10) + '...' : 'Anónimo'
+                      }
+                    </span>
                   </div>
 
                   <div className="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">

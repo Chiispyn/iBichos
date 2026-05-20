@@ -11,8 +11,10 @@ interface Captura {
   dangerLevel: string;
   confidence: number;
   needsReview: boolean;
-  status: string; // 'PENDING_REVIEW', 'APPROVED', 'REJECTED'
+  status: string;
   userId: string;
+  userDisplayName?: string;
+  userEmail?: string;
   insectName?: string;
   scientificName?: string;
   lat?: number;
@@ -29,6 +31,20 @@ export default function Capturas() {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
+  const [userMap, setUserMap] = useState<Record<string, { name: string; email: string }>>({});
+
+  useEffect(() => {
+    // Cargar mapa de usuarios una sola vez
+    import('firebase/firestore').then(({ getDocs, collection: col }) => {
+      getDocs(col(db, 'users')).then(snap => {
+        const map: Record<string, { name: string; email: string }> = {};
+        snap.forEach(d => {
+          map[d.id] = { name: d.data().displayName || 'Sin nombre', email: d.data().email || '' };
+        });
+        setUserMap(map);
+      });
+    });
+  }, []);
 
   useEffect(() => {
     setCargando(true);
@@ -300,7 +316,13 @@ export default function Capturas() {
                         <option value="HYMENOPTERA">Himenóptero 🐝</option>
                         <option value="OTHER">Otro ❓</option>
                       </select>
-                      <p className="small text-muted mt-2 mb-2">ID Usuario: <code>{cap.userId.substring(0, 8)}</code></p>
+                      <p className="small text-muted mt-2 mb-2">
+                        👤 
+                        {userMap[cap.userId]
+                          ? <><strong>{userMap[cap.userId].name}</strong> <span className="text-secondary">({userMap[cap.userId].email})</span></>
+                          : <code>{cap.userId.substring(0, 10)}...</code>
+                        }
+                      </p>
                       
                       {cap.status !== 'PENDING_REVIEW' && (
                         <p className="small text-muted mt-1 mb-0 border-top pt-2">

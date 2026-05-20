@@ -12,6 +12,7 @@ import Geografia from './pages/geografia';
 import Catalogo from './pages/catalogo';
 import Auditoria from './pages/auditoria';
 
+
 function App() {
   return (
     <AuthProvider>
