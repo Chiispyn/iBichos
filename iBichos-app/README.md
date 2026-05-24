@@ -1,6 +1,6 @@
 <div align="center">
   <img src="app/src/main/res/drawable/logo_oficial.png" width="150" alt="iBichos Logo">
-  <h1>🦟 iBichos</h1>
+  <h1> iBichos</h1>
   <p><strong>Caza, Colecciona y Explora tu Ecosistema</strong></p>
 </div>
 
@@ -28,9 +28,9 @@ El proyecto está construido bajo estándares modernos de desarrollo Android:
 
 ## ⚙️ Instalación y Uso (Evaluadores)
 
-Para evaluar y probar el proyecto, **no es necesario** descargar el código fuente ni configurar credenciales, ya que la aplicación se entrega preconfigurada.
+Para evaluar y probar el proyecto, **no es necesario** configurar credenciales ni compilar el código fuente, ya que la aplicación se entrega preconfigurada.
 
-1. Descargar el archivo binario **`iBichos.apk`** entregado junto con la presentación del proyecto.
-2. Transferir el APK al dispositivo físico o arrastrarlo a un Emulador de Android.
-3. Permitir la instalación desde orígenes desconocidos si el teléfono lo solicita.
-4. La aplicación ya contiene las llaves de acceso a **Firebase** y a la **API de Inteligencia Artificial (Kindwise)** integradas, por lo que está lista para funcionar inmediatamente.
+1. Descarga el archivo binario **`app-debug.apk`** directamente desde [GitHub Releases](https://github.com/Chiispyn/iBichos/releases/tag/1.0.0).
+2. Transfiere el APK a tu dispositivo móvil físico o arrástralo a un Emulador de Android.
+3. Permite la instalación desde orígenes desconocidos si el teléfono lo solicita.
+4. La aplicación ya contiene las llaves de acceso a **Firebase** y a la **API de Inteligencia Artificial (Kindwise)** integradas en la compilación, por lo que está lista para funcionar inmediatamente.
