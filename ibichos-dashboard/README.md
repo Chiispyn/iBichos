@@ -1,6 +1,10 @@
 # 📊 iBichos Dashboard Web
 
+> [!TIP]
+> **Acceso en producción:** Puedes entrar directamente a la versión en vivo del panel en [ibichos.vercel.app](https://ibichos.vercel.app) sin necesidad de correrlo localmente.
+
 Bienvenido al Centro de Comando de iBichos. Este panel de control web (SPA) permite administrar la base de datos de la aplicación móvil de manera visual, gestionar usuarios y moderar los descubrimientos realizados por la Inteligencia Artificial.
+
 
 ## 🚀 Tecnologías y Stack
 *   **Frontend:** React 19 + TypeScript + Vite.
