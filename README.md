@@ -17,7 +17,7 @@ Panel de control web para administrar los datos de la aplicación, revisar anal�
 - **Tecnologías:** React, TypeScript, Vite.
 - *Entrar a la carpeta `ibichos-dashboard` para ver las instrucciones de ejecución local.*
 
-### 📦 [3. APK Lista para Instalar (carpeta /apk)](./apk)
-Contiene la versión final compilada e instalable para dispositivos Android (`iBichos.apk`). Esto permite a los evaluadores/profesores instalar y probar el ecosistema iBichos inmediatamente en un dispositivo físico o emulador sin necesidad de compilar el código.
+### 📦 [3. APK Lista para Instalar (GitHub Releases)](https://github.com/Chiispyn/iBichos/releases)
+Contiene la versión final compilada e instalable para dispositivos Android (`app-debug.apk`). Puedes descargarla directamente desde la sección de [GitHub Releases](https://github.com/Chiispyn/iBichos/releases/tag/1.0.0) para instalar y probar la aplicación inmediatamente en un dispositivo físico o emulador sin necesidad de compilar el código.
 
 ---
