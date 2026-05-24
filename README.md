@@ -13,7 +13,11 @@ Aplicación móvil nativa desarrollada en Kotlin con Jetpack Compose. Permite a 
 
 ### 💻 [2. Panel de Administración Web (ibichos-dashboard)](./ibichos-dashboard/README.md)
 Panel de control web para administrar los datos de la aplicación, revisar analíticas de usuarios y ver estadísticas generales de los insectos descubiertos.
+- **Demo en producción:** [ibichos.vercel.app](https://ibichos.vercel.app)
 - **Tecnologías:** React, TypeScript, Vite.
-- *Entrar a la carpeta `ibichos-dashboard` para ver las instrucciones de despliegue.*
+- *Entrar a la carpeta `ibichos-dashboard` para ver las instrucciones de ejecución local.*
+
+### 📦 [3. APK Lista para Instalar (carpeta /apk)](./apk)
+Contiene la versión final compilada e instalable para dispositivos Android (`iBichos.apk`). Esto permite a los evaluadores/profesores instalar y probar el ecosistema iBichos inmediatamente en un dispositivo físico o emulador sin necesidad de compilar el código.
 
 ---
