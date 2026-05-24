@@ -11,7 +11,7 @@ class ImageRepositoryImpl @Inject constructor(
     private val cloudinaryApi: CloudinaryApi
 ) : ImageRepository {
 
-    private val cloudName    = "drubfka1z"
+    private val cloudName    = "dmfmzlozw"
     private val uploadPreset = "IBichos"
 
     override suspend fun upload(imageBytes: ByteArray): String {
