@@ -1,6 +1,6 @@
 <div align="center">
   <img src="app/src/main/res/drawable/logo_oficial.png" width="150" alt="iBichos Logo">
-  <h1> iBichos</h1>
+  <h1>🦟 iBichos</h1>
   <p><strong>Caza, Colecciona y Explora tu Ecosistema</strong></p>
 </div>
 
@@ -8,7 +8,7 @@
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
 
-**iBichos** es una aplicación móvil nativa para Android. Fusiona la educación ambiental con dinámicas de gamificación, utilizando Inteligencia Artificial para identificar insectos a través de la cámara del teléfono celular.
+**iBichos** es una aplicación móvil nativa para Android. Fusiona el registro y catalogación de insectos con dinámicas de gamificación, utilizando Inteligencia Artificial para identificar especies a través de la cámara del teléfono celular.
 
 ---
 
