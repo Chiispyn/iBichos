@@ -15,7 +15,7 @@
 ## 🎯 Características Principales
 
 1. **Reconocimiento con IA (Kindwise API):** Analiza la foto para determinar la especie del insecto y su "Nivel de Peligro" (Inofensivo, Venenoso, Plaga).
-2. **Pokedex Personalizada:** Inventario en la nube donde el usuario guarda todas sus capturas ordenadas cronológicamente con su información biológica.
+2. **Colección Personalizada:** Inventario en la nube donde el usuario guarda todas sus capturas ordenadas cronológicamente con su información biológica.
 3. **Mapa del Ecosistema:** Mapeo geolocalizado con pines exactos donde se realizaron las capturas.
 4. **Ranking y Medallas:** Sistema de experiencia (XP) con condecoraciones taxonómicas y un Top 50 global en tiempo real.
 
