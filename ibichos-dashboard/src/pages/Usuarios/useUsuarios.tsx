@@ -1,10 +1,10 @@
+// src/pages/Usuarios/useUsuarios.ts
 import { useState, useEffect } from 'react';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { db } from '../config/firebaseConfig';
-import type { Usuario } from '../types/usuario';
-import TablaUsuarios from '../components/tablaUsuarios';
+import { db } from '../../config/firebaseConfig';
+import type { Usuario } from '../../types/usuario';
 
-export default function Usuarios() {
+export function useUsuarios() {
   const [listaUsuarios, setListaUsuarios] = useState<Usuario[]>([]);
   const [adminsIds, setAdminsIds] = useState<string[]>([]);
   const [cargando, setCargando] = useState(true);
@@ -60,28 +60,10 @@ export default function Usuarios() {
     };
   }, []);
 
-  return (
-    <div className="container-fluid">
-      {/* Cabecera del módulo */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h2>Gestión de Usuarios</h2>
-          <p className="text-muted mb-0">Conectado a la colección "users" de Firestore</p>
-        </div>
-
-      </div>
-
-      {/* Control de la vista: Spinner de carga vs Tabla */}
-      {cargando ? (
-        <div className="d-flex flex-column justify-content-center align-items-center py-5">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Cargando...</span>
-          </div>
-          <p className="mt-3 text-muted">Sincronizando base de datos...</p>
-        </div>
-      ) : (
-        <TablaUsuarios usuariosFiltrados={listaUsuarios} adminsIds={adminsIds} />
-      )}
-    </div>
-  );
+  // Retornamos solo lo que la vista necesita
+  return {
+    listaUsuarios,
+    adminsIds,
+    cargando
+  };
 }

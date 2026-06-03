@@ -3,14 +3,14 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from './context/authcontext';
 import { ProtectedRoute } from './components/protectedRoute';
 import Sidebar from './components/sidebar'; 
-import Principal from './pages/principal';
-import Analitica from './pages/analitica';
-import { Login } from './pages/login';
-import Usuarios from './pages/usuarios';
-import Capturas from './pages/capturas';
-import Geografia from './pages/geografia';
-import Catalogo from './pages/catalogo';
-import Auditoria from './pages/auditoria';
+import Principal from './pages/Principal/principal';
+import Analitica from './pages/Analitica/analitica';
+import { Login } from './pages/Login/login';
+import Usuarios from './pages/Usuarios/usuarios';
+import Capturas from './pages/Capturas/capturas';
+import Geografia from './pages/Geografia/geografia';
+import Catalogo from './pages/Catalogo/catalogo';
+import Auditoria from './pages/Auditoria/auditoria';
 
 
 function App() {
