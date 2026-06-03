@@ -34,3 +34,21 @@ Para evaluar y probar el proyecto, **no es necesario** configurar credenciales n
 2. Transfiere el APK a tu dispositivo móvil físico o arrástralo a un Emulador de Android.
 3. Permite la instalación desde orígenes desconocidos si el teléfono lo solicita.
 4. La aplicación ya contiene las llaves de acceso a **Firebase** y a la **API de Inteligencia Artificial (Kindwise)** integradas en la compilación, por lo que está lista para funcionar inmediatamente.
+
+---
+
+## 🧪 Pruebas Unitarias
+
+La aplicación móvil cuenta con pruebas unitarias para validar las reglas de negocio (XP, asignación de medallas, ordenamiento del ranking y validaciones matemáticas de coordenadas en mapas) de manera local.
+
+Para ejecutar las pruebas desde la terminal:
+```bash
+./gradlew test
+```
+O en Windows (Command Prompt / PowerShell):
+```powershell
+.\gradlew.bat test
+```
+
+Las pruebas se ubican en `app/src/test/java/com/cetecom/ibichos/presentation/` y utilizan **JUnit 4**, **MockK** (para interceptar el SDK de Firebase en memoria) y **Robolectric** (para simular componentes del framework de Android sin emuladores).
+

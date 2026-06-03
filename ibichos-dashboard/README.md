@@ -52,3 +52,23 @@ El Dashboard posee una capa de seguridad estricta basada en roles:
 4. Abre tu navegador en `http://localhost:5173`. Ingresa con tu cuenta de correo autorizada como administrador en Firebase.
 
 *(Para despliegues a producción en Vercel o Netlify, utilizar el comando `npm run build` para generar el empaquetado optimizado).*
+
+---
+
+## 🧪 Pruebas Unitarias (Vitest)
+
+El Dashboard incluye una suite de pruebas para verificar las vistas y flujos de negocio (Autenticación, Catálogo de Especies, Filtros de Moderación, Analíticas y Auditoría de Logs).
+
+Para ejecutar las pruebas desde la terminal:
+```bash
+npm run test
+```
+
+* **Reporte HTML Interactivo:** Para ver los resultados en un panel web interactivo, una vez finalizadas las pruebas ejecuta:
+  ```bash
+  npx vite preview --outDir test-results
+  ```
+  Y abre `http://localhost:4173` en tu navegador.
+
+Las pruebas se encuentran organizadas en espejo con las carpetas reales de producción en `src/__tests__/pages/` utilizando **Vitest**, **jsdom** (para simulación de DOM en node) y **React Testing Library** para testear el estado reactivo de hooks y componentes.
+
