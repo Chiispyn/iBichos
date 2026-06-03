@@ -44,7 +44,7 @@ export default function Catalogo() {
           <input 
             type="text" 
             className="form-control ps-5 border-success shadow-sm rounded-3" 
-            placeholder="Buscar por categoría o ID..."
+            placeholder="Buscar por insecto, colector o correo..."
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
           />
