@@ -1,71 +1,9 @@
-import { useEffect, useState } from 'react';
-import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
-import { db } from '../config/firebaseConfig';
-import { ShieldAlert, User, Image, Clock, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
-
-interface AuditLog {
-  id: string;
-  adminId: string;
-  adminEmail?: string;
-  action: string;
-  targetId: string;
-  targetType: string;
-  timestamp: Date;
-}
+import { ShieldAlert, User, Image } from 'lucide-react';
+import { useAuditoria } from './useAuditoria';
+import { getActionIcon, getActionLabel } from './auditoriaUtils';
 
 export default function Auditoria() {
-  const [logs, setLogs] = useState<AuditLog[]>([]);
-  const [cargando, setCargando] = useState(true);
-
-  useEffect(() => {
-    setCargando(true);
-    const q = query(collection(db, 'moderation_logs'), orderBy('timestamp', 'desc'));
-    
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => {
-        const docData = doc.data();
-        return {
-          id: doc.id,
-          adminId: docData.adminId,
-          adminEmail: docData.adminEmail,
-          action: docData.action,
-          targetId: docData.targetId,
-          targetType: docData.targetType,
-          timestamp: docData.timestamp?.toDate ? docData.timestamp.toDate() : new Date(docData.timestamp)
-        } as AuditLog;
-      });
-      setLogs(data);
-      setCargando(false);
-    }, (error) => {
-      console.error("Error cargando auditoría:", error);
-      setCargando(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  const getActionIcon = (action: string) => {
-    if (action.includes('REJECT') || action.includes('BAN') || action.includes('HIDE') || action.includes('REMOVE')) return <XCircle className="text-danger" size={18} />;
-    if (action.includes('APPROVE') || action.includes('MAKE_ADMIN') || action.includes('UNBAN')) return <CheckCircle2 className="text-success" size={18} />;
-    if (action.includes('STRIKE')) return <AlertTriangle className="text-warning" size={18} />;
-    return <Clock className="text-secondary" size={18} />;
-  };
-
-  const getActionLabel = (action: string) => {
-    const dict: Record<string, string> = {
-      'REJECT_CAPTURE': 'Rechazó una captura',
-      'APPROVE_CAPTURE': 'Aprobó una captura dudosa',
-      'HIDE_CAPTURE': 'Ocultó/Eliminó una captura',
-      'STRIKE_AND_REJECT': 'Rechazó por fraude y dio un Strike',
-      'MAKE_ADMIN': 'Nombró a un nuevo Administrador',
-      'REMOVE_ADMIN': 'Revocó permisos de Administrador',
-      'BAN_USER': 'Baneó (Shadowban) a un usuario',
-      'UNBAN_USER': 'Levantó el baneo a un usuario',
-      'UPDATE_CATEGORY': 'Corrigió la especie de un insecto',
-      'UPDATE_DANGER_LEVEL': 'Modificó el nivel de peligro de un insecto'
-    };
-    return dict[action] || action;
-  };
+  const { logs, cargando } = useAuditoria();
 
   if (cargando) {
     return (
@@ -133,10 +71,7 @@ export default function Auditoria() {
                   <td colSpan={4} className="text-center py-5 text-muted">
                     <ShieldAlert size={48} className="text-secondary opacity-50 mb-3" />
                     <h5 className="fw-bold">No hay registros de auditoría</h5>
-                    <p className="mb-1">Aún no se ha realizado ninguna acción de moderación, o las acciones se hicieron antes de esta actualización.</p>
-                    <small className="text-muted d-block mt-2 opacity-75">
-                      <em>Nota técnica: Si crees que esto es un error, asegúrate de haber añadido las reglas de seguridad a la colección <code>moderation_logs</code> en Firebase.</em>
-                    </small>
+                    <p className="mb-1">Aún no se ha realizado ninguna acción de moderación.</p>
                   </td>
                 </tr>
               )}

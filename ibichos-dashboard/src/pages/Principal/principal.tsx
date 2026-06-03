@@ -1,68 +1,14 @@
-import { useEffect, useState } from 'react';
-import { db } from '../config/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
-import { useAuth } from '../context/authcontext';
+import { useAuth } from '../../context/authcontext';
 import { UserPlus, ImagePlus, AlertCircle, Sparkles, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { usePrincipal } from './usePrincipal';
 
 export default function Principal() {
   const { username } = useAuth();
   const navigate = useNavigate();
-  const [statsDia, setStatsDia] = useState({ nuevosUsuarios: 0, capturasHoy: 0, pendientesHoy: 0 });
-  const [cargando, setCargando] = useState(true);
-
-  // Obtener fecha actual en formato dd/mm/aaaa
-  const hoy = new Date();
-  const opcionesFecha: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const fechaFormateada = hoy.toLocaleDateString('es-CL', opcionesFecha);
-
-  useEffect(() => {
-    const fetchMetricasDiarias = async () => {
-      try {
-        const hoyString = hoy.toLocaleDateString('es-CL');
-        let nuevosUsuarios = 0;
-        let capturasHoy = 0;
-        let pendientesHoy = 0;
-
-        const usersSnap = await getDocs(collection(db, 'users'));
-        usersSnap.forEach(doc => {
-          const data = doc.data();
-          if (data.createdAt) {
-            const fechaReg = new Date(data.createdAt.toMillis()).toLocaleDateString('es-CL');
-            if (fechaReg === hoyString) nuevosUsuarios++;
-          }
-        });
-
-        const capturesSnap = await getDocs(collection(db, 'captures'));
-        capturesSnap.forEach(doc => {
-          const data = doc.data();
-          if (data.timestamp) {
-            const fechaCap = new Date(data.timestamp.toMillis()).toLocaleDateString('es-CL');
-            if (fechaCap === hoyString) {
-              // Solo contamos como "Capturas Hoy" las que ya están aprobadas (auto o manual)
-              const status = data.validationStatus || data.status;
-              if (status === 'APPROVED') {
-                capturasHoy++;
-              }
-              
-              // El contador de "Atención Requerida" sigue captando las que necesitan revisión
-              if (data.needsReview || status === 'PENDING_REVIEW' || status === 'PENDING') {
-                pendientesHoy++;
-              }
-            }
-          }
-        });
-
-        setStatsDia({ nuevosUsuarios, capturasHoy, pendientesHoy });
-      } catch (error) {
-        console.error("Error obteniendo métricas del día:", error);
-      } finally {
-        setCargando(false);
-      }
-    };
-
-    fetchMetricasDiarias();
-  }, []);
+  
+  // Extraemos la data limpia desde nuestro custom hook
+  const { statsDia, cargando, fechaFormateada } = usePrincipal();
 
   return (
     <div className="container-fluid py-4">

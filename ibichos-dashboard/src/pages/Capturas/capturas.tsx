@@ -1,204 +1,22 @@
-import { useEffect, useState } from 'react';
-import { collection, onSnapshot, doc, updateDoc, deleteDoc, increment, setDoc } from 'firebase/firestore';
-import { db } from '../config/firebaseConfig';
 import { CheckCircle, XCircle, Clock, ShieldAlert, Trash2 } from 'lucide-react';
-import { useAuth } from '../context/authcontext';
-
-interface Captura {
-  id: string;
-  imageUrl: string;
-  category: string;
-  dangerLevel: string;
-  confidence: number;
-  needsReview: boolean;
-  status: string;
-  userId: string;
-  userDisplayName?: string;
-  userEmail?: string;
-  insectName?: string;
-  scientificName?: string;
-  lat?: number;
-  lng?: number;
-  moderatedBy?: string;
-  moderatorEmail?: string;
-}
+import { useCapturas } from './useCapturas';
 
 export default function Capturas() {
-  const { user } = useAuth();
-  const [capturas, setCapturas] = useState<Captura[]>([]);
-  const [filtro, setFiltro] = useState<'PENDING_REVIEW' | 'REJECTED'>('PENDING_REVIEW');
-  const [cargando, setCargando] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [selectedImg, setSelectedImg] = useState<string | null>(null);
-  const [userMap, setUserMap] = useState<Record<string, { name: string; email: string }>>({});
+  const {
+    capturas,
+    capturasFiltradas,
+    filtro, setFiltro,
+    cargando,
+    showModal, setShowModal,
+    selectedImg, setSelectedImg,
+    userMap,
+    handleModeracion,
+    handleEliminar,
+    openModal,
+    getDangerColor,
+    traducirPeligro
+  } = useCapturas();
 
-  useEffect(() => {
-    // Cargar mapa de usuarios una sola vez
-    import('firebase/firestore').then(({ getDocs, collection: col }) => {
-      getDocs(col(db, 'users')).then(snap => {
-        const map: Record<string, { name: string; email: string }> = {};
-        snap.forEach(d => {
-          map[d.id] = { name: d.data().displayName || 'Sin nombre', email: d.data().email || '' };
-        });
-        setUserMap(map);
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    setCargando(true);
-    // Escucha en tiempo real de la colección "captures"
-    const unsubscribe = onSnapshot(collection(db, "captures"), (querySnapshot) => {
-      const datos: Captura[] = querySnapshot.docs
-        .map(doc => {
-          const d = doc.data();
-          return {
-            id: doc.id,
-            imageUrl: d.imageUrl || '',
-            category: d.category || 'OTHER',
-            dangerLevel: d.dangerLevel || 'UNKNOWN',
-            confidence: d.probability || 0,
-            needsReview: d.needsReview || false,
-            status: d.status || d.validationStatus || (d.needsReview ? 'PENDING_REVIEW' : (d.probability < 0.40 ? 'REJECTED' : 'APPROVED')),
-            userId: d.userId || 'Anónimo',
-            insectName: d.insectName,
-            scientificName: d.scientificName,
-            lat: d.latitude,
-            lng: d.longitude,
-            moderatedBy: d.moderatedBy,
-            moderatorEmail: d.moderatorEmail
-          };
-        })
-        .filter(cap => cap.status !== 'DELETED');
-
-      // Ordenar: Pendientes primero
-      datos.sort((a, b) => {
-        if (a.status === 'PENDING_REVIEW' && b.status !== 'PENDING_REVIEW') return -1;
-        if (a.status !== 'PENDING_REVIEW' && b.status === 'PENDING_REVIEW') return 1;
-        return 0;
-      });
-
-      setCapturas(datos);
-      setCargando(false);
-    }, (error) => {
-      console.error("Error en tiempo real (Capturas):", error);
-      setCargando(false);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  // --- LÓGICA DE MODERACIÓN Y PENALIZACIÓN ---
-  const handleModeracion = async (id: string, nuevoEstado: 'APPROVED' | 'REJECTED', nuevaCat?: string, penalizar: boolean = false) => {
-    try {
-      const capturaRef = doc(db, 'captures', id);
-      const updates: any = {
-        status: nuevoEstado,
-        needsReview: false,
-        moderatedBy: user?.uid || 'ADMIN',
-        moderatorEmail: user?.email || 'Admin',
-        moderatedAt: new Date()
-      };
-
-      if (nuevaCat) updates.category = nuevaCat;
-
-      await updateDoc(capturaRef, updates);
-
-      try {
-        const logRef = doc(collection(db, 'moderation_logs'));
-        await setDoc(logRef, {
-          adminId: user?.uid || 'unknown',
-          adminEmail: user?.email || 'Admin',
-          action: penalizar ? 'STRIKE_AND_REJECT' : (nuevoEstado === 'APPROVED' ? 'APPROVE_CAPTURE' : 'REJECT_CAPTURE'),
-          targetId: id,
-          targetType: 'CAPTURE',
-          timestamp: new Date()
-        });
-      } catch (e) {
-        console.warn("No se pudo guardar el log (¿Faltan reglas en Firestore?):", e);
-      }
-
-      if (penalizar) {
-        const cap = capturas.find(c => c.id === id);
-        if (cap && cap.userId && cap.userId !== 'Anónimo') {
-          const userRef = doc(db, 'users', cap.userId);
-          await updateDoc(userRef, { strikes: increment(1) });
-          alert("¡Strike aplicado! El usuario ha sido penalizado por fraude.");
-        }
-      }
-
-      setCapturas(prev => prev.map(cap =>
-        cap.id === id ? { ...cap, status: nuevoEstado, needsReview: false, category: nuevaCat || cap.category, moderatedBy: updates.moderatedBy, moderatorEmail: updates.moderatorEmail } : cap
-      ));
-    } catch (error) {
-      console.error("Error al moderar la captura:", error);
-    }
-  };
-
-  // --- LÓGICA DE BORRADO LÓGICO (Ocultar sin perder datos) ---
-  const handleEliminar = async () => {
-    if (!selectedId) return;
-    try {
-      const capturaRef = doc(db, 'captures', selectedId);
-      await updateDoc(capturaRef, {
-        status: 'DELETED',
-        needsReview: false,
-        moderatedBy: user?.uid || 'ADMIN',
-        moderatorEmail: user?.email || 'Admin',
-        moderatedAt: new Date()
-      });
-
-      try {
-        const logRef = doc(collection(db, 'moderation_logs'));
-        await setDoc(logRef, {
-          adminId: user?.uid || 'unknown',
-          adminEmail: user?.email || 'Admin',
-          action: 'HIDE_CAPTURE',
-          targetId: selectedId,
-          targetType: 'CAPTURE',
-          timestamp: new Date()
-        });
-      } catch (e) {
-        console.warn("No se pudo guardar el log (¿Faltan reglas en Firestore?):", e);
-      }
-
-      setCapturas(prev => prev.filter(cap => cap.id !== selectedId));
-      setShowModal(false);
-      setSelectedId(null);
-      alert("Captura ocultada. Se mantiene en la base de datos para estadísticas.");
-    } catch (error) {
-      console.error("Error al ocultar captura:", error);
-    }
-  };
-
-  const openModal = (id: string) => {
-    setSelectedId(id);
-    setShowModal(true);
-  };
-
-  // --- FILTRADO Y TRADUCCIONES ---
-  const capturasFiltradas = capturas.filter(c => c.status === filtro);
-
-  const getDangerColor = (level: string) => {
-    switch (level) {
-      case 'HARMLESS': return 'success';
-      case 'VENOMOUS': return 'danger';
-      case 'CAUTION': return 'warning';
-      default: return 'secondary';
-    }
-  };
-
-  const traducirPeligro = (level: string) => {
-    switch (level) {
-      case 'HARMLESS': return 'Inofensivo';
-      case 'VENOMOUS': return 'Venenoso';
-      case 'CAUTION': return 'Precaución';
-      default: return 'Desconocido';
-    }
-  };
-
-  // --- VISTA DE CARGA ---
   if (cargando) {
     return (
       <div className="d-flex justify-content-center align-items-center" style={{ height: '80vh' }}>
@@ -221,7 +39,6 @@ export default function Capturas() {
           <p className="text-muted mb-0">Valida la autenticidad de las capturas y gestiona la seguridad del ecosistema.</p>
         </div>
 
-        {/* Filtros de Trabajo (Solo Pendientes y Rechazadas) */}
         <div className="btn-group shadow-sm p-1 bg-white rounded-3">
           <button
             className={`btn btn-sm px-4 fw-bold ${filtro === 'PENDING_REVIEW' ? 'btn-warning active shadow-sm' : 'btn-light'}`}
@@ -251,7 +68,6 @@ export default function Capturas() {
           </div>
         ) : (
           capturasFiltradas.map((cap) => {
-            // HEURÍSTICA ANTI-FRAUDE: Detectamos si hay muchas fotos en la misma coordenada
             const mismasCoord = capturas.filter(c =>
               c.userId === cap.userId &&
               c.lat === cap.lat &&
@@ -287,7 +103,6 @@ export default function Capturas() {
                       <Trash2 size={16} className="text-white" />
                     </button>
 
-                    {/* ALERTA DE POSIBLE TRAMPA (SCREEN/BOOK) - Ahora en la parte inferior de la foto */}
                     {esSospechoso && (
                       <div className="suspicion-banner">
                         ⚠️ POSIBLE FRAUDE ({mismasCoord} en misma ubicación)
@@ -302,7 +117,7 @@ export default function Capturas() {
                       <small className="text-muted fst-italic">{cap.scientificName || 'Especie no identificada'}</small>
                     </div>
 
-                    {/* SELECTOR DE CATEGORÍA (CORRECCIÓN DE IA) */}
+                    {/* SELECTOR DE CATEGORÍA */}
                     <div className="mb-3">
                       <label className="small text-muted mb-1 d-block">Categoría (Corregir si es necesario):</label>
                       <select
@@ -367,7 +182,7 @@ export default function Capturas() {
                       </button>
                     </div>
 
-                    {/* REPORTE DE FRAUDE (STRIKE MANUAL) */}
+                    {/* REPORTE DE FRAUDE */}
                     {cap.status !== 'APPROVED' && (
                       <button
                         className="btn btn-dark btn-sm w-100 mt-2 fw-bold"

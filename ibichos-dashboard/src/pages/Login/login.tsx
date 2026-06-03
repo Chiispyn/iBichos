@@ -1,82 +1,17 @@
-import { useState, useEffect } from 'react'; // 🟢 Agrega useEffect
-import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail, setPersistence, browserLocalPersistence, browserSessionPersistence } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../config/firebaseConfig';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/authcontext'; // 🟢 Importa el contexto
+// src/pages/Login/Login.tsx
+import { useLogin } from './useLogin';
 
 export function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  
-  const navigate = useNavigate();
-  // 🟢 Traemos el usuario y su estado de admin
-  const { user, isAdminActive } = useAuth(); 
-
-  // 🟢 EFECTO: Si ya hay un admin activo logueado, sácalo de la vista de login y mándalo al panel
-  useEffect(() => {
-    if (user && isAdminActive) {
-      navigate('/principal');
-    }
-  }, [user, isAdminActive, navigate]);
-
-  const handleResetPassword = async () => {
-    if (!email) {
-      setError('Por favor, ingresa tu correo electrónico en el campo superior para restablecer tu contraseña.');
-      setSuccessMsg('');
-      return;
-    }
-    try {
-      await sendPasswordResetEmail(auth, email);
-      setSuccessMsg('Se ha enviado un enlace a tu correo para restablecer la contraseña.');
-      setError('');
-    } catch (err: any) {
-      setError('Error al intentar enviar el correo. Verifica que esté bien escrito.');
-      setSuccessMsg('');
-      console.error(err);
-    }
-  };
-
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-
-    try {
-      // Configurar la persistencia de la sesión según el checkbox
-      await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
-
-      // 1. Intento de inicio de sesión en Auth
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      // 2. Buscar al usuario en la colección 'admins' de Firestore
-      const adminDocRef = doc(db, "admins", user.uid);
-      const adminDoc = await getDoc(adminDocRef);
-
-      if (adminDoc.exists()) {
-        const data = adminDoc.data();
-
-        // 3. Verificar si está activo
-        if (data.status === 'active') {
-          console.log("¡Bienvenido, Admin!");
-          navigate('/analitica'); // Redirigir al panel de analítica
-        } else {
-          // Si existe pero está pendiente
-          setError("Tu cuenta aún no ha sido aprobada por un administrador.");
-          await signOut(auth); // Cerramos sesión por seguridad
-        }
-      } else {
-        // Si no existe en la colección 'admins' (es un usuario de la app móvil)
-        setError("No tienes permisos de administrador para acceder aquí.");
-        await signOut(auth);
-      }
-    } catch (err) {
-      setError("Correo o contraseña incorrectos.");
-      console.error(err);
-    }
-  };
+  const {
+    setEmail,
+    setPassword,
+    error,
+    successMsg,
+    rememberMe,
+    setRememberMe,
+    handleLogin,
+    handleResetPassword
+  } = useLogin();
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100" style={{ backgroundColor: '#E8F5E9' }}>
