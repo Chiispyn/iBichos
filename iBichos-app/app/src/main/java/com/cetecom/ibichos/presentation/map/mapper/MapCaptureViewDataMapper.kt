@@ -6,6 +6,8 @@ import com.cetecom.ibichos.presentation.map.viewdata.MapCaptureViewData
 fun CaptureItem.toMapViewData(): MapCaptureViewData? {
     val lat = latitude ?: return null
     val lon = longitude ?: return null
+    if (lat < -90.0 || lat > 90.0) return null
+    if (lon < -180.0 || lon > 180.0) return null
     return MapCaptureViewData(
         id            = id,
         imageUrl      = imageUrl,

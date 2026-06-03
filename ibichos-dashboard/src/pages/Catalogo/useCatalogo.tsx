@@ -158,10 +158,19 @@ export function useCatalogo() {
     setShowModal(true);
   };
 
-  const filtered = capturas.filter(cap => 
-    cap.category.toLowerCase().includes(busqueda.toLowerCase()) ||
-    cap.id.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  const filtered = capturas.filter(cap => {
+    const query = busqueda.toLowerCase();
+    const insectName = (cap.insectName || '').toLowerCase();
+    const scientificName = (cap.scientificName || '').toLowerCase();
+    const userInfo = userMap[cap.userId];
+    const userName = (userInfo?.name || '').toLowerCase();
+    const userEmail = (userInfo?.email || '').toLowerCase();
+
+    return insectName.includes(query) ||
+           scientificName.includes(query) ||
+           userName.includes(query) ||
+           userEmail.includes(query);
+  });
 
   return {
     cargando,
