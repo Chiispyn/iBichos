@@ -4,18 +4,7 @@ import { db } from '../config/firebaseConfig';
 import { Search, Bug, MapPin, ShieldCheck, Trash2, Edit3, ShieldAlert } from 'lucide-react';
 import { useAuth } from '../context/authcontext';
 
-interface Captura {
-  id: string;
-  imageUrl: string;
-  category: string;
-  dangerLevel: string;
-  confidence: number;
-  userId: string;
-  insectName?: string;
-  scientificName?: string;
-  status?: string;
-  timestamp?: any;
-}
+import type { Captura } from '../types/captura';
 
 export default function Catalogo() {
   const { user } = useAuth();
@@ -65,8 +54,16 @@ export default function Catalogo() {
           insectName: cap.insectName,
           scientificName: cap.scientificName,
           status: cap.status || 'APPROVED',
-          timestamp: cap.timestamp
+          timestamp: cap.timestamp // El timestamp ya se estaba extrayendo bien aquí
         }));
+
+      // ORDENAMIENTO CRONOLÓGICO (Más reciente a más antiguo)
+      datos.sort((a, b) => {
+        const timeA = a.timestamp?.toDate ? a.timestamp.toDate().getTime() : new Date(a.timestamp || 0).getTime();
+        const timeB = b.timestamp?.toDate ? b.timestamp.toDate().getTime() : new Date(b.timestamp || 0).getTime();
+        
+        return timeB - timeA;
+      });
 
       setCapturas(datos);
       setCargando(false);

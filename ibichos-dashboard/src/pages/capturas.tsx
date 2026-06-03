@@ -4,24 +4,7 @@ import { db } from '../config/firebaseConfig';
 import { CheckCircle, XCircle, Clock, ShieldAlert, Trash2 } from 'lucide-react';
 import { useAuth } from '../context/authcontext';
 
-interface Captura {
-  id: string;
-  imageUrl: string;
-  category: string;
-  dangerLevel: string;
-  confidence: number;
-  needsReview: boolean;
-  status: string;
-  userId: string;
-  userDisplayName?: string;
-  userEmail?: string;
-  insectName?: string;
-  scientificName?: string;
-  lat?: number;
-  lng?: number;
-  moderatedBy?: string;
-  moderatorEmail?: string;
-}
+import type { Captura } from '../types/captura';
 
 export default function Capturas() {
   const { user } = useAuth();
@@ -67,16 +50,23 @@ export default function Capturas() {
             lat: d.latitude,
             lng: d.longitude,
             moderatedBy: d.moderatedBy,
-            moderatorEmail: d.moderatorEmail
+            moderatorEmail: d.moderatorEmail,
+            timestamp: d.timestamp // 1. IMPORTANTE: Agregamos el timestamp aquí
           };
         })
         .filter(cap => cap.status !== 'DELETED');
 
-      // Ordenar: Pendientes primero
+      // 2. ORDENAMIENTO: De más reciente a más antiguo
       datos.sort((a, b) => {
+        // Primero, por si acaso, mantenemos los pendientes arriba
         if (a.status === 'PENDING_REVIEW' && b.status !== 'PENDING_REVIEW') return -1;
         if (a.status !== 'PENDING_REVIEW' && b.status === 'PENDING_REVIEW') return 1;
-        return 0;
+
+        // Luego, ordenamos cronológicamente (Descendente: Nuevo -> Antiguo)
+        const timeA = a.timestamp?.toDate ? a.timestamp.toDate().getTime() : new Date(a.timestamp || 0).getTime();
+        const timeB = b.timestamp?.toDate ? b.timestamp.toDate().getTime() : new Date(b.timestamp || 0).getTime();
+
+        return timeB - timeA; // timeB - timeA pone los números más grandes (fechas recientes) arriba
       });
 
       setCapturas(datos);

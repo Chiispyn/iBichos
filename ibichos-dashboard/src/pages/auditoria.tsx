@@ -3,15 +3,7 @@ import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../config/firebaseConfig';
 import { ShieldAlert, User, Image, Clock, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 
-interface AuditLog {
-  id: string;
-  adminId: string;
-  adminEmail?: string;
-  action: string;
-  targetId: string;
-  targetType: string;
-  timestamp: Date;
-}
+import type { AuditLog } from '../types/auditlog';
 
 export default function Auditoria() {
   const [logs, setLogs] = useState<AuditLog[]>([]);
