@@ -1,9 +1,9 @@
-import type { Usuario } from "../types/usuario";
+import type { Usuario } from "../../types/usuario";
 import { useState, useMemo } from 'react';
 import { doc, setDoc, deleteDoc, collection } from 'firebase/firestore';
-import { db } from '../config/firebaseConfig';
+import { db } from '../../config/firebaseConfig';
 import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Search, UserCircle2 } from 'lucide-react';
-import { useAuth } from '../context/authcontext';
+import { useAuth } from '../../context/authcontext';
 
 interface TablaUsuariosProps {
   usuariosFiltrados: Usuario[];
