@@ -1,5 +1,8 @@
-import { describe, it, expect } from 'vitest'
-import '../../firebase.mock'
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, test, expect, vi, beforeEach } from 'vitest';
+import Catalogo from '../../../pages/Catalogo/catalogo';
+import { useCatalogo } from '../../../pages/Catalogo/useCatalogo';
 
 const mockCapturas = [
   { id: '1', insectName: 'Mariposa Monarca', scientificName: 'Danaus plexippus', status: 'APPROVED',  userName: 'usuario1', email: 'user1@test.com', imageUrl: 'https://img.test/1.jpg' },
@@ -53,3 +56,102 @@ describe('TC-32 — Búsqueda por nombre de usuario o email', () => {
     expect(resultado[0].userName).toBe('usuario2')
   })
 })
+
+vi.mock('../../../pages/Catalogo/useCatalogo');
+describe('TC-45 — Interfaz y Moderación Activa del Catálogo', () => {
+  const mockHandleUpdate = vi.fn();
+  const mockOpenDeleteModal = vi.fn();
+  const mockHandleReject = vi.fn();
+
+  const baseMock = {
+    cargando: false,
+    busqueda: '',
+    setBusqueda: vi.fn(),
+    selectedImg: null,
+    setSelectedImg: vi.fn(),
+    showModal: false,
+    setShowModal: vi.fn(),
+    userMap: { 'user1': { name: 'Juan', email: 'juan@test.cl' } },
+    filtered: [
+      { 
+        id: 'cap_123', 
+        insectName: 'Araña Falsa', 
+        scientificName: 'Falsus spiderus', 
+        category: 'OTHER', 
+        dangerLevel: 'UNKNOWN', 
+        confidence: 0.85, 
+        userId: 'user1', 
+        imageUrl: 'https://img.test/1.jpg' 
+      }
+    ],
+    handleUpdate: mockHandleUpdate,
+    handleReject: mockHandleReject,
+    openDeleteModal: mockOpenDeleteModal,
+    getDangerBadge: () => 'bg-secondary'
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  test('Renderiza las capturas aprobadas en la galería', () => {
+    (useCatalogo as any).mockReturnValue(baseMock);
+    render(<Catalogo />);
+
+    expect(screen.getByText('Araña Falsa')).toBeInTheDocument();
+    expect(screen.getByText('Falsus spiderus')).toBeInTheDocument();
+    expect(screen.getByText('Juan')).toBeInTheDocument(); 
+  });
+
+  test('Permite cambiar la categoría biológica de la captura', async () => {
+    const user = userEvent.setup();
+    (useCatalogo as any).mockReturnValue(baseMock);
+    render(<Catalogo />);
+
+    const selects = screen.getAllByRole('combobox');
+    const categorySelect = selects[0]; 
+
+    await user.selectOptions(categorySelect, 'ARACHNID');
+    expect(mockHandleUpdate).toHaveBeenCalledWith('cap_123', { category: 'ARACHNID' });
+  });
+
+  test('Permite cambiar el nivel de peligrosidad de la captura', async () => {
+    const user = userEvent.setup();
+    (useCatalogo as any).mockReturnValue(baseMock);
+    render(<Catalogo />);
+
+    const selects = screen.getAllByRole('combobox');
+    const dangerSelect = selects[1];
+
+    await user.selectOptions(dangerSelect, 'VENOMOUS');
+    expect(mockHandleUpdate).toHaveBeenCalledWith('cap_123', { dangerLevel: 'VENOMOUS' });
+  });
+
+  test('Abre el modal al intentar quitar una captura del catálogo', async () => {
+    const user = userEvent.setup();
+    (useCatalogo as any).mockReturnValue(baseMock);
+    render(<Catalogo />);
+
+    const deleteBtn = screen.getByTitle('Rechazar y quitar del catálogo');
+    await user.click(deleteBtn);
+
+    expect(mockOpenDeleteModal).toHaveBeenCalledWith('cap_123');
+  });
+
+  test('Confirma el rechazo dentro del modal de seguridad', async () => {
+    const user = userEvent.setup();
+    (useCatalogo as any).mockReturnValue({
+      ...baseMock,
+      showModal: true
+    });
+    
+    render(<Catalogo />);
+
+    expect(screen.getByText('¿Mover a rechazadas?')).toBeInTheDocument();
+
+    const confirmBtn = screen.getByRole('button', { name: 'Sí, Quitar' });
+    await user.click(confirmBtn);
+
+    expect(mockHandleReject).toHaveBeenCalledTimes(1);
+  });
+});
