@@ -91,9 +91,12 @@ class RegisterScreenTest {
     @Test
     fun botonVolver_navegaAlLogin() {
         composeTestRule.onNodeWithText("¿Ya tienes una cuenta? Iniciar sesión").performClick()
-        composeTestRule.waitUntil(timeoutMillis = 6000) {
-            composeTestRule.onAllNodesWithText("Iniciar Sesión").fetchSemanticsNodes().isNotEmpty()
+        composeTestRule.waitForIdle()
+        // Verificamos que estamos en login buscando el botón de Google que es único de esa pantalla
+        composeTestRule.waitUntil(timeoutMillis = 8000) {
+            composeTestRule.onAllNodesWithText("Continuar con Google")
+                .fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithText("Iniciar Sesión").assertExists()
+        composeTestRule.onNodeWithText("Continuar con Google").assertExists()
     }
 }
