@@ -1,8 +1,9 @@
-// src/pages/Geografia/Geografia.test.tsx
+// src/__tests__/pages/Geografia/geografia.test.tsx
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
+
 import Geografia from '../../../pages/Geografia/geografia';
 import { useGeografia } from '../../../pages/Geografia/useGeografia';
 
