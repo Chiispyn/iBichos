@@ -25,7 +25,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.cetecom.ibichos.HiltTestRunner"
 
         // La API key se inyecta en tiempo de compilación desde local.properties
         buildConfigField(
