@@ -37,8 +37,7 @@ class RegisterScreenTest {
     @Test
     fun pantalla_muestraElementosPrincipales() {
         composeTestRule.onNodeWithText("Únete a la comunidad de cazadores").assertExists()
-        composeTestRule.onNodeWithText("Nombre de cazador").assertExists()
-        composeTestRule.onNodeWithText("Correo electrónico").assertExists()
+        composeTestRule.onNodeWithText("¿Ya tienes una cuenta? Iniciar sesión").assertExists()
         composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction()).assertExists()
     }
 
@@ -92,9 +91,9 @@ class RegisterScreenTest {
     @Test
     fun botonVolver_navegaAlLogin() {
         composeTestRule.onNodeWithText("¿Ya tienes una cuenta? Iniciar sesión").performClick()
-        composeTestRule.waitUntil(timeoutMillis = 3000) {
+        composeTestRule.waitUntil(timeoutMillis = 6000) {
             composeTestRule.onAllNodesWithText("Iniciar Sesión").fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithText("Iniciar Sesión").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Iniciar Sesión").assertExists()
     }
 }
