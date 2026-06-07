@@ -64,8 +64,7 @@ class RegisterScreenTest {
     @Test
     fun botonCrearCuenta_deshabilitado_sinDatosCompletos() {
         // Sin llenar campos, el botón debe estar deshabilitado
-        composeTestRule.onNodeWithText("Crear Cuenta", useUnmergedTree = true)
-            .filterToOne(hasClickAction())
+        composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction())
             .assertIsNotEnabled()
     }
 
