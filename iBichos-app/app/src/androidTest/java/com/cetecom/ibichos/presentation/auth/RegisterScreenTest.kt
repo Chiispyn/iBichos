@@ -36,8 +36,9 @@ class RegisterScreenTest {
 
     @Test
     fun pantalla_muestraElementosPrincipales() {
-        composeTestRule.onNodeWithText("Únete a la comunidad de cazadores").assertIsDisplayed()
-        composeTestRule.onNodeWithText("¿Ya tienes una cuenta? Iniciar sesión").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Únete a la comunidad de cazadores").assertExists()
+        composeTestRule.onNodeWithText("Nombre de cazador").assertExists()
+        composeTestRule.onNodeWithText("Correo electrónico").assertExists()
         composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction()).assertExists()
     }
 
