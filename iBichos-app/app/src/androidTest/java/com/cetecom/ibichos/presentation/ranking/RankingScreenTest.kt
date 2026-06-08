@@ -102,12 +102,13 @@ class RankingScreenTest {
 
     @Test
     fun usuarioActual_semuestraComoTu() {
-        // test_uid es el usuario actual → FakeAuthRepository.getCurrentUserId() = "test_uid"
-        // Espera explícita a que los ítems carguen antes de buscar "Tú"
+        // test_uid es rank 1 en FakeUserRepository → siempre visible en pantalla
+        // useUnmergedTree = true para encontrar el nodo Text exacto sin fusión semántica
         composeTestRule.waitUntil(timeoutMillis = 5000) {
-            composeTestRule.onAllNodesWithText("Tú").fetchSemanticsNodes().isNotEmpty()
+            composeTestRule.onAllNodes(hasText("Tú"), useUnmergedTree = true)
+                .fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithText("Tú").assertExists()
+        composeTestRule.onNode(hasText("Tú"), useUnmergedTree = true).assertExists()
     }
 
     @Test

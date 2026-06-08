@@ -12,19 +12,20 @@ import com.cetecom.ibichos.domain.repository.UserRepository
 class FakeUserRepository : UserRepository {
 
     val fakeUsers = listOf(
+        // test_uid va primero → rank 1, siempre visible, se muestra como "Tú"
+        UserProfile(
+            uid = "test_uid",
+            displayName = "Jugador Test",
+            gamification = GamificationData(xp = 1500L, level = UserLevel.EXPLORER, uniqueInsectsCount = 15, medals = listOf("FIRST_CAPTURE", "ARACHNOLOGIST"))
+        ),
         UserProfile(
             uid = "rank_uid_1",
             displayName = "Jugador Alfa",
-            gamification = GamificationData(xp = 1500L, level = UserLevel.EXPLORER, uniqueInsectsCount = 15, medals = listOf("FIRST_CAPTURE", "ARACHNOLOGIST"))
+            gamification = GamificationData(xp = 1200L, level = UserLevel.AMATEUR, uniqueInsectsCount = 10, medals = listOf("FIRST_CAPTURE"))
         ),
         UserProfile(
             uid = "rank_uid_2",
             displayName = "Jugador Beta",
-            gamification = GamificationData(xp = 1200L, level = UserLevel.AMATEUR, uniqueInsectsCount = 10, medals = listOf("FIRST_CAPTURE"))
-        ),
-        UserProfile(
-            uid = "test_uid",
-            displayName = "Jugador Test",
             gamification = GamificationData(xp = 900L, level = UserLevel.CASUAL, uniqueInsectsCount = 5, medals = emptyList())
         )
     )
