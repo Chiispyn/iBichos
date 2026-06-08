@@ -17,14 +17,21 @@ export const getActionLabel = (action: string): string => {
 };
 
 export const getActionIcon = (action: string) => {
-  if (action.includes('REJECT') || action.includes('BAN') || action.includes('HIDE') || action.includes('REMOVE')) {
-    return <XCircle className="text-danger" size={18} />;
-  }
-  if (action.includes('APPROVE') || action.includes('MAKE_ADMIN') || action.includes('UNBAN')) {
-    return <CheckCircle2 className="text-success" size={18} />;
-  }
+  // 1. Prioridad Máxima: Strikes (Advertencias)
   if (action.includes('STRIKE')) {
     return <AlertTriangle className="text-warning" size={18} />;
   }
+
+  // 2. Acciones Positivas / Constructivas (Atrapa UNBAN antes que BAN)
+  if (action.includes('APPROVE') || action.includes('MAKE_ADMIN') || action.includes('UNBAN')) {
+    return <CheckCircle2 className="text-success" size={18} />;
+  }
+
+  // 3. Acciones Negativas / Destructivas (Atrapa BAN, REJECT, etc)
+  if (action.includes('REJECT') || action.includes('BAN') || action.includes('HIDE') || action.includes('REMOVE')) {
+    return <XCircle className="text-danger" size={18} />;
+  }
+
+  // 4. Default / Neutro
   return <Clock className="text-secondary" size={18} />;
 };

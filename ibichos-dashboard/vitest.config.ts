@@ -12,6 +12,10 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    coverage: {
+      // 👇 Agrega esta línea para ignorar la basura en el reporte
+      exclude: ['src/__tests__/**', 'src/**/*.mock.ts', 'src/config/**', 'src/context/']
+    },
     setupFiles: './src/__tests__/setup.ts',
     reporters: ['verbose', 'html'],
     outputFile: './test-results/index.html',
