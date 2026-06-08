@@ -90,8 +90,10 @@ class RankingScreenTest {
 
     @Test
     fun lista_muestraXpFormateada() {
-        // FakeUserRepository rank 1 → 1500 XP → "1.500 XP"
-        composeTestRule.onNodeWithText("1.500 XP").assertExists()
+        // test_uid rank 1 → xp=1500 → "1.500 XP"
+        // Puede aparecer en el LazyColumn Y en la tarjeta fija del usuario actual,
+        // por eso usamos onAllNodes + onFirst para evitar fallo por múltiples matches
+        composeTestRule.onAllNodesWithText("1.500 XP").onFirst().assertExists()
     }
 
     @Test
@@ -102,13 +104,14 @@ class RankingScreenTest {
 
     @Test
     fun usuarioActual_semuestraComoTu() {
-        // test_uid es rank 1 en FakeUserRepository → siempre visible en pantalla
-        // useUnmergedTree = true para encontrar el nodo Text exacto sin fusión semántica
+        // test_uid es rank 1 → siempre visible en pantalla
+        // substring = true porque el árbol merged fusiona "Tú" con otros textos del card
+        // onFirst() para no fallar si aparece también en la tarjeta fija (pinned card)
         composeTestRule.waitUntil(timeoutMillis = 5000) {
-            composeTestRule.onAllNodes(hasText("Tú"), useUnmergedTree = true)
+            composeTestRule.onAllNodes(hasText("Tú", substring = true))
                 .fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNode(hasText("Tú"), useUnmergedTree = true).assertExists()
+        composeTestRule.onAllNodes(hasText("Tú", substring = true)).onFirst().assertExists()
     }
 
     @Test
