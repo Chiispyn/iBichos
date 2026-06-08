@@ -98,8 +98,9 @@ class RankingScreenTest {
 
     @Test
     fun lista_muestraNivelDelJugador() {
-        // Jugador Alfa tiene UserLevel.EXPLORER → "Explorador"
-        composeTestRule.onNodeWithText("Explorador").assertExists()
+        // test_uid (rank 1) tiene UserLevel.EXPLORER → "Explorador"
+        // substring = true + onFirst para manejar fusion semantica y duplicados del pinned card
+        composeTestRule.onAllNodes(hasText("Explorador", substring = true)).onFirst().assertExists()
     }
 
     @Test
