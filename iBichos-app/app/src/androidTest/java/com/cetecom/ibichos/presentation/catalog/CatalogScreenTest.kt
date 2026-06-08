@@ -4,9 +4,9 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.cetecom.ibichos.presentation.theme.IBichosTheme
+import com.cetecom.ibichos.HiltTestActivity
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import dagger.hilt.android.testing.HiltTestActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
