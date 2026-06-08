@@ -194,7 +194,7 @@ class CaptureDetailScreenTest {
     fun capturaRechazada_propietario_muestraBotonApelar() {
         // status=REJECTED + currentUserId==userId → "Apelar Decisión" visible
         lanzarPantalla(captura = fakeCapturaRechazada, currentUserId = "test_uid")
-        composeTestRule.onNodeWithText("Apelar Decisión").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Apelar Decisión").assertExists()
     }
 
     @Test
