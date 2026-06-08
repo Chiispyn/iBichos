@@ -1,7 +1,6 @@
 package com.cetecom.ibichos.di
 
 import com.cetecom.ibichos.domain.model.InsectIdentification
-import com.cetecom.ibichos.domain.model.UserProfile
 
 import com.cetecom.ibichos.domain.repository.AuthRepository
 import com.cetecom.ibichos.domain.repository.CaptureRepository
@@ -12,6 +11,7 @@ import com.cetecom.ibichos.domain.repository.SessionRepository
 import com.cetecom.ibichos.domain.repository.UserRepository
 import com.cetecom.ibichos.fake.FakeAuthRepository
 import com.cetecom.ibichos.fake.FakeCaptureRepository
+import com.cetecom.ibichos.fake.FakeUserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.components.SingletonComponent
@@ -39,15 +39,7 @@ object TestRepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository(): UserRepository = object : UserRepository {
-        override suspend fun getUserProfile(uid: String): UserProfile = UserProfile(uid = uid, displayName = "Test User")
-        override suspend fun updateAvatar(uid: String, avatarUrl: String): String = avatarUrl
-        override suspend fun incrementXp(uid: String, xpGain: Long) {}
-        override suspend fun getTopUsersByXp(limit: Int): List<UserProfile> = emptyList()
-        override suspend fun getTopUsersByUniqueInsects(limit: Int): List<UserProfile> = emptyList()
-        override suspend fun getTopUsersByMedals(limit: Int): List<UserProfile> = emptyList()
-        override suspend fun unlockMedalsAndIncrementUnique(uid: String, medalsToUnlock: List<String>, isNewInsect: Boolean, incrementCategory: String?) {}
-    }
+    fun provideUserRepository(): UserRepository = FakeUserRepository()
 
     @Provides
     @Singleton
