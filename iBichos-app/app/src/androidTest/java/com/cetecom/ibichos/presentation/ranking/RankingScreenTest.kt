@@ -103,6 +103,10 @@ class RankingScreenTest {
     @Test
     fun usuarioActual_semuestraComoTu() {
         // test_uid es el usuario actual → FakeAuthRepository.getCurrentUserId() = "test_uid"
+        // Espera explícita a que los ítems carguen antes de buscar "Tú"
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithText("Tú").fetchSemanticsNodes().isNotEmpty()
+        }
         composeTestRule.onNodeWithText("Tú").assertExists()
     }
 
