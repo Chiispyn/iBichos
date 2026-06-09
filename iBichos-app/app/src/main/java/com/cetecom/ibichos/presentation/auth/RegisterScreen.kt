@@ -83,7 +83,12 @@ fun RegisterScreen(
 
     val currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR)
 
+    val defaultBirthMillis = remember {
+        java.util.Calendar.getInstance().apply { add(java.util.Calendar.YEAR, -20) }.timeInMillis
+    }
+
     val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = defaultBirthMillis,
         yearRange = IntRange(currentYear - 100, currentYear),
         selectableDates = object : SelectableDates {
             override fun isSelectableYear(year: Int): Boolean {
@@ -104,6 +109,10 @@ fun RegisterScreen(
     val canRegister =
         name.isNotBlank() &&
                 email.isNotBlank() &&
+                region.isNotBlank() &&
+                comuna.isNotBlank() &&
+                birthDate.isNotBlank() &&
+                gender.isNotBlank() &&
                 password.isNotBlank() &&
                 confirmPassword.isNotBlank() &&
                 password == confirmPassword &&
