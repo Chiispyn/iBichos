@@ -1,7 +1,15 @@
 package com.cetecom.ibichos.presentation.auth
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.cetecom.ibichos.HiltTestActivity
 import com.cetecom.ibichos.presentation.theme.IBichosTheme
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -19,29 +27,42 @@ class RegisterScreenTest {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
 
-    // Flag para verificar que onRegisterSuccess fue disparado (→ navegaría a CameraScreen)
-    // @Volatile garantiza visibilidad entre el hilo de Compose y el hilo del test
-    @Volatile
-    private var navigatedToCameraScreen = false
-
     @Before
     fun setUp() {
         hiltRule.inject()
-        navigatedToCameraScreen = false
         composeTestRule.setContent {
             IBichosTheme {
-                RegisterScreen(
-                    onRegisterSuccess = { navigatedToCameraScreen = true },
-                    onNavigateBack = {}
-                )
+                // NavHost con Register → pantalla destino "camera" (sin CameraX)
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "register") {
+                    composable("register") {
+                        RegisterScreen(
+                            onRegisterSuccess = {
+                                navController.navigate("camera") {
+                                    popUpTo("register") { inclusive = true }
+                                }
+                            },
+                            onNavigateBack = {}
+                        )
+                    }
+                    composable("camera") {
+                        // Pantalla destino — sin CameraX para no crashear HiltTestActivity
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(text = "Pantalla de Cámara")
+                        }
+                    }
+                }
             }
         }
+        // Esperar a que RegisterScreen esté lista
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodesWithText("Únete a la comunidad de cazadores")
                 .fetchSemanticsNodes().isNotEmpty()
         }
     }
-
 
     @Test
     fun botonCrearCuenta_navegaACameraScreen() {
@@ -99,23 +120,23 @@ class RegisterScreenTest {
             .performScrollTo()
             .performTextInput("Password123")
 
-        // Verificar que el botón "Crear Cuenta" existe y está habilitado
-        composeTestRule.waitUntil(timeoutMillis = 3000) {
+        // Esperar a que el botón esté habilitado (todos los campos completos)
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodes(hasText("Crear Cuenta") and hasClickAction() and isEnabled())
                 .fetchSemanticsNodes().isNotEmpty()
         }
+
+        // Hacer clic en "Crear Cuenta"
         composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction())
-            .assertExists()
             .assertIsEnabled()
             .performScrollTo()
             .performClick()
 
-        // Al hacer clic en "Crear Cuenta" debe dispararse onRegisterSuccess → navegación a CameraScreen
+        // Verificar que la UI navegó a CameraScreen
         composeTestRule.waitUntil(timeoutMillis = 10000) {
-            navigatedToCameraScreen
+            composeTestRule.onAllNodesWithText("Pantalla de Cámara")
+                .fetchSemanticsNodes().isNotEmpty()
         }
-        assert(navigatedToCameraScreen) {
-            "El botón 'Crear Cuenta' no disparó onRegisterSuccess: no se navegó a CameraScreen"
-        }
+        composeTestRule.onNodeWithText("Pantalla de Cámara").assertIsDisplayed()
     }
 }
