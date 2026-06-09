@@ -1,16 +1,13 @@
 package com.cetecom.ibichos.presentation.auth
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.test.rule.GrantPermissionRule
 import com.cetecom.ibichos.HiltTestActivity
+import com.cetecom.ibichos.presentation.camera.CameraScreen
 import com.cetecom.ibichos.presentation.theme.IBichosTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -27,12 +24,18 @@ class RegisterScreenTest {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
 
+    @get:Rule(order = 2)
+    val grantPermissions: GrantPermissionRule = GrantPermissionRule.grant(
+        android.Manifest.permission.CAMERA,
+        android.Manifest.permission.ACCESS_FINE_LOCATION,
+        android.Manifest.permission.ACCESS_COARSE_LOCATION
+    )
+
     @Before
     fun setUp() {
         hiltRule.inject()
         composeTestRule.setContent {
             IBichosTheme {
-                // NavHost con Register → pantalla destino "camera" (sin CameraX)
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "register") {
                     composable("register") {
@@ -46,13 +49,7 @@ class RegisterScreenTest {
                         )
                     }
                     composable("camera") {
-                        // Pantalla destino — sin CameraX para no crashear HiltTestActivity
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(text = "Pantalla de Cámara")
-                        }
+                        CameraScreen()
                     }
                 }
             }
@@ -132,11 +129,12 @@ class RegisterScreenTest {
             .performScrollTo()
             .performClick()
 
-        // Verificar que la UI navegó a CameraScreen
+        // Verificar que navegó a CameraScreen:
+        // RegisterScreen desaparece → estamos en el CameraScreen real del proyecto
         composeTestRule.waitUntil(timeoutMillis = 10000) {
-            composeTestRule.onAllNodesWithText("Pantalla de Cámara")
-                .fetchSemanticsNodes().isNotEmpty()
+            composeTestRule.onAllNodesWithText("Únete a la comunidad de cazadores")
+                .fetchSemanticsNodes().isEmpty()
         }
-        composeTestRule.onNodeWithText("Pantalla de Cámara").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Únete a la comunidad de cazadores").assertDoesNotExist()
     }
 }
