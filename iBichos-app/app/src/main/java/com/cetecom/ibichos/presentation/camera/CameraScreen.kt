@@ -66,6 +66,7 @@ fun CameraScreen(viewModel: CameraViewModel = hiltViewModel()) {
 
     // Referencia al use case de CameraX (vive en el Composable, no en el ViewModel)
     var imageCapture by remember { mutableStateOf<ImageCapture?>(null) }
+    var cameraInitError by remember { mutableStateOf<String?>(null) }
     var hasPermissions by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
@@ -106,6 +107,23 @@ fun CameraScreen(viewModel: CameraViewModel = hiltViewModel()) {
 
     Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) {
         if (hasPermissions) {
+            if (cameraInitError != null) {
+                // ── Error de inicialización de cámara ────────────────────
+                Column(
+                    modifier            = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text("📷", fontSize = 48.sp)
+                    Text(
+                        text  = cameraInitError ?: "Error al iniciar la cámara",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = MaterialTheme.typography.bodyLarge,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        modifier  = Modifier.padding(horizontal = 32.dp)
+                    )
+                }
+            } else {
             // ── Preview de CameraX via AndroidView ────────────────────────
             AndroidView(
                 modifier = Modifier.fillMaxSize(),
@@ -130,6 +148,7 @@ fun CameraScreen(viewModel: CameraViewModel = hiltViewModel()) {
                                 )
                             } catch (e: Exception) {
                                 e.printStackTrace()
+                                cameraInitError = "No se pudo iniciar la cámara: ${e.message ?: "dispositivo no compatible"}"
                             }
                         }, ContextCompat.getMainExecutor(ctx))
                     }
@@ -167,6 +186,7 @@ fun CameraScreen(viewModel: CameraViewModel = hiltViewModel()) {
                     }
                 }
             }
+            } // cierre del else (cameraInitError == null)
         } else {
             // ── Sin permisos ─────────────────────────────────────────────
             Column(
