@@ -50,11 +50,9 @@ fun RegisterScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val onRegisterSuccessUpdated by rememberUpdatedState(onRegisterSuccess)
     LaunchedEffect(uiState.isSuccess) {
         if (uiState.isSuccess) {
-            viewModel.resetSuccess()
-            onRegisterSuccessUpdated()
+            onRegisterSuccess()
         }
     }
 

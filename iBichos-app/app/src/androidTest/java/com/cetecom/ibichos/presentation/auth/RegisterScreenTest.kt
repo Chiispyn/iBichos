@@ -20,6 +20,8 @@ class RegisterScreenTest {
     val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
 
     // Flag para verificar que onRegisterSuccess fue disparado (→ navegaría a CameraScreen)
+    // @Volatile garantiza visibilidad entre el hilo de Compose y el hilo del test
+    @Volatile
     private var navigatedToCameraScreen = false
 
     @Before
