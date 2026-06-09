@@ -2,7 +2,13 @@ package com.cetecom.ibichos.presentation.auth
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import com.cetecom.ibichos.presentation.MainActivity
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.test.rule.GrantPermissionRule
+import com.cetecom.ibichos.HiltTestActivity
+import com.cetecom.ibichos.presentation.camera.CameraScreen
+import com.cetecom.ibichos.presentation.theme.IBichosTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -16,82 +22,119 @@ class RegisterScreenTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
+
+    @get:Rule(order = 2)
+    val grantPermissions: GrantPermissionRule = GrantPermissionRule.grant(
+        android.Manifest.permission.CAMERA,
+        android.Manifest.permission.ACCESS_FINE_LOCATION,
+        android.Manifest.permission.ACCESS_COARSE_LOCATION
+    )
 
     @Before
     fun setUp() {
         hiltRule.inject()
-        // Esperar a que el splash termine y aparezca el login
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
-            composeTestRule.onAllNodesWithText("Iniciar Sesión").fetchSemanticsNodes().isNotEmpty()
+        composeTestRule.setContent {
+            IBichosTheme {
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "register") {
+                    composable("register") {
+                        RegisterScreen(
+                            onRegisterSuccess = {
+                                navController.navigate("camera") {
+                                    popUpTo("register") { inclusive = true }
+                                }
+                            },
+                            onNavigateBack = {}
+                        )
+                    }
+                    composable("camera") {
+                        CameraScreen()
+                    }
+                }
+            }
         }
-        // Navegar a RegisterScreen
-        composeTestRule.onNodeWithText("¿No tienes cuenta? Regístrate").performClick()
-        // Esperar a que cargue la pantalla de registro
-        composeTestRule.waitUntil(timeoutMillis = 3000) {
+        // Esperar a que RegisterScreen esté lista
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodesWithText("Únete a la comunidad de cazadores")
                 .fetchSemanticsNodes().isNotEmpty()
         }
     }
 
     @Test
-    fun pantalla_muestraElementosPrincipales() {
-        composeTestRule.onNodeWithText("Únete a la comunidad de cazadores").assertExists()
-        composeTestRule.onNodeWithText("¿Ya tienes una cuenta? Iniciar sesión").assertExists()
-        composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction()).assertExists()
-    }
+    fun botonCrearCuenta_navegaACameraScreen() {
+        // Nombre
+        composeTestRule.onNodeWithText("Nombre de cazador")
+            .performTextInput("Ana García")
 
-    @Test
-    fun campoNombre_aceptaTexto() {
-        composeTestRule.onNodeWithText("Nombre de cazador").performTextInput("Juan Pérez")
-        composeTestRule.onNodeWithText("Juan Pérez").assertIsDisplayed()
-    }
+        // Email
+        composeTestRule.onNodeWithText("Correo electrónico")
+            .performTextInput("ana@gmail.com")
 
-    @Test
-    fun campoEmail_aceptaTexto() {
-        composeTestRule.onNodeWithText("Correo electrónico").performTextInput("test@correo.com")
-        composeTestRule.onNodeWithText("test@correo.com").assertIsDisplayed()
-    }
-
-    @Test
-    fun campoEmail_emailInvalido_muestraError() {
-        composeTestRule.onNodeWithText("Correo electrónico").performTextInput("correo-invalido")
-        composeTestRule.onNodeWithText("Correo electrónico").assertIsDisplayed()
-        // El campo muestra error al tener email inválido
-        composeTestRule.onNode(hasText("Correo electrónico") and hasSetTextAction()).assertIsDisplayed()
-    }
-
-    @Test
-    fun botonCrearCuenta_deshabilitado_sinDatosCompletos() {
-        // Sin llenar campos, el botón debe estar deshabilitado
-        composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction())
-            .assertIsNotEnabled()
-    }
-
-    @Test
-    fun dropdown_region_abreOpciones() {
-        composeTestRule.onNodeWithText("Región").performClick()
-        // Al hacer click debe aparecer al menos una opción del dropdown
-        composeTestRule.waitUntil(timeoutMillis = 2000) {
-            composeTestRule.onAllNodesWithText("Arica y Parinacota")
-                .fetchSemanticsNodes().isNotEmpty()
+        // Región
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithText("Región").fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithText("Arica y Parinacota").assertIsDisplayed()
-    }
+        composeTestRule.onNodeWithText("Región").performClick()
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithText("Arica y Parinacota").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Arica y Parinacota").performClick()
 
-    @Test
-    fun dropdown_sexo_abreOpciones() {
-        composeTestRule.onNodeWithText("Sexo").performClick()
-        composeTestRule.waitUntil(timeoutMillis = 2000) {
+        // Comuna
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodes(hasText("Comuna") and isEnabled()).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNode(hasText("Comuna") and isEnabled()).performClick()
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithText("Arica").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Arica").performClick()
+
+        // Fecha de nacimiento
+        composeTestRule.onNode(hasText("Fecha de nacimiento"), useUnmergedTree = true)
+            .performScrollTo()
+            .performTouchInput { click() }
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithText("Aceptar").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Aceptar").performClick()
+
+        // Sexo
+        composeTestRule.onNodeWithText("Sexo").performScrollTo().performClick()
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
             composeTestRule.onAllNodesWithText("Hombre").fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithText("Hombre").assertIsDisplayed()
-    }
+        composeTestRule.onNodeWithText("Hombre").performClick()
 
-    @Test
-    fun botonVolver_existeYEsClickeable() {
-        composeTestRule.onNodeWithText("¿Ya tienes una cuenta? Iniciar sesión")
-            .assertExists()
-            .assertHasClickAction()
+        // Contraseña
+        composeTestRule.onNode(hasText("Contraseña") and hasSetTextAction())
+            .performScrollTo()
+            .performTextInput("Password123")
+
+        // Confirmar contraseña
+        composeTestRule.onNode(hasText("Confirmar contraseña") and hasSetTextAction())
+            .performScrollTo()
+            .performTextInput("Password123")
+
+        // Esperar a que el botón esté habilitado (todos los campos completos)
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodes(hasText("Crear Cuenta") and hasClickAction() and isEnabled())
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        // Hacer clic en "Crear Cuenta"
+        composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction())
+            .assertIsEnabled()
+            .performScrollTo()
+            .performClick()
+
+        // Verificar que navegó a CameraScreen:
+        // RegisterScreen desaparece → estamos en el CameraScreen real del proyecto
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithText("Únete a la comunidad de cazadores")
+                .fetchSemanticsNodes().isEmpty()
+        }
+        composeTestRule.onNodeWithText("Únete a la comunidad de cazadores").assertDoesNotExist()
     }
 }

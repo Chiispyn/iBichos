@@ -70,6 +70,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.activity:activity-compose:1.8.2")
     implementation("com.google.android.gms:play-services-cast-tv:21.1.1")
+    implementation("androidx.test:rules:1.7.0")
 
     // ── Compose BOM ──────────────────────────────────────────────────────────
     val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
