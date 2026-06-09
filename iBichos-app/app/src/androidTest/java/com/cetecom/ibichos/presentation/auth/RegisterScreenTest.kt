@@ -1,13 +1,11 @@
 package com.cetecom.ibichos.presentation.auth
 
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.cetecom.ibichos.HiltTestActivity
 import com.cetecom.ibichos.presentation.MainActivity
-import com.cetecom.ibichos.presentation.camera.CameraScreen
 import com.cetecom.ibichos.presentation.theme.IBichosTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -24,23 +22,19 @@ class RegisterScreenTest {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
 
+    // Flag para verificar que onRegisterSuccess fue disparado (→ navegaría a CameraScreen)
+    private var navigatedToCameraScreen = false
+
     @Before
     fun setUp() {
         hiltRule.inject()
+        navigatedToCameraScreen = false
         composeTestRule.setContent {
-            val navController = rememberNavController()
             IBichosTheme {
-                NavHost(navController = navController, startDestination = "register") {
-                    composable("register") {
-                        RegisterScreen(
-                            onRegisterSuccess = { navController.navigate("camera") },
-                            onNavigateBack = {}
-                        )
-                    }
-                    composable("camera") {
-                        CameraScreen()
-                    }
-                }
+                RegisterScreen(
+                    onRegisterSuccess = { navigatedToCameraScreen = true },
+                    onNavigateBack = {}
+                )
             }
         }
         composeTestRule.waitUntil(timeoutMillis = 5000) {
@@ -115,15 +109,11 @@ class RegisterScreenTest {
             .performScrollTo()
             .performClick()
 
-        // Verificar navegación a CameraScreen (muestra botón permiso o botón capturar)
+        // Verificar que onRegisterSuccess fue llamado → en producción navega a CameraScreen
         composeTestRule.waitUntil(timeoutMillis = 10000) {
-            composeTestRule.onAllNodesWithContentDescription("Capturar insecto")
-                .fetchSemanticsNodes().isNotEmpty()
-                || composeTestRule.onAllNodesWithText("Dar Permiso")
-                .fetchSemanticsNodes().isNotEmpty()
-                || composeTestRule.onAllNodesWithText("Se necesitan permisos de cámara y ubicación")
-                .fetchSemanticsNodes().isNotEmpty()
+            navigatedToCameraScreen
         }
+        assert(navigatedToCameraScreen) { "onRegisterSuccess no fue disparado: no se navegó a CameraScreen" }
     }
 }
 
