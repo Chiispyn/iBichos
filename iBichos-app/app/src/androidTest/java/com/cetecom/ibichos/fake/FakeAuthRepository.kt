@@ -35,7 +35,11 @@ class FakeAuthRepository : AuthRepository {
 
     override suspend fun checkProfileCompletion(uid: String): Boolean = true
 
-    override suspend fun getLocations(): Map<String, List<String>> = emptyMap()
+    override suspend fun getLocations(): Map<String, List<String>> = mapOf(
+        "Arica y Parinacota" to listOf("Arica", "Camarones", "Putre", "General Lagos"),
+        "Tarapacá" to listOf("Iquique", "Alto Hospicio", "Pozo Almonte"),
+        "Antofagasta" to listOf("Antofagasta", "Mejillones", "Calama")
+    )
 
     override fun signOut() {}
 
