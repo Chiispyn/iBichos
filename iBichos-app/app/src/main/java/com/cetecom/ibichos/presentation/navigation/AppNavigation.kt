@@ -125,8 +125,8 @@ fun AppNavigation() {
         composable(Screen.Register.route) {
             RegisterScreen(
                 onRegisterSuccess = {
-                    navController.navigate(Screen.OnboardingOne.route) {
-                        popUpTo(Screen.Register.route) { inclusive = true }
+                    navController.navigate(Screen.Main.route) {
+                        popUpTo(0) { inclusive = true }
                     }
                 },
                 onNavigateBack = {
