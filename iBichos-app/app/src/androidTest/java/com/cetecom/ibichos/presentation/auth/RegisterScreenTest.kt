@@ -1,6 +1,5 @@
 package com.cetecom.ibichos.presentation.auth
 
-import androidx.compose.material3.Text
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.compose.NavHost
@@ -8,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.cetecom.ibichos.HiltTestActivity
 import com.cetecom.ibichos.presentation.MainActivity
+import com.cetecom.ibichos.presentation.camera.CameraScreen
 import com.cetecom.ibichos.presentation.theme.IBichosTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -33,13 +33,12 @@ class RegisterScreenTest {
                 NavHost(navController = navController, startDestination = "register") {
                     composable("register") {
                         RegisterScreen(
-                            onRegisterSuccess = { navController.navigate("success") },
+                            onRegisterSuccess = { navController.navigate("camera") },
                             onNavigateBack = {}
                         )
                     }
-                    // Destino ligero para evitar crashear HiltTestActivity con CameraScreen
-                    composable("success") {
-                        Text("Registro exitoso")
+                    composable("camera") {
+                        CameraScreen()
                     }
                 }
             }
@@ -116,12 +115,15 @@ class RegisterScreenTest {
             .performScrollTo()
             .performClick()
 
-        // Verificar que el registro fue exitoso y navegó al destino
+        // Verificar navegación a CameraScreen (muestra botón permiso o botón capturar)
         composeTestRule.waitUntil(timeoutMillis = 10000) {
-            composeTestRule.onAllNodesWithText("Registro exitoso")
+            composeTestRule.onAllNodesWithContentDescription("Capturar insecto")
+                .fetchSemanticsNodes().isNotEmpty()
+                || composeTestRule.onAllNodesWithText("Dar Permiso")
+                .fetchSemanticsNodes().isNotEmpty()
+                || composeTestRule.onAllNodesWithText("Se necesitan permisos de cámara y ubicación")
                 .fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithText("Registro exitoso").assertExists()
     }
 }
 
