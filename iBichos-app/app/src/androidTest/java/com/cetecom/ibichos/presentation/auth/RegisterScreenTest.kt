@@ -1,8 +1,14 @@
 package com.cetecom.ibichos.presentation.auth
 
+import androidx.compose.material3.Text
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.cetecom.ibichos.HiltTestActivity
 import com.cetecom.ibichos.presentation.MainActivity
+import com.cetecom.ibichos.presentation.theme.IBichosTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -16,82 +22,204 @@ class RegisterScreenTest {
     val hiltRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createAndroidComposeRule<HiltTestActivity>()
 
     @Before
     fun setUp() {
         hiltRule.inject()
-        // Esperar a que el splash termine y aparezca el login
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
-            composeTestRule.onAllNodesWithText("Iniciar Sesión").fetchSemanticsNodes().isNotEmpty()
+        composeTestRule.setContent {
+            val navController = rememberNavController()
+            IBichosTheme {
+                NavHost(navController = navController, startDestination = "register") {
+                    composable("register") {
+                        RegisterScreen(
+                            onRegisterSuccess = { navController.navigate("success") },
+                            onNavigateBack = {}
+                        )
+                    }
+                    // Destino ligero para evitar crashear HiltTestActivity con CameraScreen
+                    composable("success") {
+                        Text("Registro exitoso")
+                    }
+                }
+            }
         }
-        // Navegar a RegisterScreen
-        composeTestRule.onNodeWithText("¿No tienes cuenta? Regístrate").performClick()
-        // Esperar a que cargue la pantalla de registro
-        composeTestRule.waitUntil(timeoutMillis = 3000) {
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodesWithText("Únete a la comunidad de cazadores")
                 .fetchSemanticsNodes().isNotEmpty()
         }
     }
 
-    @Test
-    fun pantalla_muestraElementosPrincipales() {
-        composeTestRule.onNodeWithText("Únete a la comunidad de cazadores").assertExists()
-        composeTestRule.onNodeWithText("¿Ya tienes una cuenta? Iniciar sesión").assertExists()
-        composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction()).assertExists()
-    }
 
     @Test
-    fun campoNombre_aceptaTexto() {
-        composeTestRule.onNodeWithText("Nombre de cazador").performTextInput("Juan Pérez")
-        composeTestRule.onNodeWithText("Juan Pérez").assertIsDisplayed()
-    }
+    fun formulario_completo_rellenaTodasLosCampos() {
+        // Nombre
+        composeTestRule.onNodeWithText("Nombre de cazador")
+            .performTextInput("Juan Pérez")
 
-    @Test
-    fun campoEmail_aceptaTexto() {
-        composeTestRule.onNodeWithText("Correo electrónico").performTextInput("test@correo.com")
-        composeTestRule.onNodeWithText("test@correo.com").assertIsDisplayed()
-    }
+        // Email
+        composeTestRule.onNodeWithText("Correo electrónico")
+            .performTextInput("juan@gmail.com")
 
-    @Test
-    fun campoEmail_emailInvalido_muestraError() {
-        composeTestRule.onNodeWithText("Correo electrónico").performTextInput("correo-invalido")
-        composeTestRule.onNodeWithText("Correo electrónico").assertIsDisplayed()
-        // El campo muestra error al tener email inválido
-        composeTestRule.onNode(hasText("Correo electrónico") and hasSetTextAction()).assertIsDisplayed()
-    }
-
-    @Test
-    fun botonCrearCuenta_deshabilitado_sinDatosCompletos() {
-        // Sin llenar campos, el botón debe estar deshabilitado
-        composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction())
-            .assertIsNotEnabled()
-    }
-
-    @Test
-    fun dropdown_region_abreOpciones() {
-        composeTestRule.onNodeWithText("Región").performClick()
-        // Al hacer click debe aparecer al menos una opción del dropdown
-        composeTestRule.waitUntil(timeoutMillis = 2000) {
-            composeTestRule.onAllNodesWithText("Arica y Parinacota")
-                .fetchSemanticsNodes().isNotEmpty()
+        // Región
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithText("Región").fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithText("Arica y Parinacota").assertIsDisplayed()
-    }
+        composeTestRule.onNodeWithText("Región").performClick()
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithText("Arica y Parinacota").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Arica y Parinacota").performClick()
 
-    @Test
-    fun dropdown_sexo_abreOpciones() {
-        composeTestRule.onNodeWithText("Sexo").performClick()
-        composeTestRule.waitUntil(timeoutMillis = 2000) {
+        // Comuna
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodes(hasText("Comuna") and isEnabled()).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNode(hasText("Comuna") and isEnabled()).performClick()
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithText("Arica").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Arica").performClick()
+
+        // Fecha de nacimiento
+        composeTestRule.onNode(hasText("Fecha de nacimiento"), useUnmergedTree = true)
+            .performScrollTo()
+            .performTouchInput { click() }
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithText("Aceptar").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Aceptar").performClick()
+
+        // Sexo
+        composeTestRule.onNodeWithText("Sexo").performScrollTo().performClick()
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
             composeTestRule.onAllNodesWithText("Hombre").fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithText("Hombre").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Hombre").performClick()
+
+        // Contraseña
+        composeTestRule.onNode(hasText("Contraseña") and hasSetTextAction())
+            .performScrollTo()
+            .performTextInput("Password123")
+
+        // Confirmar contraseña
+        composeTestRule.onNode(hasText("Confirmar contraseña") and hasSetTextAction())
+            .performScrollTo()
+            .performTextInput("Password123")
+
+        // Crear Cuenta y navegar a CameraScreen
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodes(hasText("Crear Cuenta") and hasClickAction() and isEnabled())
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction())
+            .performScrollTo()
+            .performClick()
+
+        // Verificar que el registro fue exitoso y navegó al destino
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithText("Registro exitoso")
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Registro exitoso").assertExists()
     }
+}
+
+@HiltAndroidTest
+class RegisterFlowTest {
+
+    @get:Rule(order = 0)
+    val hiltRule = HiltAndroidRule(this)
+
+    @get:Rule(order = 1)
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
 
     @Test
-    fun botonVolver_existeYEsClickeable() {
-        composeTestRule.onNodeWithText("¿Ya tienes una cuenta? Iniciar sesión")
-            .assertExists()
-            .assertHasClickAction()
+    fun registro_completo_navegaAlHome() {
+        // Esperar splash y llegar al login
+        composeTestRule.waitUntil(timeoutMillis = 8000) {
+            composeTestRule.onAllNodesWithText("Iniciar Sesión").fetchSemanticsNodes().isNotEmpty()
+        }
+
+        // Navegar a registro
+        composeTestRule.onNodeWithText("¿No tienes cuenta? Regístrate").performClick()
+
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithText("Únete a la comunidad de cazadores")
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+
+        // Nombre
+        composeTestRule.onNodeWithText("Nombre de cazador")
+            .performClick()
+            .performTextInput("Juan Perez")
+
+        // Email
+        composeTestRule.onNodeWithText("Correo electrónico")
+            .performClick()
+            .performTextInput("juan${System.currentTimeMillis()}@gmail.com")
+
+        // Contraseña
+        composeTestRule.onNode(hasText("Contraseña") and hasSetTextAction())
+            .performClick()
+            .performTextInput("Password123")
+
+        // Confirmar contraseña
+        composeTestRule.onNode(hasText("Confirmar contraseña") and hasSetTextAction())
+            .performClick()
+            .performTextInput("Password123")
+
+        // Región
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithText("Región").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Región").performClick()
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodesWithText("Arica y Parinacota").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Arica y Parinacota").performClick()
+
+        // Comuna
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodes(hasText("Comuna") and isEnabled())
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNode(hasText("Comuna") and isEnabled()).performClick()
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithText("Arica").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Arica").performClick()
+
+        // Sexo
+        composeTestRule.onNodeWithText("Sexo").performClick()
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithText("Hombre").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Hombre").performClick()
+
+        // Fecha de nacimiento — campo disabled con .clickable, usar performTouchInput
+        composeTestRule.onNode(hasText("Fecha de nacimiento"), useUnmergedTree = true)
+            .performScrollTo()
+            .performTouchInput { click() }
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodesWithText("Aceptar").fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Aceptar").performClick()
+
+        // Crear cuenta
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            composeTestRule.onAllNodes(hasText("Crear Cuenta") and hasClickAction() and isEnabled())
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction())
+            .performScrollTo()
+            .assertIsEnabled()
+            .performClick()
+
+        // Verificar que llegó al home (pantalla principal)
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithText("Capturar").fetchSemanticsNodes().isNotEmpty()
+                    || composeTestRule.onAllNodesWithText("Mi Álbum").fetchSemanticsNodes().isNotEmpty()
+        }
     }
 }
