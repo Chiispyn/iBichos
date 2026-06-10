@@ -14,7 +14,7 @@ export default defineConfig({
     globals: true,
     coverage: {
       // 👇 Agrega esta línea para ignorar la basura en el reporte
-      exclude: ['src/__tests__/**', 'src/**/*.mock.ts', 'src/config/**', 'src/context/']
+      exclude: ['src/__tests__/**', 'src/**/*.mock.ts']
     },
     setupFiles: './src/__tests__/setup.ts',
     reporters: ['verbose', 'html'],

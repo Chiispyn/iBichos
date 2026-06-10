@@ -65,7 +65,7 @@ describe('TC-43 — Módulo de Geografía y Distribución', () => {
     await user.click(btnTop10);
     expect(mockSetTopComunasLimit).toHaveBeenCalledWith(10);
 
-    // Hacemos clic en Top 5
+    // Hacemos clic en Top 5  
     await user.click(btnTop5);
     expect(mockSetTopComunasLimit).toHaveBeenCalledWith(5);
   });
