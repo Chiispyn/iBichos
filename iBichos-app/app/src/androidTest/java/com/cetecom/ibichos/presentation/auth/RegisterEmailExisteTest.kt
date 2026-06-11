@@ -125,15 +125,14 @@ class RegisterEmailExisteTest {
 
         // Fecha de nacimiento
         composeTestRule.onNode(hasText("Fecha de nacimiento"), useUnmergedTree = true)
-            .performScrollTo()
             .performTouchInput { click() }
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodesWithText("Aceptar").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithText("Aceptar").performClick()
 
-        // Sexo
-        composeTestRule.onNodeWithText("Sexo").performScrollTo().performClick()
+        // Sexo — sin performScrollTo() ya que el nodo sigue en el árbol semántico
+        composeTestRule.onNodeWithText("Sexo").performClick()
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodesWithText("Hombre").fetchSemanticsNodes().isNotEmpty()
         }
@@ -141,12 +140,10 @@ class RegisterEmailExisteTest {
 
         // Contraseña
         composeTestRule.onNode(hasText("Contraseña") and hasSetTextAction())
-            .performScrollTo()
             .performTextInput("Password123")
 
         // Confirmar contraseña
         composeTestRule.onNode(hasText("Confirmar contraseña") and hasSetTextAction())
-            .performScrollTo()
             .performTextInput("Password123")
 
         // Esperar a que el botón esté habilitado
@@ -158,7 +155,6 @@ class RegisterEmailExisteTest {
         // Presionar "Crear Cuenta" — debe fallar porque el correo ya existe
         composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction())
             .assertIsEnabled()
-            .performScrollTo()
             .performClick()
 
         // Verificar que aparece el error de correo ya registrado
@@ -173,9 +169,8 @@ class RegisterEmailExisteTest {
             substring = true
         ).assertIsDisplayed()
 
-        // Presionar "¿Ya tienes una cuenta? Iniciar sesión" → debe navegar al login
+        // Presionar "¿Ya tienes una cuenta? Iniciar sesión" → navega al LoginScreen
         composeTestRule.onNodeWithText("¿Ya tienes una cuenta? Iniciar sesión")
-            .performScrollTo()
             .performClick()
 
         // Verificar que navegó al LoginScreen real
