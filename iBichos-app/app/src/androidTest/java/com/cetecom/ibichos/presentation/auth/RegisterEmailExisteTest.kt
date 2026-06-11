@@ -131,6 +131,8 @@ class RegisterEmailExisteTest {
             composeTestRule.onAllNodesWithText("Aceptar").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithText("Aceptar").performClick()
+        // Esperar que el DatePickerDialog cierre y el layout re-estabilice
+        composeTestRule.waitForIdle()
 
         // Sexo
         composeTestRule.onNodeWithText("Sexo").performScrollTo().performClick()
