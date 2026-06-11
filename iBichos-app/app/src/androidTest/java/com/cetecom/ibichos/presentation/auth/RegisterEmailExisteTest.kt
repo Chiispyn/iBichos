@@ -186,16 +186,21 @@ class RegisterEmailExisteTest {
         composeTestRule.onNodeWithText("Caza, colecciona y explora").assertIsDisplayed()
 
         // Llenar el correo en el LoginScreen con el mismo correo que falló
-        composeTestRule.onNodeWithText("Correo electrónico")
+        composeTestRule.onNode(hasText("Correo electrónico") and hasSetTextAction())
+            .performClick()
             .performTextInput("ana@gmail.com")
 
         // Llenar la contraseña
-        composeTestRule.onNodeWithText("Contraseña")
+        composeTestRule.onNode(hasText("Contraseña") and hasSetTextAction())
+            .performClick()
             .performTextInput("Password123")
 
-        // Presionar "Iniciar Sesión"
-        composeTestRule.onNodeWithText("Iniciar Sesión")
-            .performScrollTo()
+        // Esperar a que el botón esté habilitado y presionar "Iniciar Sesión"
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
+            composeTestRule.onAllNodes(hasText("Iniciar Sesión") and hasClickAction() and isEnabled())
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNode(hasText("Iniciar Sesión") and hasClickAction())
             .performClick()
 
         // Verificar que navegó al Onboarding
