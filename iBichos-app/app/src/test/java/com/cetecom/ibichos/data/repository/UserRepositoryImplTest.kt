@@ -297,19 +297,27 @@ class UserRepositoryImplTest {
         uid: String,
         isShadowBanned: Boolean,
         medals: List<String> = emptyList()
-    ): DocumentSnapshot = mockk(relaxed = true) {
-        every { id }                            returns uid
-        every { getBoolean("isShadowBanned") }  returns isShadowBanned
-        every { get("gamification") }           returns mapOf(
-            "xp"                 to 0L,
-            "level"              to "CASUAL",
+    ): DocumentSnapshot {
+        val mockDoc = mockk<DocumentSnapshot>(relaxed = true)
+
+        // Agrega estas 3 líneas para que el repositorio pueda leer el ID y el estado de baneo:
+        every { mockDoc.id } returns uid
+        every { mockDoc.getString("uid") } returns uid
+        every { mockDoc.getBoolean("isShadowBanned") } returns isShadowBanned
+
+        every { mockDoc.get("gamification") } returns mapOf(
+            "xp" to 0L,
+            "level" to "CASUAL",
             "uniqueInsectsCount" to 0L,
-            "categoryCounts"     to emptyMap<String, Long>(),
-            "medals"             to medals,
-            "medalsEarnedAt"     to emptyMap<String, Long>(),
-            "levelUpAt"          to emptyMap<String, Long>()
+            "categoryCounts" to emptyMap<String, Any>(),
+            "medals" to medals,
+            "medalsEarnedAt" to emptyMap<String, Any>(),
+            "levelUpAt" to emptyMap<String, Any>()
         )
-        every { getString(any()) }  returns ""
-        every { getLong(any()) }    returns 0L
+
+        every { mockDoc.getString(any()) } returns ""
+        every { mockDoc.getLong(any()) } returns 0L
+
+        return mockDoc
     }
 }
