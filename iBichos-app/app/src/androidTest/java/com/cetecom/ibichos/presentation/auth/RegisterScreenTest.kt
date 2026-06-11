@@ -93,6 +93,7 @@ class RegisterScreenTest {
 
         // Fecha de nacimiento
         composeTestRule.onNode(hasText("Fecha de nacimiento"), useUnmergedTree = true)
+            .performScrollTo()
             .performTouchInput { click() }
         composeTestRule.waitUntil(timeoutMillis = 3000) {
             composeTestRule.onAllNodesWithText("Aceptar").fetchSemanticsNodes().isNotEmpty()
@@ -100,7 +101,7 @@ class RegisterScreenTest {
         composeTestRule.onNodeWithText("Aceptar").performClick()
 
         // Sexo
-        composeTestRule.onNodeWithText("Sexo").performClick()
+        composeTestRule.onNodeWithText("Sexo").performScrollTo().performClick()
         composeTestRule.waitUntil(timeoutMillis = 3000) {
             composeTestRule.onAllNodesWithText("Hombre").fetchSemanticsNodes().isNotEmpty()
         }
@@ -108,10 +109,12 @@ class RegisterScreenTest {
 
         // Contraseña
         composeTestRule.onNode(hasText("Contraseña") and hasSetTextAction())
+            .performScrollTo()
             .performTextInput("Password123")
 
         // Confirmar contraseña
         composeTestRule.onNode(hasText("Confirmar contraseña") and hasSetTextAction())
+            .performScrollTo()
             .performTextInput("Password123")
 
         // Esperar a que el botón esté habilitado (todos los campos completos)
@@ -123,6 +126,7 @@ class RegisterScreenTest {
         // Hacer clic en "Crear Cuenta"
         composeTestRule.onNode(hasText("Crear Cuenta") and hasClickAction())
             .assertIsEnabled()
+            .performScrollTo()
             .performClick()
 
         // Verificar que navegó a CameraScreen:
