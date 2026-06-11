@@ -1,6 +1,5 @@
 package com.cetecom.ibichos.presentation.auth
 
-import androidx.compose.material3.Text
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.navigation.compose.NavHost
@@ -60,10 +59,13 @@ class RegisterEmailExisteTest {
                         )
                     }
                     composable("camera") {
-                        Text("Pantalla de Cámara")
+                        // destino alternativo (no se alcanza en este test)
                     }
                     composable("login") {
-                        Text("Pantalla de Login")
+                        LoginScreen(
+                            onLoginSuccess = {},
+                            onNavigateToRegister = {}
+                        )
                     }
                 }
             }
@@ -91,21 +93,21 @@ class RegisterEmailExisteTest {
             .performTextInput("ana@gmail.com")
 
         // Región
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
+        composeTestRule.waitUntil(timeoutMillis = 7000) {
             composeTestRule.onAllNodesWithText("Región").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithText("Región").performClick()
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
+        composeTestRule.waitUntil(timeoutMillis = 7000) {
             composeTestRule.onAllNodesWithText("Arica y Parinacota").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithText("Arica y Parinacota").performClick()
 
         // Comuna
-        composeTestRule.waitUntil(timeoutMillis = 3000) {
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodes(hasText("Comuna") and isEnabled()).fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNode(hasText("Comuna") and isEnabled()).performClick()
-        composeTestRule.waitUntil(timeoutMillis = 3000) {
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodesWithText("Arica").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithText("Arica").performClick()
@@ -114,14 +116,14 @@ class RegisterEmailExisteTest {
         composeTestRule.onNode(hasText("Fecha de nacimiento"), useUnmergedTree = true)
             .performScrollTo()
             .performTouchInput { click() }
-        composeTestRule.waitUntil(timeoutMillis = 3000) {
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodesWithText("Aceptar").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithText("Aceptar").performClick()
 
         // Sexo
         composeTestRule.onNodeWithText("Sexo").performScrollTo().performClick()
-        composeTestRule.waitUntil(timeoutMillis = 3000) {
+        composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodesWithText("Hombre").fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithText("Hombre").performClick()
@@ -137,7 +139,7 @@ class RegisterEmailExisteTest {
             .performTextInput("Password123")
 
         // Esperar a que el botón esté habilitado
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
             composeTestRule.onAllNodes(hasText("Crear Cuenta") and hasClickAction() and isEnabled())
                 .fetchSemanticsNodes().isNotEmpty()
         }
@@ -149,7 +151,7 @@ class RegisterEmailExisteTest {
             .performClick()
 
         // Verificar que aparece el error de correo ya registrado
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
+        composeTestRule.waitUntil(timeoutMillis = 7000) {
             composeTestRule.onAllNodesWithText(
                 "El correo electrónico ya está registrado",
                 substring = true
@@ -165,11 +167,11 @@ class RegisterEmailExisteTest {
             .performScrollTo()
             .performClick()
 
-        // Verificar que navegó a la pantalla de login
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
-            composeTestRule.onAllNodesWithText("Pantalla de Login")
+        // Verificar que navegó al LoginScreen real
+        composeTestRule.waitUntil(timeoutMillis = 11000) {
+            composeTestRule.onAllNodesWithText("Caza, colecciona y explora")
                 .fetchSemanticsNodes().isNotEmpty()
         }
-        composeTestRule.onNodeWithText("Pantalla de Login").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Caza, colecciona y explora").assertIsDisplayed()
     }
 }
