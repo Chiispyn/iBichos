@@ -14,8 +14,10 @@ import com.cetecom.ibichos.domain.repository.InsectRepository
 class FakeInsectRepository : InsectRepository {
 
     companion object {
-        var shouldFail = false
+        var shouldFail   = false
         var errorMessage = "Error de red al analizar el insecto"
+        /** Probabilidad retornada por identify(). < 0.40 → LowConfidence */
+        var probability  = 0.9
     }
 
     override suspend fun identify(
@@ -27,7 +29,7 @@ class FakeInsectRepository : InsectRepository {
         return InsectIdentification(
             scientificName = "Insectus testus",
             displayName    = "Insecto de prueba",
-            probability    = 0.9,
+            probability    = probability,
             description    = ""
         )
     }
