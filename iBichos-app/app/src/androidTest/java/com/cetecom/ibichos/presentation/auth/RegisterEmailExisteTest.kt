@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.test.rule.GrantPermissionRule
 import com.cetecom.ibichos.HiltTestActivity
 import com.cetecom.ibichos.fake.FakeAuthRepository
+import com.cetecom.ibichos.presentation.onboarding.IBichosWelcomeScreen
 import com.cetecom.ibichos.presentation.theme.IBichosTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -63,9 +64,16 @@ class RegisterEmailExisteTest {
                     }
                     composable("login") {
                         LoginScreen(
-                            onLoginSuccess = {},
+                            onLoginSuccess = {
+                                navController.navigate("onboarding") {
+                                    popUpTo("login") { inclusive = true }
+                                }
+                            },
                             onNavigateToRegister = {}
                         )
+                    }
+                    composable("onboarding") {
+                        IBichosWelcomeScreen(onStartClick = {})
                     }
                 }
             }
@@ -173,5 +181,25 @@ class RegisterEmailExisteTest {
                 .fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithText("Caza, colecciona y explora").assertIsDisplayed()
+
+        // Llenar el correo en el LoginScreen con el mismo correo que falló
+        composeTestRule.onNodeWithText("Correo electrónico")
+            .performTextInput("ana@gmail.com")
+
+        // Llenar la contraseña
+        composeTestRule.onNodeWithText("Contraseña")
+            .performTextInput("Password123")
+
+        // Presionar "Iniciar Sesión"
+        composeTestRule.onNodeWithText("Iniciar Sesión")
+            .performScrollTo()
+            .performClick()
+
+        // Verificar que navegó al Onboarding
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
+            composeTestRule.onAllNodesWithText("Bienvenido a iBichos")
+                .fetchSemanticsNodes().isNotEmpty()
+        }
+        composeTestRule.onNodeWithText("Bienvenido a iBichos").assertIsDisplayed()
     }
 }
