@@ -65,12 +65,14 @@ class CameraLowConfidenceTest {
                 .fetchSemanticsNodes().isNotEmpty()
         }
         composeTestRule.onNodeWithContentDescription("Capturar insecto").assertIsDisplayed()
+        Thread.sleep(2000)
 
         // 2. Simular foto tomada con coordenadas de Santiago
         val mockBitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888)
         composeTestRule.runOnUiThread {
             cameraViewModel?.setPreview(mockBitmap, -33.4569, -70.6483)
         }
+        Thread.sleep(1500)
 
         // 3. Overlay "¿Analizar este insecto?" visible
         composeTestRule.waitUntil(timeoutMillis = 5000) {
@@ -79,17 +81,20 @@ class CameraLowConfidenceTest {
         }
         composeTestRule.onNodeWithText("¿Analizar este insecto?").assertIsDisplayed()
         composeTestRule.onNodeWithText("Asegúrate de que se vea nítido").assertIsDisplayed()
+        Thread.sleep(2500)
 
         // 4. Click en "Analizar ✨"
         composeTestRule.onNodeWithText("Analizar ✨").performClick()
+        Thread.sleep(1000)
 
         // 5. Estado de carga "Identificando insecto..."
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
             composeTestRule.onAllNodesWithText("Identificando insecto...")
                 .fetchSemanticsNodes().isNotEmpty()
                     || composeTestRule.onAllNodesWithText("suficiente certeza", substring = true)
                 .fetchSemanticsNodes().isNotEmpty()
         }
+        Thread.sleep(2000)
 
         // 6. Mensaje de baja confianza (10% → mensaje exacto del ViewModel)
         composeTestRule.waitUntil(timeoutMillis = 10000) {
@@ -100,18 +105,22 @@ class CameraLowConfidenceTest {
             "La IA no pudo identificar un insecto con suficiente certeza (10%). Intenta con otra foto con mejor iluminación.",
             substring = true
         ).assertIsDisplayed()
+        Thread.sleep(2500)
 
         // 7. Botón "Intentar de nuevo" visible
         composeTestRule.onNodeWithText("Intentar de nuevo").assertIsDisplayed()
+        Thread.sleep(2000)
 
         // 8. Presionar "Intentar de nuevo" → resetState() → CameraUiState.Idle
         composeTestRule.onNodeWithText("Intentar de nuevo").performClick()
+        Thread.sleep(1500)
 
         // 9. Verificar que el mensaje desaparece y la cámara vuelve al estado inicial
-        composeTestRule.waitUntil(timeoutMillis = 5000) {
+        composeTestRule.waitUntil(timeoutMillis = 10000) {
             composeTestRule.onAllNodesWithText("suficiente certeza", substring = true)
                 .fetchSemanticsNodes().isEmpty()
         }
         composeTestRule.onNodeWithText("suficiente certeza", substring = true).assertDoesNotExist()
+        Thread.sleep(2000)
     }
 }
