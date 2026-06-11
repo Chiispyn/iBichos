@@ -35,7 +35,9 @@ class RegisterEmailExisteTest {
 
     @Before
     fun setUp() {
-        // Simular que el correo ya existe en la base de datos
+        // Simular correo ya existente y usuario NO autenticado al inicio
+        // (initialUserId = null evita que LoginScreen auto-navegue al componerse)
+        FakeAuthRepository.initialUserId = null
         FakeAuthRepository.shouldFailRegister = true
         FakeAuthRepository.registerErrorMessage = "El correo electrónico ya está registrado"
 
@@ -87,6 +89,7 @@ class RegisterEmailExisteTest {
 
     @After
     fun tearDown() {
+        FakeAuthRepository.initialUserId = "test_uid"
         FakeAuthRepository.shouldFailRegister = false
     }
 
