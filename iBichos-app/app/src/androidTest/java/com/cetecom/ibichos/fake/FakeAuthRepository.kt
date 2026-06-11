@@ -5,8 +5,19 @@ import com.cetecom.ibichos.domain.repository.AuthRepository
 /**
  * Implementación falsa de AuthRepository para tests de UI.
  * Simula un usuario autenticado con perfil completo.
+ *
+ * Para simular un fallo de registro (ej. correo ya existente), establece:
+ *   FakeAuthRepository.shouldFailRegister = true
+ *   FakeAuthRepository.registerErrorMessage = "El correo electrónico ya está registrado"
+ * Resetear a false en @After para no contaminar otros tests.
  */
 class FakeAuthRepository : AuthRepository {
+
+    companion object {
+        var shouldFailRegister = false
+        var registerErrorMessage = "El correo electrónico ya está registrado"
+    }
+
     override fun isLoggedIn(): Boolean = true
     override fun getCurrentUserId(): String = "test_uid"
 
@@ -20,7 +31,10 @@ class FakeAuthRepository : AuthRepository {
         city: String,
         birthDate: String,
         gender: String
-    ): String = "test_uid"
+    ): String {
+        if (shouldFailRegister) throw Exception(registerErrorMessage)
+        return "test_uid"
+    }
 
     override suspend fun signInWithGoogle(idToken: String): Pair<String, Boolean> =
         Pair("test_uid", false)
