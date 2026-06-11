@@ -1,14 +1,13 @@
 package com.cetecom.ibichos.presentation.map
 
+import com.cetecom.ibichos.dispatcher.MainDispatcherRule
 import com.cetecom.ibichos.domain.model.CaptureItem
 import com.cetecom.ibichos.domain.model.enums.InsectCategory
 import com.cetecom.ibichos.domain.repository.AuthRepository
 import com.cetecom.ibichos.domain.usecase.map.GetMapCapturesUseCase
-import com.cetecom.ibichos.presentation.ranking.MainDispatcherRule
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

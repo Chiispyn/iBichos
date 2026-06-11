@@ -38,7 +38,7 @@ class ProfileScreenTest {
         hiltRule.inject()
         composeTestRule.setContent {
             IBichosTheme {
-                val viewModel: ProfileViewModel = hiltViewModel()
+                val viewModel: ProfileViewModelTest = hiltViewModel()
                 ProfileScreen(
                     onLogout = {},
                     viewModel = viewModel
