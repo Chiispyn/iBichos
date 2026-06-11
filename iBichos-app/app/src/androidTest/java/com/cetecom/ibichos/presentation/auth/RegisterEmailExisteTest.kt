@@ -125,7 +125,7 @@ class RegisterEmailExisteTest {
 
         // Fecha de nacimiento
         composeTestRule.onNode(hasText("Fecha de nacimiento"), useUnmergedTree = true)
-            .performClick()
+            .performTouchInput { click() }
         composeTestRule.waitUntil(timeoutMillis = 5000) {
             composeTestRule.onAllNodesWithText("Aceptar").fetchSemanticsNodes().isNotEmpty()
         }

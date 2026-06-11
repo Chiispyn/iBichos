@@ -93,7 +93,7 @@ class RegisterScreenTest {
 
         // Fecha de nacimiento
         composeTestRule.onNode(hasText("Fecha de nacimiento"), useUnmergedTree = true)
-            .performClick()
+            .performTouchInput { click() }
         composeTestRule.waitUntil(timeoutMillis = 3000) {
             composeTestRule.onAllNodesWithText("Aceptar").fetchSemanticsNodes().isNotEmpty()
         }
