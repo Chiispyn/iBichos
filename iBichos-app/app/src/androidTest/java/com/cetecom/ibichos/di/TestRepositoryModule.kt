@@ -1,7 +1,5 @@
 package com.cetecom.ibichos.di
 
-import com.cetecom.ibichos.domain.model.InsectIdentification
-
 import com.cetecom.ibichos.domain.repository.AuthRepository
 import com.cetecom.ibichos.domain.repository.CaptureRepository
 import com.cetecom.ibichos.domain.repository.EventRepository
@@ -11,6 +9,7 @@ import com.cetecom.ibichos.domain.repository.SessionRepository
 import com.cetecom.ibichos.domain.repository.UserRepository
 import com.cetecom.ibichos.fake.FakeAuthRepository
 import com.cetecom.ibichos.fake.FakeCaptureRepository
+import com.cetecom.ibichos.fake.FakeInsectRepository
 import com.cetecom.ibichos.fake.FakeUserRepository
 import dagger.Module
 import dagger.Provides
@@ -65,13 +64,5 @@ object TestRepositoryModule {
 
     @Provides
     @Singleton
-    fun provideInsectRepository(): InsectRepository = object : InsectRepository {
-        override suspend fun identify(imageBytes: ByteArray, lat: Double?, lon: Double?): InsectIdentification =
-            InsectIdentification(
-                scientificName = "Insectus testus",
-                displayName = "Insecto de prueba",
-                probability = 0.9,
-                description = ""
-            )
-    }
+    fun provideInsectRepository(): InsectRepository = FakeInsectRepository()
 }
