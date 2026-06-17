@@ -25,3 +25,10 @@ dist-ssr
 test-results/
 src/pages/seeder.tsx
 
+# Env files
+.env.development
+.env.production
+.env.local
+.env
+
+
