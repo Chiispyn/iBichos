@@ -4,7 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.cetecom.ibichos.domain.repository.SessionRepository
 import com.cetecom.ibichos.presentation.navigation.AppNavigation
@@ -40,11 +44,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val themeMode by themePrefs.themeMode.collectAsState()
-            val darkTheme = false // Obligado a false por petición de diseño para presentación
+            val darkTheme = false // Perfecto, esto obliga al tema claro
 
             CompositionLocalProvider(LocalThemePreferences provides themePrefs) {
                 IBichosTheme(darkTheme = darkTheme) {
-                    AppNavigation()
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        AppNavigation()
+                    }
                 }
             }
         }

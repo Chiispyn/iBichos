@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--
         Tema mínimo para la Activity nativa.
         En una app de Jetpack Compose con Single Activity, este tema solo controla
@@ -11,5 +11,5 @@
         <item name="android:windowBackground">@android:color/white</item>
         <!-- Sin ActionBar — Compose maneja toda la UI -->
         <item name="android:windowNoTitle">true</item>
-    </style>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>    </style>
 </resources>
