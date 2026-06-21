@@ -635,7 +635,7 @@ fun RankingItem(
                         Icon(icon, null, tint = IBichosAmber, modifier = Modifier.size(28.dp))
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "${item.valueFormatted} $label",
+                            text = item.valueFormatted,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color(0xFF555555)
