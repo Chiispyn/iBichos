@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.cetecom.ibichos.presentation.catalog.viewdata.CaptureViewData
 import com.cetecom.ibichos.presentation.theme.IBichosGreen
@@ -123,58 +124,77 @@ fun CaptureDetailScreen(
                 shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White)
             ) {
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp) // Padding general de la tarjeta
                 ) {
-
-                    Box(
-                        modifier = Modifier
-                            .size(70.dp)
-                            .background(GreenSoft, CircleShape),
-                        contentAlignment = Alignment.Center
+                    // Fila 1: Ícono del Bicho (Izquierda) y Etiqueta de Peligrosidad (Derecha)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            Icons.Default.BugReport,
-                            null,
-                            tint = GreenPrimary,
-                            modifier = Modifier.size(36.dp)
-                        )
-                    }
-
-                    Spacer(Modifier.width(12.dp))
-
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            capture.insectName.uppercase(),
-                            fontWeight = FontWeight.Bold,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = TextPrimary
-                        )
-                        Text(
-                            capture.scientificName,
-                            fontStyle = FontStyle.Italic,
-                            color = TextSecondary
-                        )
-                    }
-
-                    Surface(
-                        shape = RoundedCornerShape(16.dp),
-                        color = dangerColor.copy(alpha = 0.15f)
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                        // Ícono del bicho (más pequeño y sutil en la esquina superior)
+                        Box(
+                            modifier = Modifier
+                                .size(46.dp)
+                                .background(GreenSoft, CircleShape),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Icon(Icons.Default.Warning, null, tint = dangerColor, modifier = Modifier.size(18.dp))
-                            Spacer(Modifier.width(4.dp))
-                            Text(
-                                capture.dangerLabel,
-                                color = dangerColor,
-                                fontWeight = FontWeight.Bold,
-                                style = MaterialTheme.typography.labelMedium
+                            Icon(
+                                Icons.Default.BugReport,
+                                null,
+                                tint = GreenPrimary,
+                                modifier = Modifier.size(24.dp)
                             )
                         }
+
+                        // Etiqueta de Peligrosidad (Venenoso / Precaución / Desconocido)
+                        Surface(
+                            shape = RoundedCornerShape(16.dp),
+                            color = dangerColor.copy(alpha = 0.15f)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(Icons.Default.Warning, null, tint = dangerColor, modifier = Modifier.size(16.dp))
+                                Spacer(Modifier.width(4.dp))
+                                Text(
+                                    capture.dangerLabel,
+                                    color = dangerColor,
+                                    fontWeight = FontWeight.Bold,
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                            }
+                        }
+                    }
+
+                    Spacer(Modifier.height(12.dp)) // Espacio entre el ícono y el texto
+
+                    // Fila 2: Textos principales ocupando todo el ancho
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = capture.insectName.uppercase(),
+                            fontWeight = FontWeight.ExtraBold,
+                            // Si el nombre es muy largo, ajustamos un poco el tamaño inicial
+                            fontSize = if (capture.insectName.length > 20) 22.sp else 26.sp,
+                            color = TextPrimary,
+                            // Le decimos a Compose que puede usar tantas líneas como necesite
+                            maxLines = 3,
+                            // Esto es clave: ajusta la palabra completa a la siguiente línea si no cabe
+                            lineHeight = 28.sp
+                        )
+
+                        Spacer(Modifier.height(4.dp))
+
+                        Text(
+                            text = capture.scientificName,
+                            fontStyle = FontStyle.Italic,
+                            color = TextSecondary,
+                            fontSize = 16.sp
+                        )
                     }
                 }
             }

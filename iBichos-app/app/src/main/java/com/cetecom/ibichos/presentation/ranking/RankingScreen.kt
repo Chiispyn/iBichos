@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -531,11 +532,15 @@ fun RankingInfoDialog(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RankingItem(
     item: RankingItemViewData,
     type: RankingType
 ) {
+    // Variable para controlar si el modal está visible o no
+    var showDetailsDialog by remember { mutableStateOf(false) }
+
     val cardColor = if (item.isCurrentUser) Color(0xFFFFF8E1) else Color.White
     val borderColor = if (item.isCurrentUser) LightGreenDark.copy(alpha = 0.65f) else Color.Transparent
 
@@ -561,7 +566,106 @@ fun RankingItem(
         RankingType.MEDALS -> Icons.Default.EmojiEvents to "Insignias"
     }
 
+    // Modal de Detalles
+    if (showDetailsDialog) {
+        AlertDialog(
+            onDismissRequest = { showDetailsDialog = false },
+            containerColor = Color.White,
+            shape = RoundedCornerShape(28.dp),
+            title = null,
+            text = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFF1F1F1)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        if (!item.avatarUrl.isNullOrEmpty()) {
+                            AsyncImage(
+                                model = item.avatarUrl,
+                                contentDescription = "Avatar",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.Person,
+                                contentDescription = null,
+                                tint = Color(0xFF707070),
+                                modifier = Modifier.size(40.dp)
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text(
+                        text = if (item.isCurrentUser) "Tú (${item.displayName})" else item.displayName,
+                        fontSize = 22.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color(0xFF111111),
+                        textAlign = TextAlign.Center
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = LightGreen.copy(alpha = 0.2f)
+                    ) {
+                        Text(
+                            text = item.levelLabel,
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 6.dp),
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = LightGreenDark
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(icon, null, tint = IBichosAmber, modifier = Modifier.size(28.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = "${item.valueFormatted} $label",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color(0xFF555555)
+                        )
+                    }
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = { showDetailsDialog = false },
+                    colors = ButtonDefaults.buttonColors(containerColor = LightGreenDark),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Text(
+                        text = "Cerrar",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(vertical = 4.dp)
+                    )
+                }
+            }
+        )
+    }
+
+    // Tarjeta del Ranking
     Card(
+        // Hacemos que la tarjeta sea clicable para abrir el modal
+        onClick = { showDetailsDialog = true },
         modifier = Modifier
             .fillMaxWidth()
             .border(
@@ -576,13 +680,15 @@ fun RankingItem(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 18.dp, vertical = 18.dp),
+                // Reducimos paddings para aprovechar más el ancho
+                .padding(horizontal = 12.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
+                // Contenedor del puesto más pequeño (36.dp en lugar de 46.dp)
                 modifier = Modifier
-                    .size(52.dp)
-                    .background(rankBg, RoundedCornerShape(16.dp)),
+                    .size(36.dp)
+                    .background(rankBg, RoundedCornerShape(12.dp)),
                 contentAlignment = Alignment.Center
             ) {
                 if (rank == 1) {
@@ -590,23 +696,24 @@ fun RankingItem(
                         imageVector = Icons.Default.EmojiEvents,
                         contentDescription = null,
                         tint = IBichosAmber,
-                        modifier = Modifier.size(28.dp)
+                        modifier = Modifier.size(20.dp) // Icono de copa más chico
                     )
                 } else {
                     Text(
                         text = "$rank",
-                        fontSize = 22.sp,
+                        fontSize = 16.sp, // Número del puesto más chico
                         fontWeight = FontWeight.ExtraBold,
                         color = rankColor
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.width(14.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
             Box(
+                // Avatar un poco más pequeño para dar espacio extra
                 modifier = Modifier
-                    .size(58.dp)
+                    .size(42.dp)
                     .clip(CircleShape)
                     .background(Color(0xFFF1F1F1)),
                 contentAlignment = Alignment.Center
@@ -623,62 +730,76 @@ fun RankingItem(
                         imageVector = Icons.Default.Person,
                         contentDescription = null,
                         tint = Color(0xFF707070),
-                        modifier = Modifier.size(30.dp)
+                        modifier = Modifier.size(24.dp)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(10.dp))
 
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 4.dp)
+            ) {
                 Text(
                     text = if (item.isCurrentUser) "Tú" else item.displayName,
-                    fontSize = 19.sp,
+                    fontSize = 16.sp, // Nombre un poco más chico
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color(0xFF111111)
+                    color = Color(0xFF111111),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
 
-                Spacer(modifier = Modifier.height(3.dp))
+                Spacer(modifier = Modifier.height(2.dp))
 
                 Text(
                     text = item.levelLabel,
-                    fontSize = 14.sp,
+                    fontSize = 12.sp, // Etiqueta de nivel más chica
                     fontWeight = FontWeight.Medium,
-                    color = LightGreenDark
+                    color = LightGreenDark,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
 
-            Column(horizontalAlignment = Alignment.End) {
+            Column(
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier.widthIn(max = 100.dp)
+            ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
                         tint = IBichosAmber,
-                        modifier = Modifier.size(22.dp)
+                        modifier = Modifier.size(16.dp) // Icono de estrella/medalla más chico
                     )
 
-                    Spacer(modifier = Modifier.width(6.dp))
+                    Spacer(modifier = Modifier.width(4.dp))
 
                     Text(
                         text = item.valueFormatted,
-                        fontSize = 23.sp,
+                        fontSize = 15.sp, // Puntaje más chico
                         fontWeight = FontWeight.ExtraBold,
-                        color = IBichosAmber
+                        color = IBichosAmber,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 
-                Spacer(modifier = Modifier.height(3.dp))
+                Spacer(modifier = Modifier.height(2.dp))
 
                 Text(
                     text = label,
-                    fontSize = 13.sp,
-                    color = Color(0xFF707070)
+                    fontSize = 11.sp, // Texto "Bichos" o "XP Total" más chico
+                    color = Color(0xFF707070),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
     }
 }
-
 @androidx.compose.ui.tooling.preview.Preview(name = "Small Phone", widthDp = 320, heightDp = 640, showBackground = true)
 @Composable
 fun RankingPreviewSmall() {

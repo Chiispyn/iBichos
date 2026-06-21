@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,6 +38,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -221,7 +223,8 @@ private fun CaptureCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(132.dp)
+            // Ajustamos el alto mínimo para acomodar la foto grande + porcentaje
+            .defaultMinSize(minHeight = 150.dp)
             .clickable(onClick = onClick),
         shape = RoundedCornerShape(26.dp),
         colors = CardDefaults.cardColors(
@@ -231,54 +234,84 @@ private fun CaptureCard(
     ) {
 
         Row(
-            modifier = Modifier.fillMaxSize().let { if (isRejected) it.alpha(0.6f) else it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp) // Un padding un poco más amplio para que respire
+                .let { if (isRejected) it.alpha(0.6f) else it },
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Box(
-                modifier = Modifier
-                    .size(82.dp)
-                    .clip(RoundedCornerShape(18.dp))
-                    .background(LightGreen),
-                contentAlignment = Alignment.Center
+            // ==========================================
+            // COLUMNA IZQUIERDA: FOTO + PORCENTAJE
+            // ==========================================
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.width(104.dp) // Ancho fijo para la columna visual
             ) {
-
-                if (capture.imageUrl.isNotEmpty()) {
-                    AsyncImage(
-                        model = if (capture.imageUrl.startsWith("/"))
-                            File(capture.imageUrl)
-                        else capture.imageUrl,
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-                } else {
-                    Text("🐞", fontSize = 28.sp)
+                Box(
+                    modifier = Modifier
+                        .size(104.dp) // ¡Foto mucho más grande! (antes 82.dp)
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(LightGreen),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (capture.imageUrl.isNotEmpty()) {
+                        AsyncImage(
+                            model = if (capture.imageUrl.startsWith("/"))
+                                File(capture.imageUrl)
+                            else capture.imageUrl,
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
+                    } else {
+                        Text("🐞", fontSize = 36.sp) // Emoji más grande si no hay foto
+                    }
                 }
+
+                Spacer(Modifier.height(10.dp))
+
+                // Porcentaje reubicado debajo de la foto
+                Text(
+                    text = capture.probabilityFormatted,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = DarkGreen,
+                    fontSize = 16.sp
+                )
             }
 
-            Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.width(16.dp))
 
+            // ==========================================
+            // COLUMNA DERECHA: TEXTOS + ESTADOS
+            // ==========================================
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f) // Toma todo el espacio disponible a la derecha
             ) {
 
                 Text(
                     text = capture.insectName,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp, // Tamaño balanceado para nombres largos
                     fontWeight = FontWeight.ExtraBold,
-                    color = TextDark
+                    color = TextDark,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
+
+                Spacer(Modifier.height(2.dp))
 
                 Text(
                     text = capture.scientificName,
                     fontSize = 13.sp,
                     color = TextGray,
-                    fontStyle = FontStyle.Italic
+                    fontStyle = FontStyle.Italic,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
 
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(10.dp))
 
+                // Etiquetas de estado (Rechazada / Peligro)
                 if (isRejected) {
                     Surface(
                         shape = RoundedCornerShape(50),
@@ -298,7 +331,7 @@ private fun CaptureCard(
                             Text(
                                 text = "RECHAZADA",
                                 color = Color(0xFFC81E1E),
-                                fontSize = 12.sp,
+                                fontSize = 11.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
@@ -318,53 +351,52 @@ private fun CaptureCard(
                                 tint = Color(0xFFFFA000),
                                 modifier = Modifier.size(13.dp)
                             )
-    
+
                             Spacer(Modifier.width(5.dp))
-    
+
                             Text(
                                 text = capture.dangerLabel,
                                 color = Color(0xFFFFA000),
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.Bold
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
                     }
                 }
 
-                Spacer(Modifier.height(6.dp))
+                Spacer(Modifier.height(12.dp))
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                // Fila inferior: Fecha a la izquierda, flecha a la derecha
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Default.CalendarMonth,
+                            null,
+                            tint = DarkGreen,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text(
+                            text = capture.dateFormatted,
+                            fontSize = 12.sp,
+                            color = TextGray
+                        )
+                    }
+
+                    // La flecha se mueve abajo para no quitarle ancho al nombre
                     Icon(
-                        Icons.Default.CalendarMonth,
+                        Icons.Default.KeyboardArrowRight,
                         null,
                         tint = DarkGreen,
-                        modifier = Modifier.size(14.dp)
-                    )
-                    Spacer(Modifier.width(4.dp))
-                    Text(
-                        text = capture.dateFormatted,
-                        fontSize = 12.sp,
-                        color = TextGray
+                        modifier = Modifier.size(20.dp)
                     )
                 }
-            }
-
-            Column(
-                horizontalAlignment = Alignment.End
-            ) {
-
-                Text(
-                    text = capture.probabilityFormatted,
-                    fontWeight = FontWeight.Bold,
-                    color = DarkGreen,
-                    fontSize = 16.sp
-                )
-
-                Icon(
-                    Icons.Default.KeyboardArrowRight,
-                    null,
-                    tint = DarkGreen
-                )
             }
         }
     }
