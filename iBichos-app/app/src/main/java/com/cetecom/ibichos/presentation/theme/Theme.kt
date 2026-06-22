@@ -54,7 +54,8 @@ fun IBichosTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
-        colorScheme = if (darkTheme) IBichosDarkColorScheme else IBichosLightColorScheme,
+        //colorScheme = if (darkTheme) IBichosDarkColorScheme else IBichosLightColorScheme,
+        colorScheme = IBichosLightColorScheme,
         typography  = IBichosTypography,
         content     = content
     )

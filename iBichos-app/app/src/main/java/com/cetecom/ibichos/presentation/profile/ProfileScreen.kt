@@ -521,15 +521,30 @@ private fun ProfileStatsCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 24.dp),
+                // Redujimos levemente el padding vertical de 24 a 16
+                // para que quepan las 3 líneas de "Maestro de Bichos"
+                .padding(vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ProfileStat("⚔️", "$xp", "XP Total")
+            // Extremo izquierdo: Peso normal (1f)
+            ProfileStat("⚔️", "$xp", "XP Total", weight = 1f)
+
             VerticalDivider()
-            ProfileStat("🏆", level, "Nivel")
+
+            // Centro: Más ancho (1.3f). Reemplazamos los espacios por saltos de línea (\n)
+            ProfileStat(
+                emoji = "🏆",
+                value = level.replace(" ", "\n"),
+                label = "Nivel",
+                weight = 1.3f,
+                isLevel = true
+            )
+
             VerticalDivider()
-            ProfileStat("🦟", "$captures", "Capturas")
+
+            // Extremo derecho: Peso normal (1f)
+            ProfileStat("🦟", "$captures", "Capturas", weight = 1f)
         }
     }
 }
@@ -776,28 +791,37 @@ private fun LogoutButton(
 private fun RowScope.ProfileStat(
     emoji: String,
     value: String,
-    label: String
+    label: String,
+    weight: Float,
+    isLevel: Boolean = false // Bandera para saber si es la columna del medio
 ) {
+    // Si es el nivel o un texto muy largo, achicamos a 18sp. Si es número corto, 24sp.
+    val textSize = if (isLevel || value.length > 7) 18.sp else 24.sp
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.weight(1f)
+        modifier = Modifier.weight(weight) // Usamos el peso que le pasamos
     ) {
-        Text(emoji, fontSize = 32.sp)
+        Text(emoji, fontSize = 28.sp) // Emoji sutilmente más chico
 
         Spacer(Modifier.height(6.dp))
 
         Text(
             text = value,
-            fontSize = 24.sp,
+            fontSize = textSize,
             fontWeight = FontWeight.ExtraBold,
             color = DarkGreen,
             textAlign = TextAlign.Center,
-            maxLines = 1
+            // Si es el nivel, permitimos hasta 3 líneas. Si es número, solo 1.
+            maxLines = if (isLevel) 3 else 1,
+            lineHeight = 20.sp // Juntamos un poco las líneas para que se vea ordenado
         )
+
+        Spacer(Modifier.height(4.dp))
 
         Text(
             text = label,
-            fontSize = 14.sp,
+            fontSize = 13.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFF5C6770),
             textAlign = TextAlign.Center

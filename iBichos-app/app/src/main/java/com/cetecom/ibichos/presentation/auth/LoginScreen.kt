@@ -14,8 +14,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -129,6 +131,7 @@ fun LoginScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp)
                 .padding(top = 56.dp, bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -404,6 +407,8 @@ fun LoginScreen(
 @Composable
 private fun greenOutlinedTextFieldColors() =
     OutlinedTextFieldDefaults.colors(
+        focusedTextColor = Color(0xFF1A1A1A),
+        unfocusedTextColor = Color(0xFF1A1A1A),
         focusedBorderColor = Color(0xFF66BB6A),
         unfocusedBorderColor = Color(0xFFD6D6D6),
         cursorColor = Color(0xFF2E7D32),
